@@ -1,6 +1,7 @@
 import React from 'react';
 import CardList from './CardList';
 import { Button } from 'react-bootstrap';
+import './home.css'
 
 const Homepage = ({setLoginState}=props) => {
   const items = [
@@ -22,8 +23,13 @@ const Homepage = ({setLoginState}=props) => {
 	}
   return (
     <div className='max-width'>
+			<header>
 			<Button onClick={signout} variant='outline-primary'>Sign Out</Button>
-      <h1>Attendence Report</h1>
+			</header>
+      <h1 style={{
+				textAlign: "center",
+				fontWeight: 700
+			}}>Attendence Report</h1>
       <CardList items={items} />
     </div>
   );

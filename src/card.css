@@ -1,0 +1,14 @@
+.cardList {
+  display: flex;
+  margin-top: 2rem;
+  flex-direction: column;
+  gap: 20px;
+}
+.card {
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 1000px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}

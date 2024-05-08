@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import './App.css'
-import { FormView } from './form'
+import './App.css';
+import { FormView } from './form';
 import 'bootstrap/dist/css/bootstrap.css';
 import Homepage from './home';
 
@@ -13,8 +13,7 @@ function App() {
 	}
 	return (
 		<>
-			{isLogged ? <Homepage setLoginState={setLoginState} />: <FormView setLoginState={setLoginState}/>}
-			
+			{isLogged ? <Homepage setLoginState={setLoginState} /> : <FormView setLoginState={setLoginState} />}
 		</>
 	)
 }

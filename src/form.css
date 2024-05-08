@@ -10,6 +10,7 @@ Form {
 	background-color: #fff;
 	width: 100%;
 	max-width: 500px;
+	height: min-content;
 }
 
 a {
