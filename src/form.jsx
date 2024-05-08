@@ -3,13 +3,39 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import "./form.css"
 
-export const FormView = () => {
+export const FormView = (props) => {
 	const [isSignUp, setIsSignUp] = useState(false);
+	const [passwordSame, setPasswordSame] = useState(true);
 	const toggleVisibility = () => {
     setIsSignUp(!isSignUp);
   };
+
+	function submit(event) {
+		event.preventDefault();
+		var inputs = event.target.querySelectorAll("input");
+		var email =  inputs[0].value;
+		var password = inputs[1].value;
+		if (isSignUp){
+				var confirmPassword = inputs[2].value;
+				if (password !== confirmPassword) {
+						setPasswordSame(false);
+					} else {
+						setPasswordSame(true);
+						localStorage.setItem('email', email);
+						localStorage.setItem('password', password);
+						props.setLoginState(true);
+					}
+					
+				} else {
+					if (localStorage.getItem('email')==email &&localStorage.getItem('password')==password){
+						props.setLoginState(true);
+				} else {
+					alert("credentials doesn't match")
+				}
+		} 
+	}
 	return (
-		<Form>
+		<Form onSubmit={submit}>
 			<h1>{ isSignUp ? "Sign Up" : "Login" }</h1>
 			<Form.Group className="mb-3" controlId="formBasicEmail">
 				<Form.Label className='input-label'>Email address</Form.Label>
@@ -20,10 +46,14 @@ export const FormView = () => {
 				<Form.Label className='input-label'>Password</Form.Label>
 				<Form.Control type="password" placeholder="Password" />
 			</Form.Group>
-			{isSignUp && <Form.Group className="mb-3" controlId="formBasicEmail">
+			{
+				isSignUp &&
+				<Form.Group className="mb-3" controlId="formBasicEmail">
 				<Form.Label className='input-label'>Confirm password</Form.Label>
 				<Form.Control type="password" placeholder="Confirm password" />
-			</Form.Group>}
+				{!passwordSame && <p style={{color: 'red'}}>Password do not match!</p>}
+				</Form.Group>
+				}
 			
 			<Button variant="primary" type="submit">
 				Submit

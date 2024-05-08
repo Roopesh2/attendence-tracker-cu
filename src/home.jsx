@@ -3,14 +3,14 @@ import CardList from './CardList';
 
 const Homepage = () => {
   const items = [
-    { title: 'Card 1', description: 'This is Card 1' },
-    { title: 'Card 2', description: 'This is Card 2' },
+    { title: '001-LAT', description: 'Linear algebra and transformation' },
+    { title: '002-ELS', description: 'environment and life sciences' },
     // Add more cards as needed
   ];
 
   return (
     <div>
-      <h1>Homepage</h1>
+      <h1>Attendence Report</h1>
       <CardList items={items} />
     </div>
   );
