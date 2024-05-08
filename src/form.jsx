@@ -55,7 +55,7 @@ export const FormView = (props) => {
 				</Form.Group>
 				}
 			
-			<Button variant="primary" type="submit" >
+			<Button variant="primary" type="submit">
 				Submit
 			</Button>
 			<a>{isSignUp ? "Already": "Don't"} have an account?
