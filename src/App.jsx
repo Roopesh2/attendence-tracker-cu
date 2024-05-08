@@ -8,11 +8,12 @@ function App() {
 	const [isLogged, _setLoginState] = useState(checkLoginFromCache());
 	function setLoginState(state) {
 		_setLoginState(state);
-		localStorage.setItem("isLogged", state)
+		localStorage.setItem("isLogged", state);
+		if (!state) localStorage.clear();
 	}
 	return (
 		<>
-			{isLogged ? <Homepage />: <FormView setLoginState={setLoginState}/>}
+			{isLogged ? <Homepage setLoginState={setLoginState} />: <FormView setLoginState={setLoginState}/>}
 			
 		</>
 	)
