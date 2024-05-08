@@ -25,7 +25,7 @@ export const FormView = () => {
 				<Form.Control type="password" placeholder="Confirm password" />
 			</Form.Group>}
 			
-			<Button variant="primary" type="submit" onClick={submit()}>
+			<Button variant="primary" type="submit">
 				Submit
 			</Button>
 			<a>{isSignUp ? "Already": "Don't"} have an account?

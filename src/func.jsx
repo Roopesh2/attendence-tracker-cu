@@ -4,7 +4,7 @@ function submit(email, enterPassword, confirmPassword,signup) {
             alert('Passwords do not match!');
         }
         else {
-            localStorage.setItem('email', email);
+            localStorage.setItem('email', email);//storing in local storage
             localStorage.setItem('password', password);
         }
 
