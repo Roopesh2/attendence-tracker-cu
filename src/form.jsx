@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import "./form.css"
 
-export const FormView = ({ label, onClick }) => {
+export const FormView = () => {
 	const [isSignUp, setIsSignUp] = useState(false);
 	const toggleVisibility = () => {
     setIsSignUp(!isSignUp);
@@ -25,7 +25,7 @@ export const FormView = ({ label, onClick }) => {
 				<Form.Control type="password" placeholder="Confirm password" />
 			</Form.Group>}
 			
-			<Button variant="primary" type="submit">
+			<Button variant="primary" type="submit" onClick={submit()}>
 				Submit
 			</Button>
 			<a>{isSignUp ? "Already": "Don't"} have an account?
