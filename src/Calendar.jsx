@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Calendar from 'react-calendar';
+import Calender from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-function MyCalendar() {
+function CalenderView() {
   const [date, setDate] = useState(new Date());
 
   const onChange = date => {
@@ -11,7 +11,7 @@ function MyCalendar() {
 
   return (
     <div>
-      <Calendar
+      <Calender
         onChange={onChange}
         value={date}
       />
@@ -19,4 +19,4 @@ function MyCalendar() {
   );
 }
 
-export default MyCalendar;
+export default CalenderView;

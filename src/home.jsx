@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles/home.css";
 import CardList from "./components/CardList";
 import Header from "./Header";
 import { Container } from "react-bootstrap";
+import CalenderView from "./Calendar";
 
 const Homepage = ({ setLoginState } = props) => {
 	const items = [
@@ -21,11 +22,19 @@ const Homepage = ({ setLoginState } = props) => {
 	function signout() {
 		setLoginState(false);
 	}
+
+	const [showCalendar, setShowCalendar] = useState(false);
+
+	const toggleCalendar = () => {
+			setShowCalendar(prev => !prev);
+	};
+
 	return (
 		<div className="max-width">
 			<Header signout={signout} />
-			<Container fluid="md" className="article">
+			<Container fluid className="article">
 				<CardList items={items} />
+				<CalenderView />
 			</Container>
 		</div>
 	);
