@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import "./form.css"
+import "./styles/form.css";
 
 export const FormView = (props) => {
 	const [isSignUp, setIsSignUp] = useState(false);

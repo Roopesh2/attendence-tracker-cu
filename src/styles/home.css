@@ -1,0 +1,15 @@
+header {
+  padding: 0 0 1rem 0;
+  display: flex;
+  justify-content: end;
+	padding: 1rem 1rem 1rem 1rem;
+}
+
+article {
+	padding: 2rem;
+}
+
+header h1 {
+	font-weight: 700;
+	text-align: center;
+}
