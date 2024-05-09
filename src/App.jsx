@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./styles/app.css";
-import { FormView } from "./form";
+import { FormView } from "./Form";
 import "bootstrap/dist/css/bootstrap.css";
-import Homepage from "./home";
+import Homepage from "./Home";
 
 function App() {
 	const [isLogged, _setLoginState] = useState(checkLoginFromCache());
