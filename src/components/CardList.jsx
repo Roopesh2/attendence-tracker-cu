@@ -3,11 +3,15 @@ import "../styles/card.css";
 import Card from "./Card";
 import { Row } from "react-bootstrap";
 
-const CardList = ({ items } = prop) => (
-	<Row>
+const CardList = ({ items, toggleCalendar }) => (
+	<Row  style={{
+		alignItems: "stretch"
+	}}>
+	
 		{items.map((item, index) => (
-			<Card key={index} item={item} />
+			<Card key={index} item={item} onClick={toggleCalendar}/>
 		))}
+
 	</Row>
 );
 

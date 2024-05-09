@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./styles/home.css";
 import CardList from "./components/CardList";
 import Header from "./Header";
-import { Container } from "react-bootstrap";
-import CalenderView from "./Calendar";
+import { Button, Col, Container } from "react-bootstrap";
+import CalendarView from "./Calendar";
 
 const Homepage = ({ setLoginState } = props) => {
 	const items = [
@@ -26,15 +26,28 @@ const Homepage = ({ setLoginState } = props) => {
 	const [showCalendar, setShowCalendar] = useState(false);
 
 	const toggleCalendar = () => {
-			setShowCalendar(prev => !prev);
+		setShowCalendar(prev => !prev);
 	};
-
 	return (
 		<div className="max-width">
 			<Header signout={signout} />
 			<Container fluid className="article">
-				<CardList items={items} />
-				<CalenderView />
+				<Col lg={7} className="d-none d-lg-inline-block panes">
+					<CardList items={items} toggleCalendar={toggleCalendar} />
+				</Col>
+				<Col lg={4} className="d-none d-lg-inline-block panes">
+					<CalendarView />
+				</Col>
+				{showCalendar ? (
+					<Col md={12} className="d-block d-lg-none panes calender-sm">
+						<Button onClick={toggleCalendar}>Back to Cards</Button>
+						<CalendarView  />
+					</Col>
+				) : (
+					<Col md={12} className="d-block d-lg-none panes">
+						<CardList items={items} toggleCalendar={toggleCalendar} />
+					</Col>
+				)}
 			</Container>
 		</div>
 	);

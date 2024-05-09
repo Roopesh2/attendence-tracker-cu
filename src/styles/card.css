@@ -2,8 +2,9 @@
   padding: 0.8rem;
   background-color: #fff;
   border-radius: 15px;
+	height: 90%;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  margin: 0.5rem;
+  margin: 0 0.5rem 0.5rem 0.5rem;
 }
 
 .card h5 {
