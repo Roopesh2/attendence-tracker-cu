@@ -1,9 +1,12 @@
+:root {
+	--background-color: #fff;
+}
 * {
   box-sizing: border-box;
 }
 
 body {
-  background-color: rgb(253, 241, 242);
+  background-color: var(--background-color);
   justify-content: center;
 }
 

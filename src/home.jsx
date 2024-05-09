@@ -15,7 +15,6 @@ const Homepage = ({ setLoginState } = props) => {
     { title: "008-BE", description: "Basic Electrical " },
     { title: "009-BELAB", description: "Basic Electrical Laboratory" },
     { title: "010-DELAB", description: "Digital Elctronics laboratory" },
-    // Add more cards as needed
   ];
 
   function signout() {

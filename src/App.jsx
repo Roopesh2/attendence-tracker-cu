@@ -9,7 +9,7 @@ function App() {
   function setLoginState(state) {
     _setLoginState(state);
     localStorage.setItem("isLogged", state);
-    if (!state) localStorage.clear();
+    // if (!state) localStorage.clear();
   }
   return (
     <>

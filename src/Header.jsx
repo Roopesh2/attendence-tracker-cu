@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-
+import "./styles/header.css"
 const Header = ({ signout } = props) =>
 	<header>
 		<h1>Attendence Report</h1>
