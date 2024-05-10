@@ -3,7 +3,7 @@ import "./styles/app.css";
 import { FormView } from "./Form";
 import "bootstrap/dist/css/bootstrap.css";
 import Homepage from "./Home";
-import ParentComponent from "./setup";
+import TimeTable from "./TimeTable";
 
 function App() {
 	const [isLogged, _setLoginState] = useState(checkLoginFromCache());
@@ -14,13 +14,14 @@ function App() {
 	}
 	return (
 		<>
-		<div className="max-width">
+		{/* <div className="max-width">
 			{isLogged ?
 				<Homepage setLoginState={setLoginState} />
 				:
 				<FormView setLoginState={setLoginState} />
 			}
-		</div>
+		</div> */}
+		<TimeTable />
 		</>
 	);
 }
