@@ -21,7 +21,6 @@ function App() {
 				<FormView setLoginState={setLoginState} />
 			}
 		</div>
-			<ParentComponent />
 		</>
 	);
 }

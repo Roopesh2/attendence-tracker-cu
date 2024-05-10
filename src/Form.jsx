@@ -36,7 +36,7 @@ export const FormView = (props) => {
 	}
 	return (
 		<div className="max-width center" style={{
-				backgroundImage: "url('../public/bakcground.png')",
+				// backgroundImage: "url('../public/bakcground.png')",
 				backgroundSize: "contain"
 		}}>
 			<Form onSubmit={submit}>
