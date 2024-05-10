@@ -29,7 +29,7 @@ const Homepage = ({ setLoginState } = props) => {
 		setShowCalendar(prev => !prev);
 	};
 	return (
-		<div className="max-width">
+		<>
 			<Header signout={signout} />
 			<Container fluid className="article">
 				<Col lg={7} className="d-none d-lg-inline-block panes">
@@ -49,7 +49,7 @@ const Homepage = ({ setLoginState } = props) => {
 					</Col>
 				)}
 			</Container>
-		</div>
+		</>
 	);
 };
 

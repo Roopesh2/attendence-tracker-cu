@@ -35,31 +35,36 @@ export const FormView = (props) => {
 		}
 	}
 	return (
-		<Form onSubmit={submit}>
-			<h1>{isSignUp ? "Sign Up" : "Login"}</h1>
-			<Form.Group className="mb-3" controlId="formBasicEmail">
-				<Form.Label className='input-label'>Email address</Form.Label>
-				<Form.Control type="email" placeholder="Enter email" />
-			</Form.Group>
-
-			<Form.Group className="mb-3" controlId="formBasicPassword">
-				<Form.Label className='input-label'>Password</Form.Label>
-				<Form.Control type="password" placeholder="Password" />
-			</Form.Group>
-			{
-				isSignUp &&
+		<div className="max-width center" style={{
+				backgroundImage: "url('../public/bakcground.png')",
+				backgroundSize: "contain"
+		}}>
+			<Form onSubmit={submit}>
+				<h1>{isSignUp ? "Sign Up" : "Login"}</h1>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
-					<Form.Label className='input-label'>Confirm password</Form.Label>
-					<Form.Control type="password" placeholder="Confirm password" />
-					{!passwordSame && <p style={{ color: 'red' }}>Password do not match!</p>}
+					<Form.Label className='input-label'>Email address</Form.Label>
+					<Form.Control type="email" placeholder="Enter email" />
 				</Form.Group>
-			}
 
-			<Button variant="primary" type="submit">
-				Submit
-			</Button>
-			<a>{isSignUp ? "Already" : "Don't"} have an account?
-				<span style={{ fontWeight: 700 }} onClick={toggleVisibility}>{isSignUp ? " Login" : " Sign Up"}</span></a>
-		</Form>
+				<Form.Group className="mb-3" controlId="formBasicPassword">
+					<Form.Label className='input-label'>Password</Form.Label>
+					<Form.Control type="password" placeholder="Password" />
+				</Form.Group>
+				{
+					isSignUp &&
+					<Form.Group className="mb-3" controlId="formBasicEmail">
+						<Form.Label className='input-label'>Confirm password</Form.Label>
+						<Form.Control type="password" placeholder="Confirm password" />
+						{!passwordSame && <p style={{ color: 'red' }}>Password do not match!</p>}
+					</Form.Group>
+				}
+
+				<Button variant="primary" type="submit">
+					Submit
+				</Button>
+				<a>{isSignUp ? "Already" : "Don't"} have an account?
+					<span style={{ fontWeight: 700 }} onClick={toggleVisibility}>{isSignUp ? " Login" : " Sign Up"}</span></a>
+			</Form>
+		</div>
 	);
 };

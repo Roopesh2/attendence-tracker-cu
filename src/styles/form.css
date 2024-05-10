@@ -11,8 +11,15 @@ Form {
   width: 100%;
   max-width: 500px;
   height: min-content;
+	margin: 1rem;
 }
 
 a {
   cursor: pointer;
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

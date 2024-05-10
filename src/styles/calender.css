@@ -1,0 +1,13 @@
+.weekend {
+	color: blue;
+}
+
+.present {
+  background-color: rgb(8, 188, 53);
+  /* color: white; */
+}
+
+.absent {
+  background-color: brown;
+  /* color: white; */
+}
