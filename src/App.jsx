@@ -26,13 +26,13 @@ function App() {
 		<div className="max-width">
 			{isLogged ?
 				isSignUp ? 
-					<AddSubjects/>
-				: <Homepage setLoginState={setLoginState} />
-				:
-				<FormView setLoginState={setLoginState} />
-			}
+					<DataInitiation setSignup={() => setLoginState(true, false)}/>
+					: <Homepage setLoginState={setLoginState} />
+					:
+					<FormView setLoginState={setLoginState} />
+				}
 			</div>
-		{/* <DataInitiation setSignup={() => setLoginState(true, false)}/> */}
+				{/* <DataInitiation setSignup={() => setLoginState(true, false)}/> */}
 		</>
 	);
 }

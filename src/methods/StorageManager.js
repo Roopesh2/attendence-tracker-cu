@@ -5,7 +5,7 @@
  * isLogged <bool> : whether logged in or not
  * email <String>
  * password <String>
- * subjects <Array> : list of entered subjects
+ * subjects <Array<Object>> : list of entered subjects
  * timetable <Object<String, Array>> : 2d array of table
  * 
 */
@@ -24,15 +24,23 @@ const StorageManager = {
    * @returns {Array<String>}
    */
   getSubjects: () => {
-    return JSON.parse(localStorage.getItem("subjects"));
+    return JSON.parse(localStorage.getItem("subjects")) || [{}];
   },
 
-  setTimeTable: (table) => {
+	/**
+	 * Saves subjects data
+	 * @param {Array<Array<string>>} subjects subjects array
+	 */
+  setTimeTable: (subjects) => {
     localStorage.setItem("timetable", JSON.stringify(subjects));
   },
 
-  setTimeTable: (table) => {
-    localStorage.setItem("timetable", JSON.stringify(subjects));
+	/**
+	 * returns timetable
+	 * @returns {Array<Array<string>>}
+	 */
+  getTimeTable: () => {
+    return JSON.parse(localStorage.getItem("timetable") || "[]");
   }
 };
 

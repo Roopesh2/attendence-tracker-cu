@@ -5,24 +5,35 @@ import StorageManager from "../methods/StorageManager";
 
 function AddSubjects({ next }) {
 
-	const [components, setComponents] = useState([{}]);
+	const [inputFields, setInputFields] = useState(StorageManager.getSubjects());
+	let [focusedInput, setFocusedInput] = useState(0);
 	const [addedSubjects, setAddedSubjects] = useState(true);
 	const handleAdd = () => {
-		setComponents(prevComponents => [...prevComponents, {}]);
+		setInputFields(prevComponents => [...prevComponents, ""]);
+		setFocusedInput(++focusedInput);
 	};
 	const handleDelete = (index) => {
-		if (components.length > 1) {
-			setComponents(prevComponents => prevComponents.filter((component, i) => i !== index));
+		if (inputFields.length > 1) {
+			setInputFields(prevComponents => prevComponents.filter((_, i) => i !== index));
+		} else {
+			getInputElements()[0][0].value = ""
 		}
 	};
 
+	const getInputElements = () => [
+		document.querySelectorAll(".subjects-container .subject-code-input"),
+		document.querySelectorAll(".subjects-container .subject-name-input"),
+	];
 	const handleNext = () => {
-		let subjectFields = document.querySelectorAll(".subjects-container input");
+		let subjectFields = getInputElements();
+		let subjectCodes = subjectFields[0];
+		let subjectNames = subjectFields[1];
 		let subjects = [];
-		for (let inputElement of subjectFields) {
-			let subject = inputElement.value.trim();
-			if (subject.length > 0) {
-				subjects.push(subject);
+		for (let i = 0; i < subjectCodes.length; i++) {
+			let code = subjectCodes[i].value.trim();
+			let name = subjectNames[i].value.trim();
+			if (code.length > 0) {
+				subjects.push({ code, name });
 			}
 		}
 		if (subjects.length > 0) {
@@ -34,10 +45,10 @@ function AddSubjects({ next }) {
 	}
 	return (
 		<div className="max-width subjects-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-			<form style={{ border: '1px solid black', padding: '20px' }}>
+			<form style={{ border: '1px solid black', padding: '20px' }} onSubmit={(evt) => { evt.preventDefault(); handleAdd(); }}>
 				<h2 style={{ textAlign: 'center' }}>Add Subjects</h2>
-				{components.map((component, index) => (
-					<Subjectfield key={index} onDelete={() => handleDelete(index)} />
+				{inputFields.map((value, index) => (
+					<Subjectfield key={index} value={value} onDelete={() => handleDelete(index)} />
 				))}
 				{addedSubjects ? "" : <p>Please add Subjects</p>}
 

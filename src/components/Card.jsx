@@ -5,8 +5,8 @@ const Card = ({ item, onClick }) => (
 		cursor: "pointer"
 	}}>
 		<div className="card">
-			<h5>{item.title}</h5>
-			<p>{item.description}</p>
+			<h5>{item.code}</h5>
+			<p>{item.name}</p>
 			<ButtonGroup>
 				<Button variant="success">Present</Button>
 				<Button variant="danger">Absent</Button>
