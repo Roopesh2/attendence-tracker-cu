@@ -8,6 +8,9 @@
 }
 
 .absent {
-  background-color: brown;
+  background-color: rgb(206, 240, 253);
   /* color: white; */
+}
+.react-calendar__tile--now {
+  background-color: rgb(255, 136, 0);
 }

@@ -23,7 +23,7 @@ function App() {
 	}
 	return (
 		<>
-		{/* <div className="max-width">
+		<div className="max-width">
 			{isLogged ?
 				isSignUp ? 
 					<AddSubjects/>
@@ -31,8 +31,8 @@ function App() {
 				:
 				<FormView setLoginState={setLoginState} />
 			}
-		</div> */}
-		<DataInitiation setSignup={() => setLoginState(true, false)}/>
+			</div>
+		{/* <DataInitiation setSignup={() => setLoginState(true, false)}/> */}
 		</>
 	);
 }
