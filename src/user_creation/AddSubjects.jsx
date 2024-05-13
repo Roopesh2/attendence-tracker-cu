@@ -15,19 +15,19 @@ function AddSubjects({ next }) {
 	};
 
 	const handleNext = () => {
-		let subjectFields = document.querySelector("#subjects-container").childNodes;
+		let subjectFields = document.querySelector(".subjects-container input");
 		console.log(subjectFields);
 		next();
 	}
 	return (
-		<div className="max-width" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+		<div className="max-width subjects-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 			<form style={{ border: '1px solid black', padding: '20px' }}>
 				<h2 style={{ textAlign: 'center' }}>Add Subjects</h2>
 				{components.map((component, index) => (
 					<Subjectfield key={index} onDelete={() => handleDelete(index)} />
 				))}
 				<Button onClick={handleAdd}>Add Subject</Button>
-				<Button variant="contained" color="primary" style={{ marginTop: '20px' }}>Next</Button>
+				<Button variant="contained" color="primary" style={{ marginTop: '20px' }} onClick={handleNext}>Next</Button>
 			</form>
 		</div>
 	);
