@@ -8,7 +8,7 @@ const AuthManager = {
    * @returns {boolean}
    */
   isLoggedIn: () => {
-    localStorage.getItem("isLogged");
+    return localStorage.getItem("isLogged");
   },
 
   /**
@@ -33,8 +33,13 @@ const AuthManager = {
    * @returns {boolean}
    */
   login: (email, password) => {
-    return localStorage.getItem('email') == email.trim() &&
+    let matches = localStorage.getItem('email') == email.trim() &&
       localStorage.getItem('password') == password.trim();
+		if (matches) {
+			AuthManager.setLoggedIn();
+			return true;
+		}
+		return false;
   },
   
   /**
@@ -47,6 +52,12 @@ const AuthManager = {
     localStorage.setItem('password', password.trim());
     AuthManager.setLoggedIn();
   },
+
+	clearLoginStates: () => {
+		localStorage.removeItem("email");
+		localStorage.removeItem("password");
+		localStorage.removeItem("isLogged");
+	}
 
 }
 

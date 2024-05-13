@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import "./styles/form.css";
 import AuthManager from './methods/AuthManager';
 
-export const FormView = (props) => {
+export const FormView = ({setLoginState}) => {
 	const [isSignUp, setIsSignUp] = useState(false);
 	const [passwordSame, setPasswordSame] = useState(true);
 	const toggleVisibility = () => {
@@ -23,12 +23,11 @@ export const FormView = (props) => {
 			} else {
 				setPasswordSame(true);
 				AuthManager.signUp(email, password);
-				props.setLoginState(true);
+				setLoginState(true, true);
 			}
-
 		} else {
 			if (AuthManager.login(email, password)) {
-				props.setLoginState(true);
+				setLoginState(true, false);
 			} else {
 				alert("credentials doesn't match")
 			}

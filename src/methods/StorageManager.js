@@ -36,6 +36,4 @@ const StorageManager = {
   }
 };
 
-StorageManager.setSubjects([1, 3, "ds: S"]);
-console.log(StorageManager.getSubjects());
 export default StorageManager;

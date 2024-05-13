@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import ButtonDarkExample from './dropdown';
+import ButtonDarkExample from '../dropdown';
 import { Button } from 'react-bootstrap';
-import StorageManager from './methods/StorageManager';
+import StorageManager from '../methods/StorageManager';
 
-const TimeTable = () => {
+function TimeTable () {
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const hours = ['9:00-10:00', '10:00-11:00', '11:00-12:00', '1:00-2:00', '2:00-3:00', '3:00-4:00'];
 
