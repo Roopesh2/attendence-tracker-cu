@@ -9,8 +9,8 @@ function Subjectfield({ onDelete }) {
             <Button variant="link" onClick={onDelete}>X</Button>
           </InputGroup.Text>
           <Form.Control
-            placeholder="Username"
-            aria-label="Username"
+            placeholder="subject name"
+            aria-label="Subject name"
             aria-describedby="basic-addon1"
           />
         </InputGroup>

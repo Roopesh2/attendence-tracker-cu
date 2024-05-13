@@ -3,8 +3,10 @@ import "./styles/app.css";
 import { FormView } from "./Form";
 import "bootstrap/dist/css/bootstrap.css";
 import Homepage from "./Home";
+import TimeTable from "./user_creation/TimeTable";
 import AuthManager from "./methods/AuthManager";
 import AddSubjects from "./user_creation/AddSubjects";
+import DataInitiation from "./user_creation/DataInitiation";
 
 function App() {
 	const [isLogged, _setLoginState] = useState(AuthManager.isLoggedIn());
@@ -21,15 +23,16 @@ function App() {
 	}
 	return (
 		<>
-		<div className="max-width">
+		{/* <div className="max-width">
 			{isLogged ?
 				isSignUp ? 
-					<AddSubjects />
+					<AddSubjects/>
 				: <Homepage setLoginState={setLoginState} />
 				:
 				<FormView setLoginState={setLoginState} />
 			}
-		</div>
+		</div> */}
+		<DataInitiation setSignup={() => setLoginState(true, false)}/>
 		</>
 	);
 }

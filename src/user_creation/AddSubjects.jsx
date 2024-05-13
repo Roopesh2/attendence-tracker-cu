@@ -1,6 +1,8 @@
+import { useState } from "react";
 import Subjectfield from "../Subjectfield";
+import { Button } from "react-bootstrap";
 
-function AddSubjects ()  {
+function AddSubjects ({next})  {
 
 	const [components, setComponents] = useState([{}]);
 	const handleAdd = () => {
@@ -12,12 +14,21 @@ function AddSubjects ()  {
 	  }
 	};
 	
+	const handleNext = () => {
+		let subjectFields = document.querySelector("#subjects-container").childNodes;
+		console.log(subjectFields);
+		next();
+	}
 	return (
 	  <div>
-		{components.map((component, index) => (
-		  <Subjectfield key={index} onDelete={() => handleDelete(index)} />
-		))}
+			<div id="subjects-container">
+				{components.map((component, index) => (
+					<Subjectfield key={index} onDelete={() => handleDelete(index)} />
+				))}
+			</div>
 		<Button onClick={handleAdd}>Add Component</Button>
+		<hr />
+		<Button onClick={handleNext}>Next</Button>
 	  </div>
   ); 
 }
