@@ -1,10 +1,12 @@
 import { Button } from "react-bootstrap";
 import Subjectfield from "../Subjectfield";
 import { useState } from "react";
+import StorageManager from "../methods/StorageManager";
 
 function AddSubjects({ next }) {
 
 	const [components, setComponents] = useState([{}]);
+	const [addedSubjects, setAddedSubjects] = useState(true);
 	const handleAdd = () => {
 		setComponents(prevComponents => [...prevComponents, {}]);
 	};
@@ -15,9 +17,20 @@ function AddSubjects({ next }) {
 	};
 
 	const handleNext = () => {
-		let subjectFields = document.querySelector(".subjects-container input");
-		console.log(subjectFields);
-		next();
+		let subjectFields = document.querySelectorAll(".subjects-container input");
+		let subjects = [];
+		for (let inputElement of subjectFields) {
+			let subject = inputElement.value.trim();
+			if (subject.length > 0) {
+				subjects.push(subject);
+			}
+		}
+		if (subjects.length > 0) {
+			StorageManager.setSubjects(subjects);
+			next();
+		} else {
+			setAddedSubjects(false);
+		}
 	}
 	return (
 		<div className="max-width subjects-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -26,6 +39,8 @@ function AddSubjects({ next }) {
 				{components.map((component, index) => (
 					<Subjectfield key={index} onDelete={() => handleDelete(index)} />
 				))}
+				{addedSubjects ? "" : <p>Please add Subjects</p>}
+
 				<Button onClick={handleAdd}>Add Subject</Button>
 				<Button variant="contained" color="primary" style={{ marginTop: '20px' }} onClick={handleNext}>Next</Button>
 			</form>

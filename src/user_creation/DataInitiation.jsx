@@ -2,16 +2,16 @@ import { useState } from "react";
 import AddSubjects from "./AddSubjects";
 import TimeTable from "./TimeTable";
 
-function DataInitiation () {
+function DataInitiation({ setSignup }) {
 	const [view, setView] = useState("subjects");
-	
 
-	function displayView () {
-		switch(view) {
+
+	function displayView() {
+		switch (view) {
 			case "subjects":
-				return <AddSubjects next={() => setView("timetable")}/>
+				return <AddSubjects next={() => setView("timetable")} />
 			case "timetable":
-				return <TimeTable />
+				return <TimeTable next={setSignup} previous={() => setView("subjects")} />
 		}
 	}
 
