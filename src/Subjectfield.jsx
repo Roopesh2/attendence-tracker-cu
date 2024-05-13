@@ -2,7 +2,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 
-function Addcomponent({ onDelete }) {
+function Subjectfield({ onDelete }) {
     return (
         <InputGroup className="mb-3">
           <InputGroup.Text id="basic-addon1">
@@ -17,4 +17,4 @@ function Addcomponent({ onDelete }) {
     );
 }
 
-export default Addcomponent 
+export default Subjectfield;
