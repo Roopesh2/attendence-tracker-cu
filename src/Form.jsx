@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import "./styles/form.css";
+import AuthManager from './methods/AuthManager';
 
 export const FormView = (props) => {
 	const [isSignUp, setIsSignUp] = useState(false);
@@ -21,13 +22,12 @@ export const FormView = (props) => {
 				setPasswordSame(false);
 			} else {
 				setPasswordSame(true);
-				localStorage.setItem('email', email);
-				localStorage.setItem('password', password);
+				AuthManager.signUp(email, password);
 				props.setLoginState(true);
 			}
 
 		} else {
-			if (localStorage.getItem('email') == email && localStorage.getItem('password') == password) {
+			if (AuthManager.login(email, password)) {
 				props.setLoginState(true);
 			} else {
 				alert("credentials doesn't match")

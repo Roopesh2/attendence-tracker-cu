@@ -4,13 +4,12 @@ import { FormView } from "./Form";
 import "bootstrap/dist/css/bootstrap.css";
 import Homepage from "./Home";
 import TimeTable from "./TimeTable";
+import AuthManager from "./methods/AuthManager";
 
 function App() {
-	const [isLogged, _setLoginState] = useState(checkLoginFromCache());
+	const [isLogged, _setLoginState] = useState(AuthManager.isLoggedIn());
 	function setLoginState(state) {
 		_setLoginState(state);
-		localStorage.setItem("isLogged", state);
-		// if (!state) localStorage.clear();
 	}
 	return (
 		<>
@@ -26,7 +25,4 @@ function App() {
 	);
 }
 
-function checkLoginFromCache() {
-	return localStorage.getItem("isLogged");
-}
 export default App;

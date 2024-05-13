@@ -1,6 +1,7 @@
-const ARRAY_SEPARATOR = "::";
 /** 
- * localStorage Schema
+ * Manages user data including login details
+ * 
+ * ### localStorage Schema
  * isLogged <bool> : whether logged in or not
  * email <String>
  * password <String>
@@ -10,39 +11,29 @@ const ARRAY_SEPARATOR = "::";
 */
 
 const StorageManager = {
-  isLoggedIn: () => {
-    localStorage.getItem("isLogged");
-  },
-  logOut: () => {
-    localStorage.setItem("isLogged", false);
-  },
-  setLoggedIn: () => {
-    localStorage.setItem("isLogged", true);
-  },
-
   /**
    * stores array of subjects as string separated by ::
    * @param {Array<String>} subjects List of subjects
    */
   setSubjects: (subjects) => {
-		localStorage.setItem("subjects", JSON.stringify(subjects));
+    localStorage.setItem("subjects", JSON.stringify(subjects));
   },
 
   /**
-	 * Returns subjects entered.
+   * Returns subjects entered.
    * @returns {Array<String>}
    */
   getSubjects: () => {
     return JSON.parse(localStorage.getItem("subjects"));
   },
-	
-	setTimeTable: (table) => {
-		localStorage.setItem("timetable", JSON.stringify(subjects));
-	},
-	
-	setTimeTable: (table) => {
-		localStorage.setItem("timetable", JSON.stringify(subjects));
-	}
+
+  setTimeTable: (table) => {
+    localStorage.setItem("timetable", JSON.stringify(subjects));
+  },
+
+  setTimeTable: (table) => {
+    localStorage.setItem("timetable", JSON.stringify(subjects));
+  }
 };
 
 StorageManager.setSubjects([1, 3, "ds: S"]);
