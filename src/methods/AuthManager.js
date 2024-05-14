@@ -8,7 +8,7 @@ const AuthManager = {
    * @returns {boolean}
    */
   isLoggedIn: () => {
-    return localStorage.getItem("isLogged");
+    return localStorage.getItem("isLogged") == "true";
   },
 
   /**

@@ -10,7 +10,7 @@ const Homepage = ({ setLoginState } = props) => {
 	const items = StorageManager.getSubjects();
 
 	function signout() {
-		setLoginState(false);
+		setLoginState(false, false);
 	}
 
 	const [showCalendar, setShowCalendar] = useState(false);
