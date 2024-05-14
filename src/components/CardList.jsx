@@ -9,7 +9,7 @@ const CardList = ({ items, toggleCalendar }) => (
 	}}>
 	
 		{items.map((item, index) => (
-			<Card key={index} item={item} onClick={toggleCalendar}/>
+			<Card key={index} item={item} onClick={() => toggleCalendar(item)}/>
 		))}
 
 	</Row>

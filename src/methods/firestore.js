@@ -24,15 +24,15 @@ export async function getSubjects(callback) {
 
 export async function getAttendenceData(callback) {
 	const querySnap = await getDocs(collection(db, USER_DIR, user, "absents"));
-	const arr = [];
+	const obj = {};
 	try {
 		querySnap.forEach((doc) => {
-			arr.push({
+			obj[doc.id] = {
 				subject: doc.id,
 				data: doc.data()
-			});
+			};
 		});
-		callback(arr)
+		callback(obj)
 	} catch (error) {
 	}
 }

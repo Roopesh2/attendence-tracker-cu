@@ -4,26 +4,27 @@ import CardList from "./components/CardList";
 import Header from "./Header";
 import { Button, Col, Container } from "react-bootstrap";
 import CalendarView from "./Calendar";
-import StorageManager from "./methods/StorageManager";
 import { getAttendenceData, getSubjects } from "./methods/firestore";
 
 const Homepage = ({ setLoginState } = props) => {
-	// const items = StorageManager.getSubjects();
-
 	function signout() {
 		setLoginState(false, false);
 	}
 
 	const [showCalendar, setShowCalendar] = useState(false);
+	const [clickedSubject, setClickedSubject] = useState("");
 
-	const toggleCalendar = () => {
+	const toggleCalendar = (dat) => {
+		if (dat) {
+			setClickedSubject(dat);
+		}
 		setShowCalendar(prev => !prev);
 	};
 
 	const [items, setItems] = useState([]);
-	const [sub, setSub] = useState(false);
+	const [absentDays, setAbsentDays] = useState({});
 	useEffect(() => {
-    getAttendenceData(setSub);
+    getAttendenceData(setAbsentDays)
   }, []);
 
 	useEffect(() => {
@@ -38,12 +39,12 @@ const Homepage = ({ setLoginState } = props) => {
 					<CardList items={items || []} toggleCalendar={toggleCalendar} />
 				</Col>
 				<Col lg={4} className="d-none d-lg-inline-block panes">
-					<CalendarView />
+					<CalendarView subjectDetails={absentDays[clickedSubject?.code]} />
 				</Col>
 				{showCalendar ? (
 					<Col md={12} className="d-block d-lg-none panes calender-sm">
 						<Button onClick={toggleCalendar}>Back to Cards</Button>
-						<CalendarView />
+						<CalendarView subjectDetails={absentDays[clickedSubject?.code]} />
 					</Col>
 				) : (
 					<Col md={12} className="d-block d-lg-none panes">

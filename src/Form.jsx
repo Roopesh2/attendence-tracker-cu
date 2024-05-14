@@ -16,7 +16,6 @@ export const FormView = ({setLoginState}) => {
 		var inputs = event.target.querySelectorAll("input");
 		var email = inputs[0].value;
 		var password = inputs[1].value;
-		console.log(email);
 		if (isSignUp) {
 			var confirmPassword = inputs[2].value;
 			if (password !== confirmPassword) {
