@@ -7,6 +7,7 @@ import TimeTable from "./user_creation/TimeTable";
 import AuthManager from "./methods/AuthManager";
 import AddSubjects from "./user_creation/AddSubjects";
 import DataInitiation from "./user_creation/DataInitiation";
+import FirebaseApp from "./methods/firebase";
 
 function App() {
 	const [isLogged, _setLoginState] = useState(AuthManager.isLoggedIn());
@@ -22,6 +23,7 @@ function App() {
 		if (loginState) AuthManager.setLoggedIn(); else AuthManager.logOut();
 		_setIsSignUp(isSignUp);
 	}
+
 	return (
 		<>
 			<div className="max-width">
