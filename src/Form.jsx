@@ -38,7 +38,9 @@ export const FormView = ({setLoginState}) => {
 				// backgroundImage: "url('../public/bakcground.png')",
 				backgroundSize: "contain"
 		}}>
-			<Form onSubmit={submit}>
+			<Form onSubmit={submit} style={{
+				flexStart:"start"
+			}}>
 				<h1>{isSignUp ? "Sign Up" : "Login"}</h1>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label className='input-label'>Email address</Form.Label>

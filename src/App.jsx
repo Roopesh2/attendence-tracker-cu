@@ -32,7 +32,11 @@ function App() {
 						<DataInitiation setSignup={() => setLoginState(true, false)} />
 						: <Homepage setLoginState={setLoginState} />
 					:
+					<div class="center-container">
+  					<h1 class="tagline">Go.Track.Leave</h1>
 					<FormView setLoginState={setLoginState} />
+					</div>
+					
 				}
 			</div>
 			{/* <DataInitiation setSignup={() => setLoginState(true, false)}/> */}
