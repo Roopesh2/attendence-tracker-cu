@@ -43,11 +43,9 @@ body:before {
   align-items: center;
   justify-content: center;
   height: 100%;
-  
 }
 
-
-.tagline {  
+.tagline {
   font-family: "Oswald", sans-serif;
   font-optical-sizing: auto;
   font-weight: 444;
@@ -65,7 +63,6 @@ body {
   align-items: center; /* Center items horizontally */
   justify-content: space-around; /* Center items vertically */
   height: 100%;
-  
 }
 
 .center-container > .tl-c {

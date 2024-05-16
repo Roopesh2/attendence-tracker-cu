@@ -2,7 +2,7 @@
   padding: 0.8rem;
   background-color: #fff;
   border-radius: 15px;
-	width: 100%;
+  width: 100%;
   height: 90%;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   margin: 0 0.5rem 0.5rem 0.5rem;
@@ -18,6 +18,6 @@
 
 /* button group */
 .card > div {
-	width: 100%;
-	padding-top: 5px;
+  width: 100%;
+  padding-top: 5px;
 }

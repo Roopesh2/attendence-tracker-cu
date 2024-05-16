@@ -20,10 +20,7 @@ function TimeTable({ next, previous }) {
     (value, _) => value.code,
   );
   const prevTable = StorageManager.getTimeTableFromCache();
-  const initialTimetable =
-    prevTable.length > 0
-      ? prevTable
-      : TIMETABLE_EMPTY;
+  const initialTimetable = prevTable.length > 0 ? prevTable : TIMETABLE_EMPTY;
   const [timetable, setTimetable] = useState(initialTimetable);
 
   const handleSelect = (dayIndex, hourIndex, subject) => {

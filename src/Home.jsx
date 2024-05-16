@@ -36,7 +36,7 @@ const Homepage = ({ setLoginState } = props) => {
     });
   }, []);
 
-	useEffect(() => {
+  useEffect(() => {
     StorageManager.getTimeTable((arr) => {
       if (typeof arr == "boolean" && !arr) {
         // no records found. probably failed login
@@ -50,7 +50,7 @@ const Homepage = ({ setLoginState } = props) => {
   useEffect(() => {
     StorageManager.getAttendenceData((obj) => {
       if (typeof obj == "boolean" && !obj) {
-				        // no records found. probably failed login
+        // no records found. probably failed login
         setLoginState(true, true);
       } else {
         setAbsentDays(obj);
@@ -63,7 +63,12 @@ const Homepage = ({ setLoginState } = props) => {
       <Header signout={signout} editFields={() => setLoginState(true, true)} />
       <Container fluid className="article">
         <Col lg={7} className="d-none d-lg-inline-block panes">
-          <CardList items={subjects || []} today={timetable[new Date().getDay()]} currentSubj={currentSubj} toggleCalendar={toggleCalendar} />
+          <CardList
+            items={subjects || []}
+            today={timetable[new Date().getDay()]}
+            currentSubj={currentSubj}
+            toggleCalendar={toggleCalendar}
+          />
         </Col>
         <Col lg={4} className="d-none d-lg-inline-block panes">
           <CalendarView subjectDetails={absentDays[clickedSubject?.code]} />
@@ -75,7 +80,11 @@ const Homepage = ({ setLoginState } = props) => {
           </Col>
         ) : (
           <Col md={12} className="d-block d-lg-none panes">
-            <CardList items={subjects || []} currentSubj={currentSubj} toggleCalendar={toggleCalendar} />
+            <CardList
+              items={subjects || []}
+              currentSubj={currentSubj}
+              toggleCalendar={toggleCalendar}
+            />
           </Col>
         )}
       </Container>
