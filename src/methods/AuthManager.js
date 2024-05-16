@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 /**
  * Manages user auth states
@@ -33,14 +33,26 @@ const AuthManager = {
 	 * @param {string} password 
 	 * @returns {boolean}
 	 */
-	login: (email, password) => {
-		let matches = localStorage.getItem('email') == email.trim() &&
-			localStorage.getItem('password') == password.trim();
-		if (matches) {
-			AuthManager.setLoggedIn();
-			return true;
-		}
-		return false;
+	login: (email, password, callback) => {
+		const auth = getAuth();
+		signInWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				// Signed in 
+				const user = userCredential.user;
+				callback(true)
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				callback(false, errorCode, errorMessage)
+			});
+		// let matches = localStorage.getItem('email') == email.trim() &&
+		// 	localStorage.getItem('password') == password.trim();
+		// if (matches) {
+		// 	AuthManager.setLoggedIn();
+		// 	return true;
+		// }
+		// return false;
 	},
 
 	/**

@@ -62,11 +62,13 @@ export const FormView = ({ setLoginState }) => {
 				AuthManager.signUp(email, password, signUpCallback);
 			}
 		} else {
-			if (AuthManager.login(email, password)) {
-				setLoginState(true, false);
-			} else {
-				alert("credentials doesn't match")
-			}
+			AuthManager.login(email, password, (success, errorCode) => {
+				if (success) {
+					setLoginState(true, false);
+				} else {
+					setPasswordInvalidMessage("invalid credential")
+				}
+			}) 
 		}
 	}
 	return (
@@ -86,7 +88,7 @@ export const FormView = ({ setLoginState }) => {
 
 				<Form.Group className="mb-3" controlId="formBasicPassword">
 					<Form.Label className='input-label'>Password</Form.Label>
-					<Form.Control onBlur={validatePassword} type="password" placeholder="Password" />
+					<Form.Control onBlur={isSignUp ? validatePassword : () => {}} type="password" placeholder="Password" />
 					<p style={{ color: 'red' }}>{passwordInvalidMessage}</p>
 				</Form.Group>
 				{
