@@ -21,6 +21,7 @@ function AddSubjects({ next }) {
       );
     } else {
       getInputElements()[0][0].value = "";
+      getInputElements()[1][0].value = "";
     }
   };
 

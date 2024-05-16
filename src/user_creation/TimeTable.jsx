@@ -4,6 +4,7 @@ import ButtonDarkExample from "../dropdown";
 import { Button, Col } from "react-bootstrap";
 import StorageManager from "../methods/StorageManager";
 import { TIMETABLE_EMPTY } from "../methods/consts";
+import { removeNonExistantEntries } from "../methods/file_ops";
 
 function TimeTable({ next, previous }) {
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -19,7 +20,10 @@ function TimeTable({ next, previous }) {
   const subjects = StorageManager.getSubjectsFromCache().map(
     (value, _) => value.code,
   );
-  const prevTable = StorageManager.getTimeTableFromCache();
+  const prevTable = removeNonExistantEntries(
+    StorageManager.getTimeTableFromCache(),
+    subjects
+  );
   const initialTimetable = prevTable.length > 0 ? prevTable : TIMETABLE_EMPTY;
   const [timetable, setTimetable] = useState(initialTimetable);
 
@@ -80,9 +84,9 @@ function TimeTable({ next, previous }) {
           ))}
         </tbody>
       </Table>
-      <Col>
+      <Col className="flex-inline-container">
         <Button onClick={handlePrevious}>Previous</Button>
-        <Button onClick={handleNext}>Next</Button>
+        <Button onClick={handleNext}>Finish</Button>
       </Col>
     </Col>
   );

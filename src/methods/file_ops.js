@@ -40,3 +40,19 @@ export function extractAttendenceData(strData) {
   }
   return converted;
 }
+
+/**
+ * 
+ * @param {Array<Array<string>>} arr 
+ * @param {Array<string>} allowlist 
+ */
+export function removeNonExistantEntries(arr, allowlist) {
+  for (let i in arr){
+    for(let j in arr[i]) {
+      if (allowlist.indexOf(arr[i][j]) < 0) {
+        arr[i][j] = ""
+      }
+    }
+  }
+  return arr;
+}
