@@ -22,25 +22,28 @@ function App() {
     _setIsSignUp(isSignUp);
   }
 
-  return (
-    <>
-      <div className="max-width">
-        {isLogged ? (
-          isSignUp ? (
-            <DataInitiation setSignup={() => setLoginState(true, false)} />
-          ) : (
-            <Homepage setLoginState={setLoginState} />
-          )
-        ) : (
-          <div className="center-container">
-            <h1 className="tagline">Go.Track.Leave</h1>
-            <FormView setLoginState={setLoginState} />
-          </div>
-        )}
-      </div>
-      {/* <DataInitiation setSignup={() => setLoginState(true, false)}/> */}
-    </>
-  );
+	return (
+		<>
+			<div className="max-width">
+				{isLogged ?
+					isSignUp ?
+						<DataInitiation setSignup={() => setLoginState(true, false)} />
+						: <Homepage setLoginState={setLoginState} />
+					:
+					<div className="center-container">
+						<div className="tl-c">
+							<h1 className="tagline">Go.</h1>
+							<h1 className="tagline">Track.</h1>
+							<h1 className="tagline">Leave.</h1>
+
+						</div>
+  					<FormView setLoginState={setLoginState} />
+					</div>	
+				}
+			</div>
+			{/* <DataInitiation setSignup={() => setLoginState(true, false)}/> */}
+		</>
+	);
 }
 
 export default App;

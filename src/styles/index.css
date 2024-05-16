@@ -23,7 +23,7 @@ body:before {
   bottom: 0;
   background: url("../../public/bakcground.png") center center no-repeat;
   background-size: cover;
-  opacity: 0.5;
+  opacity: 0.2;
   z-index: -1;
 }
 
@@ -43,15 +43,35 @@ body:before {
   align-items: center;
   justify-content: center;
   height: 100%;
+  
 }
 
-.tagline {
-  margin-top: 80px; /* Adjust the space between the tagline and the form */
-  font-family: "Days One", sans-serif;
-  font-weight: 400;
+
+.tagline {  
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 444;
   font-style: normal;
+  margin-bottom: 20px;
+  font-size: 90px;
 }
 
 body {
   position: relative;
+}
+.center-container {
+  display: flex;
+  flex-direction: row; /* Stack children vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: space-around; /* Center items vertically */
+  height: 100%;
+  
+}
+
+.center-container > .tl-c {
+  padding-left: 10px;
+}
+
+.center-container > .center {
+  margin-left: -80px;
 }
