@@ -29,8 +29,8 @@ function App() {
 						<DataInitiation setSignup={() => setLoginState(true, false)} />
 						: <Homepage setLoginState={setLoginState} />
 					:
-					<div class="center-container">
-  					<h1 class="tagline">Go.Track.Leave</h1>
+					<div className="center-container">
+  					<h1 className="tagline">Go.Track.Leave</h1>
 					<FormView setLoginState={setLoginState} />
 					</div>
 					

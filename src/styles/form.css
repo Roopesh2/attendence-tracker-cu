@@ -3,18 +3,16 @@
 }
 
 Form {
-  border: 4px solid #fffb00; /* Yellow border */
+	position: relative;
   padding: 20px;
   border-radius: 20px;
   box-shadow: rgba(0, 255, 0, 0.2);
   background-color: #fcfffc; /* Cool gray background */
   width: 100%;
-  margin-top: 100px; /* Increase this value to push the form lower */
   max-width: 500px;
   height: min-content;
   margin: 1rem;
 }
-
 
 a {
   cursor: pointer;
