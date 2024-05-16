@@ -72,7 +72,7 @@ export const FormView = ({ setLoginState }) => {
 		}
 	}
 	return (
-		<div className="max-width center" style={{
+		<div className="center" style={{
 			// backgroundImage: "url('../public/bakcground.png')",
 			backgroundSize: "contain"
 		}}>
@@ -80,20 +80,20 @@ export const FormView = ({ setLoginState }) => {
 				flexStart:"start"
 			}}>
 				<h1>{isSignUp ? "Sign Up" : "Login"}</h1>
-				<Form.Group className="mb-3" controlId="formBasicEmail">
+				<Form.Group className="mb-3 no-margin" controlId="formBasicEmail">
 					<Form.Label className='input-label'>Email address</Form.Label>
 					<Form.Control onBlur={validateEmail} type="email" placeholder="Enter email" />
 					<p style={{ color: 'red' }}>{emailInvalidMessage}</p>
 				</Form.Group>
 
-				<Form.Group className="mb-3" controlId="formBasicPassword">
+				<Form.Group className="mb-3 no-margin" controlId="formBasicPassword">
 					<Form.Label className='input-label'>Password</Form.Label>
 					<Form.Control onBlur={isSignUp ? validatePassword : () => {}} type="password" placeholder="Password" />
 					<p style={{ color: 'red' }}>{passwordInvalidMessage}</p>
 				</Form.Group>
 				{
 					isSignUp &&
-					<Form.Group className="mb-3" controlId="formBasicEmail">
+					<Form.Group className="mb-3 no-margin" controlId="formBasicEmail">
 						<Form.Label className='input-label'>Confirm password</Form.Label>
 						<Form.Control type="password" placeholder="Confirm password" />
 						{!passwordSame && <p style={{ color: 'red' }}>Password do not match!</p>}

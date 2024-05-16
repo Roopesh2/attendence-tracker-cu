@@ -9,10 +9,11 @@ Form {
   box-shadow: rgba(0, 255, 0, 0.2);
   background-color: #fcfffc; /* Cool gray background */
   width: 100%;
-  max-width: 500px;
+  max-width: 300px;
+  min-width: 300px;
   height: min-content;
   margin: 1rem;
-  border: 2px solid yellow; /* Adjust the border width and style as needed */
+  border: 2px solid rgb(252, 0, 97); /* Adjust the border width and style as needed */
 }
 
 a {
@@ -36,4 +37,7 @@ a {
 
 .submit-button:hover {
   background-color: #0056b3; /* A darker shade of blue for hover effect */
+}
+.no-margin {
+  margin-bottom: 0 !important;
 }

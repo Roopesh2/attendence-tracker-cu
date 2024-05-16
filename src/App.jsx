@@ -29,10 +29,13 @@ function App() {
 						<DataInitiation setSignup={() => setLoginState(true, false)} />
 						: <Homepage setLoginState={setLoginState} />
 					:
-					<div className="flex-container">
-  					<h1 className="tagline">Go.</h1>
-					<h1 className="tagline">Track.</h1>
-					<h1 className="tagline">Leave.</h1>
+					<div className="center-container">
+						<div className="tl-c">
+							<h1 className="tagline">Go.</h1>
+							<h1 className="tagline">Track.</h1>
+							<h1 className="tagline">Leave.</h1>
+
+						</div>
   					<FormView setLoginState={setLoginState} />
 					</div>	
 				}
