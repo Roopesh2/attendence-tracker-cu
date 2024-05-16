@@ -5,13 +5,14 @@
 Form {
 	position: relative;
   padding: 20px;
-  border-radius: 20px;
+  border-radius: 30px;
   box-shadow: rgba(0, 255, 0, 0.2);
   background-color: #fcfffc; /* Cool gray background */
   width: 100%;
   max-width: 500px;
   height: min-content;
   margin: 1rem;
+  border: 2px solid yellow; /* Adjust the border width and style as needed */
 }
 
 a {
@@ -22,4 +23,17 @@ a {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+.submit-button {
+  background-color: #007bff; /* Bootstrap's primary blue */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #0056b3; /* A darker shade of blue for hover effect */
 }
