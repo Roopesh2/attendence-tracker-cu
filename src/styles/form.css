@@ -3,7 +3,7 @@
 }
 
 Form {
-	position: relative;
+  position: relative;
   padding: 20px;
   border-radius: 20px;
   box-shadow: rgba(0, 255, 0, 0.2);
@@ -19,7 +19,7 @@ a {
 }
 
 .center {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

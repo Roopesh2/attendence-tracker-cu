@@ -10,7 +10,7 @@ const firebaseConfig = {
   projectId: "attendance-tracker-364b5",
   storageBucket: "attendance-tracker-364b5.appspot.com",
   messagingSenderId: "151155947252",
-  appId: "1:151155947252:web:2cc04ee322bfeb1b47d0a1"
+  appId: "1:151155947252:web:2cc04ee322bfeb1b47d0a1",
 };
 
 // Initialize Firebase

@@ -1,10 +1,18 @@
 import { Button } from "react-bootstrap";
-import "./styles/header.css"
-const Header = ({ signout } = props) =>
-	<header>
-		<h1>Attendence Report</h1>
-		<Button onClick={signout} variant="outline-dark">
-			Sign Out
-		</Button>
-	</header>
+import "./styles/header.css";
+const Header = ({ signout, editFields } = props) => (
+  <header>
+    <h1>Attendence Report</h1>
+
+    <div className="flex-inline-container">
+      <Button onClick={editFields} variant="outline-dark">
+        Edit subjects
+      </Button>
+
+      <Button onClick={signout} variant="outline-dark">
+        Sign Out
+      </Button>
+    </div>
+  </header>
+);
 export default Header;

@@ -1,20 +1,19 @@
 .article {
-	margin: 1rem 0;
+  margin: 1rem 0;
   padding: 1rem;
-	display: flex;
-	justify-content: space-evenly;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .panes {
-	vertical-align: top;
+  vertical-align: top;
 }
 
-
 .calender-sm > button {
-	margin: 1rem;
+  margin: 1rem;
 }
 
 /* Workarounds */
 .react-calendar {
-	min-width: 100%;
+  min-width: 100%;
 }
