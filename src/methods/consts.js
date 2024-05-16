@@ -2,9 +2,9 @@ const USER_DIR = "user_data",
   SUBJECT_LIST_DIR = "subject_list",
   TIMETABLE_DIR = "timetable",
   SUBJ_EMPTY = [{ name: "", code: "" }],
-  TIMETABLE_EMPTY = Array(days.length)
+  TIMETABLE_EMPTY = Array(5)
     .fill()
-    .map(() => Array(hours.length).fill(""));
+    .map(() => Array(6).fill(""));
 
 export {
   USER_DIR,
