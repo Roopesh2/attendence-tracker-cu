@@ -1,3 +1,6 @@
-const USER_DIR = "user_data";
+const USER_DIR = "user_data",
+	SUBJECT_LIST_DIR = "subject_list",
+	TIMETABLE_DIR = "timetable",
+	SUBJ_EMPTY = [{name: "", code: ""}];
 
-export {USER_DIR};
+export { USER_DIR, SUBJECT_LIST_DIR, TIMETABLE_DIR, SUBJ_EMPTY};

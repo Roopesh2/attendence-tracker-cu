@@ -3,7 +3,6 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 
 function Subjectfield({ onDelete, value }) {
-
 	return (
 		<InputGroup className="mb-3">
 			<InputGroup.Text id="basic-addon1">

@@ -10,38 +10,93 @@
  * 
 */
 
+import { db } from "./firebase";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { SUBJECT_LIST_DIR, SUBJ_EMPTY, TIMETABLE_DIR, USER_DIR } from "./consts";
+import AuthManager from "./AuthManager";
+
 const StorageManager = {
-  /**
-   * stores array of subjects as string separated by ::
-   * @param {Array<String>} subjects List of subjects
-   */
-  setSubjects: (subjects) => {
-    localStorage.setItem("subjects", JSON.stringify(subjects));
-  },
+	/**
+	 * stores array of subjects as string separated by ::
+	 * @param {Array<String>} subjects List of subjects
+	 * @param {boolean} saveToCache whether to store it now and then store it in cloud
+	 */
+	setSubjects: async (subjects, saveToCache = false) => {
+		if (saveToCache) {
+			localStorage.setItem(SUBJECT_LIST_DIR, JSON.stringify(subjects));
+		} else {
+			await setDoc(doc(db, USER_DIR, AuthManager.getUID()), {
+				subject_list: JSON.stringify(subjects),
+			}, { merge: true });
+		}
+	},
 
-  /**
-   * Returns subjects entered.
-   * @returns {Array<String>}
-   */
-  getSubjects: () => {
-    return JSON.parse(localStorage.getItem("subjects")) || [{}];
-  },
+	/**
+	 * Returns subjects entered.
+	 * @param {Function} callback 
+	 */
+	getSubjects: async (callback) => {
+		const docSnap = await getDoc(doc(db, USER_DIR, AuthManager.getUID()))
+		if (docSnap.exists()) {
+			let list = docSnap.data()[SUBJECT_LIST_DIR];
+			callback(JSON.parse(list));
+		}
+	},
 
+	getSubjectsFromCache: () => {
+		return JSON.parse(localStorage.getItem(SUBJECT_LIST_DIR)) || SUBJ_EMPTY;
+	},
 	/**
 	 * Saves subjects data
-	 * @param {Array<Array<string>>} subjects subjects array
+	 * @param {Array<Array<string>>} timetable subjects array
+	 * @param {boolean} saveToCache whether to store it now and then store it in cloud
 	 */
-  setTimeTable: (subjects) => {
-    localStorage.setItem("timetable", JSON.stringify(subjects));
-  },
+	setTimeTable: async (timetable, saveToCache = false) => {
+		if (saveToCache) {
+			localStorage.setItem(TIMETABLE_DIR, JSON.stringify(timetable));
+		} else {
+			await setDoc(doc(db, USER_DIR, AuthManager.getUID()), {
+				timetable: JSON.stringify(timetable),
+			}, { merge: true });
+		}
+	},
 
 	/**
-	 * returns timetable
-	 * @returns {Array<Array<string>>}
+	 * @param {Function} callback 
 	 */
-  getTimeTable: () => {
-    return JSON.parse(localStorage.getItem("timetable") || "[]");
-  }
+	getTimeTable: async (callback) => {
+		const docSnap = await getDoc(doc(db, USER_DIR, AuthManager.getUID()))
+		if (docSnap.exists()) {
+			callback(JSON.parse(docSnap.data().timetable));
+		}
+	},
+
+	getTimeTableFromCache: () => {
+		return JSON.parse(localStorage.getItem(TIMETABLE_DIR)) || [];
+	},
+
+	getAttendenceData: async (callback) => {
+		const coll = collection(
+			db, USER_DIR,
+			AuthManager.getUID(), "absents"
+		);
+		const collSnap = await getDocs(coll);
+		const obj = {};
+		if (!collSnap.empty) {
+			try {
+				collSnap.forEach((doc) => {
+					obj[doc.id] = {
+						subject: doc.id,
+						data: doc.data()
+					};
+				});
+				console.log(obj);
+				callback(obj)
+			} catch (error) {
+				console.log(error);	
+			}
+		}
+	},
 };
 
 export default StorageManager;

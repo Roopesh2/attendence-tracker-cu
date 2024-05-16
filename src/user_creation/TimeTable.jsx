@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ButtonDarkExample from '../dropdown';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button, Col } from 'react-bootstrap';
 import StorageManager from '../methods/StorageManager';
 
 function TimeTable({ next, previous }) {
 	const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 	const hours = ['9:00-10:00', '10:00-11:00', '11:00-12:00', '1:00-2:00', '2:00-3:00', '3:00-4:00'];
-	const subjects = StorageManager.getSubjects().map((value, _) => value.code);
-	const prevTable = StorageManager.getTimeTable();
+
+	const subjects = StorageManager.getSubjectsFromCache().map((value, _) => value.code);
+	const prevTable = StorageManager.getTimeTableFromCache();
 	const initialTimetable = prevTable.length > 0 ? prevTable : Array(days.length).fill().map(() => Array(hours.length).fill(''));
 	const [timetable, setTimetable] = useState(initialTimetable);
 
@@ -24,12 +25,13 @@ function TimeTable({ next, previous }) {
 	const handleNext = () => {
 		console.log(timetable);
 		StorageManager.setTimeTable(timetable);
+		StorageManager.setSubjects(subjects);
 		next();
 	};
 	
 	const handlePrevious = () => {
 		console.log(timetable);
-		StorageManager.setTimeTable(timetable);
+		StorageManager.setTimeTable(timetable, true);
 		previous();
 	};
 

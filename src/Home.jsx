@@ -4,7 +4,7 @@ import CardList from "./components/CardList";
 import Header from "./Header";
 import { Button, Col, Container } from "react-bootstrap";
 import CalendarView from "./Calendar";
-import { getAttendenceData, getSubjects } from "./methods/firestore";
+import StorageManager from "./methods/StorageManager";
 
 const Homepage = ({ setLoginState } = props) => {
 	function signout() {
@@ -24,12 +24,12 @@ const Homepage = ({ setLoginState } = props) => {
 	const [items, setItems] = useState([]);
 	const [absentDays, setAbsentDays] = useState({});
 	useEffect(() => {
-    getAttendenceData(setAbsentDays)
-  }, []);
+		StorageManager.getAttendenceData(setAbsentDays)
+	}, []);
 
 	useEffect(() => {
-    getSubjects(setItems);
-  }, []);
+		StorageManager.getSubjects(setItems);
+	}, []);
 
 	return (
 		<>

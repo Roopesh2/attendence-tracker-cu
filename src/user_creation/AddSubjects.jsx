@@ -2,12 +2,14 @@ import { Button } from "react-bootstrap";
 import Subjectfield from "../Subjectfield";
 import { useState } from "react";
 import StorageManager from "../methods/StorageManager";
+import { SUBJ_EMPTY } from "../methods/consts";
 
 function AddSubjects({ next }) {
 
-	const [inputFields, setInputFields] = useState(StorageManager.getSubjects());
+	const [inputFields, setInputFields] = useState(StorageManager.getSubjectsFromCache());
 	let [focusedInput, setFocusedInput] = useState(0);
 	const [addedSubjects, setAddedSubjects] = useState(true);
+	StorageManager.getSubjectsFromCache(setInputFields)
 	const handleAdd = () => {
 		setInputFields(prevComponents => [...prevComponents, ""]);
 		setFocusedInput(++focusedInput);
@@ -37,7 +39,7 @@ function AddSubjects({ next }) {
 			}
 		}
 		if (subjects.length > 0) {
-			StorageManager.setSubjects(subjects);
+			StorageManager.setSubjects(subjects, true);
 			next();
 		} else {
 			setAddedSubjects(false);

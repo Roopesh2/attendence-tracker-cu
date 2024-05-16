@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Calender from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './styles/calender.css';
-import { extractAttendenceData } from './methods/firestore';
+import { extractAttendenceData } from './methods/file_ops';
 
 function CalendarView({subjectDetails = {}}) {
 	const [date, setDate] = useState(new Date());
@@ -12,24 +12,20 @@ function CalendarView({subjectDetails = {}}) {
 	};
 
 	let dates = extractAttendenceData(subjectDetails?.data?.times || "") || [];
-
 	function tileClassName({ date, view }) {
 		if (view == "month") {
 			if (date.getDay() == 0 || date.getDay() == 6) {
 				return "weekend";
 			}
-
 			for (let absData of dates) {
 				let absDate = absData.date;
 				if (date.getDate() == absDate.getDate() &&
 					date.getMonth() == absDate.getMonth() &&
 					date.getFullYear() == absDate.getFullYear()) {
-						console.log("ss");
 					return 'absent';
-				} else {
-					return 'present'
 				}
 			}
+			return 'present'
 		}
 	}
 

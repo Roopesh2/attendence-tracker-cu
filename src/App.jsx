@@ -3,11 +3,8 @@ import "./styles/app.css";
 import { FormView } from "./Form";
 import "bootstrap/dist/css/bootstrap.css";
 import Homepage from "./Home";
-import TimeTable from "./user_creation/TimeTable";
 import AuthManager from "./methods/AuthManager";
-import AddSubjects from "./user_creation/AddSubjects";
 import DataInitiation from "./user_creation/DataInitiation";
-import FirebaseApp from "./methods/firebase";
 
 function App() {
 	const [isLogged, _setLoginState] = useState(AuthManager.isLoggedIn());
