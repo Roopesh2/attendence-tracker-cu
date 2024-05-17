@@ -57,7 +57,6 @@ const Homepage = ({ setLoginState } = props) => {
       }
     });
   }, []);
-
   return (
     <>
       <Header signout={signout} editFields={() => setLoginState(true, true)} />
@@ -65,7 +64,7 @@ const Homepage = ({ setLoginState } = props) => {
         <Col lg={7} className="d-none d-lg-inline-block panes">
           <CardList
             items={subjects || []}
-            today={timetable[new Date().getDay()]}
+            today={timetable[new Date().getDay() - 1]}
             currentSubj={currentSubj}
             toggleCalendar={toggleCalendar}
           />
@@ -82,6 +81,7 @@ const Homepage = ({ setLoginState } = props) => {
           <Col md={12} className="d-block d-lg-none panes">
             <CardList
               items={subjects || []}
+              today={timetable[new Date().getDay() - 1]}
               currentSubj={currentSubj}
               toggleCalendar={toggleCalendar}
             />

@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, initializeFirestore, persistentLocalCache, persistentSingleTabManager } from "firebase/firestore";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
@@ -15,4 +15,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const FirebaseApp = initializeApp(firebaseConfig);
+initializeFirestore(FirebaseApp, {
+  localCache:
+    persistentLocalCache({ tabManager: persistentSingleTabManager() })
+})
 export const db = getFirestore(FirebaseApp);

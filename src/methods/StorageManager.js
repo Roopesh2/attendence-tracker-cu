@@ -114,7 +114,7 @@ const StorageManager = {
           console.log(error);
         }
       } else {
-        console.log("no absent records", collSnap);
+        // console.log("no absent records", collSnap);
       }
     } catch (err) {}
   },

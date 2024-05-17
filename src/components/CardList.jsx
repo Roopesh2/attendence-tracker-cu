@@ -26,7 +26,6 @@ function transformToObj(arr, key, value) {
     let keyval = entry[key];
     obj[keyval] = entry;
   }
-  console.log(obj);
   return obj;
 }
 
@@ -37,50 +36,42 @@ function transformToObj(arr, key, value) {
  * @returns
  */
 const CardList = ({ items, toggleCalendar, today }) => {
-  let todaySubject;
+  let currentSubjectIndex=-1;
+  let _items = items.splice();
   if (Array.isArray(today) && today.length > 0) {
-    // find current subject if any
-    const hourNow = new Date().getHours();
-    const minNow = new Date().getMinutes();
+    
+    const hourNow = new Date().getHours() - 1;
     const subjectT = transformToObj(items, "code", "name");
-    if (isWorkingHour(hourNow)) {
-      // in the working hour
-      let subjIndex = subjHourIndexLookup[hourNow];
-      let currentSubjCode = today[subjIndex];
-      todaySubject = (
-        <Card
-          key={subjIndex}
-          item={subjectT[currentSubjCode]}
-          isAttendenceTime={true}
-          onClick={() => toggleCalendar(subjectT[currentSubjCode])}
-        />
-      );
-
-      //remove this subject
-      for (let i in items) {
-        if (items[i].code == currentSubjCode) {
-          items.splice(i, 1);
-          break;
-        }
-      }
+    
+    if (isWorkingHour(hourNow)) { // in the working hour
+      // find current subject if any
+      currentSubjectIndex = subjHourIndexLookup[hourNow];
     }
-  } else {
+
+    // generate subject list from today's time table
+    _items = [];
+    for (let code of today) {
+      _items.push(
+        subjectT[code]
+      );
+    }
   }
+  console.log(currentSubjectIndex);
   return (
     <Row
       style={{
         alignItems: "stretch",
       }}
     >
-      {todaySubject ? todaySubject : ""}
-      {items.map((item, index) => (
+      {_items.length ? 
+      _items.map((item, index) => (
         <Card
           key={index}
           item={item}
-          isAttendenceTime={false}
+          showAttendenceMarker={index==currentSubjectIndex}
           onClick={() => toggleCalendar(item)}
         />
-      ))}
+      )) : "Loading"}
     </Row>
   );
 };
