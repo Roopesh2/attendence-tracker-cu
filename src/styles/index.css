@@ -48,10 +48,16 @@ body:before {
 .tagline {
   font-family: "Oswald", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 444;
-  font-style: normal;
+  font-weight: 440;
+  font-style: italic;
   margin-bottom: 20px;
-  font-size: 90px;
+  font-size: 100px;
+  padding-left: 50px;
+  text-shadow:
+    -2px -2px 0 #fffb00,
+     2px -2px 0 #01fc0d,
+    -2px  2px 0 #b40000,
+     2px  2px 0 #1900ff;
 }
 
 body {
@@ -66,9 +72,9 @@ body {
 }
 
 .center-container > .tl-c {
-  padding-left: 10px;
+  padding-left: 180px;
 }
 
 .center-container > .center {
-  margin-left: -80px;
+  margin-left: -30px;
 }
