@@ -1,19 +1,30 @@
 import { Button } from "react-bootstrap";
 import Subjectfield from "../components/Subjectfield";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StorageManager from "../methods/StorageManager";
+import { POPUP_BOX_SHADOW } from "../methods/consts";
 
-function AddSubjects({ next }) {
-  const [inputFields, setInputFields] = useState(
-    StorageManager.getSubjectsFromCache(),
-  );
+function AddSubjects({ next, close }) {
+  const [inputFields, setInputFields] = useState(StorageManager.getSubjectsFromCache());
   let [focusedInput, setFocusedInput] = useState(0);
   const [addedSubjects, setAddedSubjects] = useState(true);
-  StorageManager.getSubjectsFromCache(setInputFields);
+  const [isLoading, setIsLoading] = useState(true);
   const handleAdd = () => {
     setInputFields((prevComponents) => [...prevComponents, ""]);
     setFocusedInput(++focusedInput);
   };
+
+  useEffect(() => {
+    if (inputFields[0].code == "") {
+      StorageManager.getSubjects((s) => {
+        setInputFields(s);
+        setIsLoading(false);
+      })
+    } else {
+      setIsLoading(false);
+    }
+  }, [])
+
   const handleDelete = (index) => {
     if (inputFields.length > 1) {
       setInputFields((prevComponents) =>
@@ -58,26 +69,35 @@ function AddSubjects({ next }) {
       }}
     >
       <form
-        style={{ border: "1px solid black", padding: "20px" }}
+        style={{
+          border: "0",
+          boxShadow: POPUP_BOX_SHADOW,
+          padding: "20px",
+          maxHeight: "70vh"
+        }}
         onSubmit={(evt) => {
           evt.preventDefault();
           handleAdd();
         }}
       >
-        <h2 style={{ textAlign: "center" }}>Add Subjects</h2>
-        {inputFields.map((value, index) => (
-          <Subjectfield
-            key={index}
-            value={value}
-            onDelete={() => handleDelete(index)}
-          />
-        ))}
+        <h2 style={{ textAlign: "center" }}>Add Subjects <Button variant="outline-primary" onClick={close}>X</Button></h2>
+        {
+          isLoading ? "Loading subjects..." : <div style={{
+            overflow: "scroll",
+          }}>
+            {inputFields.map((value, index) => (
+              <Subjectfield
+                key={index}
+                value={value}
+                onDelete={() => handleDelete(index)}
+              />
+            ))}
+          </div>}
         {addedSubjects ? "" : <p>Please add Subjects</p>}
 
         <Button onClick={handleAdd}>Add Subject</Button>
         <Button
-          variant="contained"
-          color="primary"
+          variant="outline-primary"
           style={{ marginTop: "20px" }}
           onClick={handleNext}
         >

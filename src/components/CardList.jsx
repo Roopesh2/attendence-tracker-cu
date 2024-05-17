@@ -40,7 +40,7 @@ const CardList = ({ items, toggleCalendar, today }) => {
   let _items = items.splice();
   if (Array.isArray(today) && today.length > 0) {
     
-    const hourNow = new Date().getHours() - 1;
+    const hourNow = new Date().getHours();
     const subjectT = transformToObj(items, "code", "name");
     
     if (isWorkingHour(hourNow)) { // in the working hour
@@ -56,10 +56,10 @@ const CardList = ({ items, toggleCalendar, today }) => {
       );
     }
   }
-  console.log(currentSubjectIndex);
   return (
     <Row
       style={{
+        display: "flex",
         alignItems: "stretch",
       }}
     >

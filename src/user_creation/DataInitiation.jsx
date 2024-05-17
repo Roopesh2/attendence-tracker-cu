@@ -8,7 +8,7 @@ function DataInitiation({ setSignup }) {
   function displayView() {
     switch (view) {
       case "subjects":
-        return <AddSubjects next={() => setView("timetable")} />;
+        return <AddSubjects close={setSignup} next={() => setView("timetable")} />;
       case "timetable":
         return (
           <TimeTable next={setSignup} previous={() => setView("subjects")} />

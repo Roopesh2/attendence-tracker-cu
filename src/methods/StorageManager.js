@@ -22,6 +22,12 @@ import AuthManager from "./AuthManager";
 
 const StorageManager = {
   /**
+   * clears everything
+   * 
+   */
+  clear: () => localStorage.clear(),
+  
+  /**
    * stores array of subjects as string separated by ::
    * @param {Array<Object>} subjects List of subjects
    * @param {boolean} saveToCache whether to store it now and then store it in cloud
@@ -30,7 +36,6 @@ const StorageManager = {
     if (saveToCache) {
       localStorage.setItem(SUBJECT_LIST_DIR, JSON.stringify(subjects));
     } else {
-      console.trace(subjects);
       await setDoc(
         doc(db, USER_DIR, AuthManager.getUID()),
         {
@@ -116,7 +121,7 @@ const StorageManager = {
       } else {
         // console.log("no absent records", collSnap);
       }
-    } catch (err) {}
+    } catch (err) { }
   },
 };
 

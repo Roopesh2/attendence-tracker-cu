@@ -6,6 +6,7 @@ import AuthManager from "./methods/AuthManager";
 
 export const FormView = ({ setLoginState }) => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [passwordSame, setPasswordSame] = useState(true);
   const [emailInvalidMessage, setEmailInalidMessage] = useState("");
   const [passwordInvalidMessage, setPasswordInvalidMessage] = useState("");
@@ -16,6 +17,7 @@ export const FormView = ({ setLoginState }) => {
   };
 
   function signUpCallback(success, errorCode = "", errorMessage = "") {
+    setIsLoading(false);
     if (success) {
       setLoginState(true, true);
     } else {
@@ -48,18 +50,21 @@ export const FormView = ({ setLoginState }) => {
   function submit(event) {
     event.preventDefault();
     var inputs = event.target.querySelectorAll("input");
-    var email = inputs[0].value;
-    var password = inputs[1].value;
+    var email = inputs[0].value || "";
+    var password = inputs[1].value || "";
     if (isSignUp) {
       var confirmPassword = inputs[2].value;
       if (password !== confirmPassword) {
         setPasswordSame(false);
       } else if (passwordInvalidMessage == "" && emailInvalidMessage == "") {
         setPasswordSame(true);
+        setIsLoading(true);
         AuthManager.signUp(email, password, signUpCallback);
       }
     } else {
+      setIsLoading(true);
       AuthManager.login(email, password, (success, errorCode) => {
+        setIsLoading(false);
         if (success) {
           setLoginState(true, false);
         } else {
@@ -89,6 +94,7 @@ export const FormView = ({ setLoginState }) => {
             onBlur={validateEmail}
             type="email"
             placeholder="Enter email"
+            required
           />
           <p style={{ color: "red" }}>{emailInvalidMessage}</p>
         </Form.Group>
@@ -96,24 +102,25 @@ export const FormView = ({ setLoginState }) => {
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label className="input-label">Password</Form.Label>
           <Form.Control
-            onBlur={isSignUp ? validatePassword : () => {}}
+            onBlur={isSignUp ? validatePassword : () => { }}
             type="password"
             placeholder="Password"
+            required
           />
           <p style={{ color: "red" }}>{passwordInvalidMessage}</p>
         </Form.Group>
         {isSignUp && (
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label className="input-label">Confirm password</Form.Label>
-            <Form.Control type="password" placeholder="Confirm password" />
+            <Form.Control type="password" placeholder="Confirm password" required/>
             {!passwordSame && (
               <p style={{ color: "red" }}>Password do not match!</p>
             )}
           </Form.Group>
         )}
 
-        <Button variant="primary" type="submit">
-          Submit
+        <Button variant="" type="submit" active={isLoading ? false : true}>
+          {isLoading ? "Please wait.. " : "Submit"}
         </Button>
         <a>
           {isSignUp ? "Already" : "Don't"} have an account?

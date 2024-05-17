@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
-function ButtonDarkExample({ subjects, updateTimetable, value }) {
+function DropdownButton({ subjects, updateTimetable, value }) {
   const [dropdownTitle, setDropdownTitle] = useState("Select Subject");
 
   const handleSelect = (eventKey) => {
@@ -26,4 +26,4 @@ function ButtonDarkExample({ subjects, updateTimetable, value }) {
   );
 }
 
-export default ButtonDarkExample;
+export default DropdownButton;

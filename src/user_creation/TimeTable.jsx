@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
-import ButtonDarkExample from "../dropdown";
+import DropdownButton from "../dropdown";
 import { Button, Col } from "react-bootstrap";
 import StorageManager from "../methods/StorageManager";
 import { TIMETABLE_EMPTY } from "../methods/consts";
@@ -24,16 +24,26 @@ function TimeTable({ next, previous }) {
     StorageManager.getTimeTableFromCache(),
     subjects
   );
-  const initialTimetable = prevTable.length > 0 ? prevTable : TIMETABLE_EMPTY;
-  const [timetable, setTimetable] = useState(initialTimetable);
+  const [isLoading, setIsLoading] = useState(true);
+  const [timetable, setTimetable] = useState(prevTable);
+
+  useEffect(() => {
+    if (prevTable.length == 0) {
+      StorageManager.getTimeTable((tt) => {
+        setTimetable(tt);
+        setIsLoading(false);
+      })
+    } else {
+      setIsLoading(false);
+    }
+  }, [])
 
   const handleSelect = (dayIndex, hourIndex, subject) => {
-    setTimetable((prevTimetable) => {
-      const newTimetable = [...prevTimetable];
-      console.log(subject);
-      newTimetable[dayIndex][hourIndex] = subject;
-      return newTimetable;
-    });
+    const newTimetable = [...timetable];
+    console.log(subject);
+    newTimetable[dayIndex][hourIndex] = subject;
+    console.log(newTimetable);
+    setTimetable(newTimetable);
   };
 
   const handleNext = () => {
@@ -50,43 +60,57 @@ function TimeTable({ next, previous }) {
   };
 
   return (
-    <Col>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th></th>
-            {hours.map((hour, index) => (
-              <th key={index}>{hour}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {days.map((day, dayIndex) => (
-            <tr key={dayIndex}>
-              <th>{day}</th>
-              {hours.map((_, hourIndex) => (
-                <td key={`${hourIndex}-${dayIndex}-td`}>
-                  <ButtonDarkExample
-                    key={`${hourIndex}-${dayIndex}`}
-                    subjects={subjects}
-                    value={
-                      subjects.indexOf(timetable[dayIndex][hourIndex]) >= 0
-                        ? timetable[dayIndex][hourIndex]
-                        : ""
-                    }
-                    updateTimetable={(subject) =>
-                      handleSelect(dayIndex, hourIndex, subject)
-                    }
-                  />
-                </td>
+    <Col style={{
+      position: "relative",
+      top: "50%",
+      transform: "translateY(-50%)",
+    }}>
+      <div style={{
+        maxWidth: "100vw",
+        overflow: "scroll"
+      }}>
+        {isLoading ? "Loading timetable" : <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th></th>
+              {hours.map((hour, index) => (
+                <th key={index}>{hour}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </Table>
-      <Col className="flex-inline-container">
+          </thead>
+          <tbody>
+            {days.map((day, dayIndex) => (
+              <tr key={dayIndex}>
+                <th>{day}</th>
+                {hours.map((_, hourIndex) => (
+                  <td key={`${hourIndex}-${dayIndex}-td`}>
+                    <DropdownButton
+                      key={`${hourIndex}-${dayIndex}`}
+                      subjects={subjects}
+                      value={
+                        subjects.indexOf(timetable[dayIndex][hourIndex]) >= 0
+                          ? timetable[dayIndex][hourIndex]
+                          : ""
+                      }
+                      updateTimetable={(subject) =>
+                        handleSelect(dayIndex, hourIndex, subject)
+                      }
+                    />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </Table>}
+      </div>
+      <Col className="flex-inline-container"
+        style={{
+          width: "100%",
+          justifyContent: "center"
+        }}>
         <Button onClick={handlePrevious}>Previous</Button>
         <Button onClick={handleNext}>Finish</Button>
+        <Button onClick={next} variant="outline-primary">Cancel</Button>
       </Col>
     </Col>
   );
