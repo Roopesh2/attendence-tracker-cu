@@ -82,18 +82,17 @@ export const FormView = ({ setLoginState }) => {
           flexStart: "start",
         }}
       >
-        <h1>{isSignUp ? "Sign Up" : "Login"}</h1>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
+        <h1 style={{ textAlign: 'center' }}>{isSignUp ? "Sign Up" : "Login"}</h1>
+        <Form.Group className="mb-3 no-margin" controlId="formBasicEmail">
           <Form.Label className="input-label">Email address</Form.Label>
           <Form.Control
             onBlur={validateEmail}
             type="email"
-            placeholder="Enter email"
-          />
+            placeholder="Enter email"/>
           <p style={{ color: "red" }}>{emailInvalidMessage}</p>
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Group className="mb-3 no-margin" controlId="formBasicPassword">
           <Form.Label className="input-label">Password</Form.Label>
           <Form.Control
             onBlur={isSignUp ? validatePassword : () => {}}
@@ -115,7 +114,7 @@ export const FormView = ({ setLoginState }) => {
         <Button variant="primary" type="submit">
           Submit
         </Button>
-        <a>
+        <a style={{ textAlign: 'center' }}>
           {isSignUp ? "Already" : "Don't"} have an account?
           <span style={{ fontWeight: 700 }} onClick={toggleAuthMode}>
             {isSignUp ? " Login" : " Sign Up"}
