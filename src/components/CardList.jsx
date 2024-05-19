@@ -67,7 +67,7 @@ const CardList = ({ items, toggleCalendar, today }) => {
             <Card
               key={index}
               item={item}
-              showAttendenceMarker={index == currentSubjectIndex}
+              showAttendanceMarker={index == currentSubjectIndex}
               onClick={() => toggleCalendar(item)}
             />
           ))

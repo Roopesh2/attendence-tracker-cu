@@ -8,8 +8,8 @@ import { Col, Button, ButtonGroup, Container } from "react-bootstrap";
  * @param {Object} param0.item
  * @returns
  */
-const Card = ({ item, onClick, attendenceStatus } = props) => {
-  const [marked, setMarked] = useState(attendenceStatus);
+const Card = ({ item, onClick, attendanceStatus } = props) => {
+  const [marked, setMarked] = useState(attendanceStatus);
   const [markedColor, setMarkedColor] = useState("#fff");
   const setPresence = (evt) => {
     evt.stopPropagation();
@@ -21,7 +21,7 @@ const Card = ({ item, onClick, attendenceStatus } = props) => {
     }
     setMarked(status);
   };
-  let showAttendenceMarker = typeof marked == "string";
+  let showAttendanceMarker = typeof marked == "string";
   if (item != undefined)
     return (
       <Col
@@ -38,9 +38,9 @@ const Card = ({ item, onClick, attendenceStatus } = props) => {
           <h5>{item.code}</h5>
           <p>{item.name}</p>
 
-          {showAttendenceMarker ? <hr /> : ""}
+          {showAttendanceMarker ? <hr /> : ""}
 
-          {showAttendenceMarker ? (
+          {showAttendanceMarker ? (
             marked ? (
               <Container
                 style={{

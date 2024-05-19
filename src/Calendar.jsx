@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./styles/calender.css";
-import { extractAttendenceData } from "./methods/file_ops";
+import { extractAttendanceData } from "./methods/file_ops";
 
 function CalendarView({ subjectDetails = {} }) {
   const [date, setDate] = useState(new Date());
@@ -11,7 +11,7 @@ function CalendarView({ subjectDetails = {} }) {
     setDate(date);
   };
 
-  let dates = extractAttendenceData(subjectDetails?.data?.times || "") || [];
+  let dates = extractAttendanceData(subjectDetails?.data?.times || "") || [];
   function tileClassName({ date, view }) {
     if (view == "month") {
       if (date.getDay() == 0 || date.getDay() == 6) {

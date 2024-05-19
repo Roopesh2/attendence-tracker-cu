@@ -2,7 +2,7 @@ import { Button } from "react-bootstrap";
 import "./styles/header.css";
 const Header = ({ signout, editFields } = props) => (
   <header>
-    <h1>Attendence Report</h1>
+    <h1>Attendance Report</h1>
 
     <div className="flex-inline-container">
       <Button onClick={editFields} variant="outline-dark">

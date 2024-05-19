@@ -8,7 +8,7 @@
  *
  * @param {Array<Inst>} insts
  */
-export function compressAttendenceData(insts) {
+export function compressAttendanceData(insts) {
   let stream = "";
   for (let inst of insts) {
     let [yy, mm, dd] = inst.date.toISOString().split("-");
@@ -23,7 +23,7 @@ export function compressAttendenceData(insts) {
  * @param {string} strData
  * @returns {Array<Inst>}
  */
-export function extractAttendenceData(strData) {
+export function extractAttendanceData(strData) {
   let insts = strData.split(" ");
   let converted = [];
   for (let inst of insts) {
@@ -80,4 +80,4 @@ let s = [
   },
 ];
 
-console.log(compressAttendenceData(s));
+console.log(compressAttendanceData(s));
