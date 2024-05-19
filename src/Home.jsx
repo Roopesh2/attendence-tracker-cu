@@ -12,7 +12,6 @@ const Homepage = ({ setLoginState } = props) => {
   }
 
   const [showCalendar, setShowCalendar] = useState(false);
-  const [currentSubj, setCurrentSubj] = useState(1);
   const [clickedSubject, setClickedSubject] = useState("");
 
   const toggleCalendar = (dat) => {
@@ -32,6 +31,7 @@ const Homepage = ({ setLoginState } = props) => {
         setLoginState(true, true);
       } else {
         setSubjects(arr);
+        console.log(arr);
       }
     });
   }, []);
@@ -63,9 +63,8 @@ const Homepage = ({ setLoginState } = props) => {
       <Container fluid className="article">
         <Col lg={7} className="d-none d-lg-inline-block panes">
           <CardList
-            items={subjects || []}
+            items={subjects}
             today={timetable[new Date().getDay() - 1]}
-            currentSubj={currentSubj}
             toggleCalendar={toggleCalendar}
           />
         </Col>
@@ -81,9 +80,8 @@ const Homepage = ({ setLoginState } = props) => {
         ) : (
           <Col md={12} className="d-block d-lg-none panes">
             <CardList
-              items={subjects || []}
+              items={subjects}
               today={timetable[new Date().getDay() - 1]}
-              currentSubj={currentSubj}
               toggleCalendar={toggleCalendar}
             />
           </Col>

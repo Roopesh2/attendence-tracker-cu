@@ -3,8 +3,6 @@
  *
  * ### localStorage Schema
  * isLogged <bool> : whether logged in or not
- * email <String>
- * password <String>
  * subjects <Array<Object>> : list of entered subjects
  * timetable <Object<String, Array>> : 2d array of table
  *
@@ -16,6 +14,7 @@ import {
   SUBJECT_LIST_DIR,
   SUBJ_EMPTY,
   TIMETABLE_DIR,
+  TIMETABLE_EMPTY,
   USER_DIR,
 } from "./consts";
 import AuthManager from "./AuthManager";
@@ -61,7 +60,7 @@ const StorageManager = {
       let list = docSnap.data()[SUBJECT_LIST_DIR];
       callback(JSON.parse(list));
     } else {
-      callback(false);
+      callback([]);
     }
   },
 
@@ -94,6 +93,8 @@ const StorageManager = {
     const docSnap = await getDoc(doc(db, USER_DIR, AuthManager.getUID()));
     if (docSnap.exists()) {
       callback(JSON.parse(docSnap.data().timetable));
+    } else {
+      callback(TIMETABLE_EMPTY);  
     }
   },
 
@@ -116,9 +117,11 @@ const StorageManager = {
           });
           callback(obj);
         } catch (error) {
+          callback({});
           console.log(error);
         }
       } else {
+        callback({});
         // console.log("no absent records", collSnap);
       }
     } catch (err) { }

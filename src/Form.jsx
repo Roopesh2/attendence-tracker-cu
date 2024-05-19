@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./styles/form.css";
 import AuthManager from "./methods/AuthManager";
+import StorageManager from "./methods/StorageManager";
 
 export const FormView = ({ setLoginState }) => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -15,7 +16,7 @@ export const FormView = ({ setLoginState }) => {
     setEmailInalidMessage("");
     setPasswordInvalidMessage("");
   };
-
+  StorageManager.clear();
   function signUpCallback(success, errorCode = "", errorMessage = "") {
     setIsLoading(false);
     if (success) {

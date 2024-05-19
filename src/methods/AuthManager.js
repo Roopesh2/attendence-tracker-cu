@@ -9,12 +9,16 @@ import {
  * Manages user auth states
  */
 const AuthManager = {
+
+  onAuthStateChanged: (fx) => {
+    getAuth().onAuthStateChanged(fx)
+  },
   /**
-   * Returns whether use has logged in or not
+   * checks if use has logged in or not.
    * @returns {boolean}
    */
   isLoggedIn: () => {
-    return localStorage.getItem("isLogged") == "true";
+    return AuthManager.getUID() != "";
   },
 
   /**
@@ -25,20 +29,12 @@ const AuthManager = {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        localStorage.setItem("isLogged", false);
         localStorage.clear();
       })
       .catch((error) => {
         // An error happened.
         alert("couldnt sign out" + error);
       });
-  },
-
-  /**
-   * Marks user as logged in
-   */
-  setLoggedIn: () => {
-    localStorage.setItem("isLogged", true);
   },
 
   /**
@@ -61,13 +57,6 @@ const AuthManager = {
         const errorMessage = error.message;
         callback(false, errorCode, errorMessage);
       });
-    // let matches = localStorage.getItem('email') == email.trim() &&
-    // 	localStorage.getItem('password') == password.trim();
-    // if (matches) {
-    // 	AuthManager.setLoggedIn();
-    // 	return true;
-    // }
-    // return false;
   },
 
   /**
@@ -84,7 +73,6 @@ const AuthManager = {
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        AuthManager.setLoggedIn();
         // StorageManage
         AuthManager.setUID(user.uid);
         callback(true);
@@ -136,12 +124,6 @@ const AuthManager = {
     return "";
   },
 
-  clearLoginStates: () => {
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
-    localStorage.removeItem("isLogged");
-  },
-
   /**
    *
    * @param {string} uid
@@ -152,10 +134,11 @@ const AuthManager = {
 
   /**
    *
+   * @param {Function} callback
    * @return {string}
    */
   getUID: () => {
-    return localStorage.getItem("uid");
+    return getAuth().currentUser?.uid || "";
   },
 };
 
