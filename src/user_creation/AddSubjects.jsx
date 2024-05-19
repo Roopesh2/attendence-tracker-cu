@@ -5,7 +5,9 @@ import StorageManager from "../methods/StorageManager";
 import { POPUP_BOX_SHADOW } from "../methods/consts";
 
 function AddSubjects({ next, close }) {
-  const [inputFields, setInputFields] = useState(StorageManager.getSubjectsFromCache());
+  const [inputFields, setInputFields] = useState(
+    StorageManager.getSubjectsFromCache(),
+  );
   let [focusedInput, setFocusedInput] = useState(0);
   const [addedSubjects, setAddedSubjects] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,11 +21,11 @@ function AddSubjects({ next, close }) {
       StorageManager.getSubjects((s) => {
         setInputFields(s);
         setIsLoading(false);
-      })
+      });
     } else {
       setIsLoading(false);
     }
-  }, [])
+  }, []);
 
   const handleDelete = (index) => {
     if (inputFields.length > 1) {
@@ -73,18 +75,27 @@ function AddSubjects({ next, close }) {
           border: "0",
           boxShadow: POPUP_BOX_SHADOW,
           padding: "20px",
-          maxHeight: "70vh"
+          maxHeight: "70vh",
         }}
         onSubmit={(evt) => {
           evt.preventDefault();
           handleAdd();
         }}
       >
-        <h2 style={{ textAlign: "center" }}>Add Subjects <Button variant="outline-primary" onClick={close}>X</Button></h2>
-        {
-          isLoading ? "Loading subjects..." : <div style={{
-            overflow: "scroll",
-          }}>
+        <h2 style={{ textAlign: "center" }}>
+          Add Subjects{" "}
+          <Button variant="outline-primary" onClick={close}>
+            X
+          </Button>
+        </h2>
+        {isLoading ? (
+          "Loading subjects..."
+        ) : (
+          <div
+            style={{
+              overflow: "scroll",
+            }}
+          >
             {inputFields.map((value, index) => (
               <Subjectfield
                 key={index}
@@ -92,7 +103,8 @@ function AddSubjects({ next, close }) {
                 onDelete={() => handleDelete(index)}
               />
             ))}
-          </div>}
+          </div>
+        )}
         {addedSubjects ? "" : <p>Please add Subjects</p>}
 
         <Button onClick={handleAdd}>Add Subject</Button>

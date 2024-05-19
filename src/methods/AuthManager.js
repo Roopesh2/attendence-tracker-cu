@@ -9,9 +9,8 @@ import {
  * Manages user auth states
  */
 const AuthManager = {
-
   onAuthStateChanged: (fx) => {
-    getAuth().onAuthStateChanged(fx)
+    getAuth().onAuthStateChanged(fx);
   },
   /**
    * checks if use has logged in or not.

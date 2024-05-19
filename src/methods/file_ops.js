@@ -42,43 +42,42 @@ export function extractAttendenceData(strData) {
 }
 
 /**
- * 
- * @param {Array<Array<string>>} arr 
- * @param {Array<string>} allowlist 
+ *
+ * @param {Array<Array<string>>} arr
+ * @param {Array<string>} allowlist
  */
 export function removeNonExistantEntries(arr, allowlist) {
-  for (let i in arr){
-    for(let j in arr[i]) {
+  for (let i in arr) {
+    for (let j in arr[i]) {
       if (allowlist.indexOf(arr[i][j]) < 0) {
-        arr[i][j] = ""
+        arr[i][j] = "";
       }
     }
   }
   return arr;
 }
 
-
 let s = [
   {
     date: new Date("2024-05-22"),
-    hour: 1
+    hour: 1,
   },
   {
     date: new Date("2024-05-20"),
-    hour: 2
+    hour: 2,
   },
   {
     date: new Date("2024-05-15"),
-    hour: 3
+    hour: 3,
   },
   {
     date: new Date("2024-05-10"),
-    hour: 4
+    hour: 4,
   },
   {
     date: new Date("2024-05-01"),
-    hour: 3
+    hour: 3,
   },
-]
+];
 
 console.log(compressAttendenceData(s));

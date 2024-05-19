@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Col, Button, ButtonGroup, Container } from "react-bootstrap";
 
 /**
- * 
- * @param {Object} param0 
+ *
+ * @param {Object} param0
  * @param {Function} param0.onClick
  * @param {Object} param0.item
- * @returns 
+ * @returns
  */
 const Card = ({ item, onClick, attendenceStatus } = props) => {
   const [marked, setMarked] = useState(attendenceStatus);
@@ -15,12 +15,11 @@ const Card = ({ item, onClick, attendenceStatus } = props) => {
     evt.stopPropagation();
     const status = evt.target.innerText;
     if (status == "Absent") {
-      setMarkedColor("#DC3545")
+      setMarkedColor("#DC3545");
     } else {
-      setMarkedColor("#198754")
+      setMarkedColor("#198754");
     }
     setMarked(status);
-
   };
   let showAttendenceMarker = typeof marked == "string";
   if (item != undefined)
@@ -32,7 +31,7 @@ const Card = ({ item, onClick, attendenceStatus } = props) => {
         style={{
           cursor: "pointer",
           display: "flex",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         <div className="card">
@@ -40,9 +39,9 @@ const Card = ({ item, onClick, attendenceStatus } = props) => {
           <p>{item.name}</p>
 
           {showAttendenceMarker ? <hr /> : ""}
-          
-          {showAttendenceMarker ?
-            marked ?
+
+          {showAttendenceMarker ? (
+            marked ? (
               <Container
                 style={{
                   width: "100%",
@@ -51,30 +50,30 @@ const Card = ({ item, onClick, attendenceStatus } = props) => {
                   padding: "7px",
                   textAlign: "center",
                   color: markedColor,
-                  cursor: "default"
+                  cursor: "default",
                 }}
-                onClick={evt => evt.stopPropagation()}
+                onClick={(evt) => evt.stopPropagation()}
               >
                 Marked {marked}
               </Container>
-              : (
-                <ButtonGroup>
-                  <Button onClick={setPresence} variant="success">
-                    Present
-                  </Button>
-                  <Button onClick={setPresence} variant="danger">
-                    Absent
-                  </Button>
-                </ButtonGroup>
-              )
-            : (
-              ""
-            )}
+            ) : (
+              <ButtonGroup>
+                <Button onClick={setPresence} variant="success">
+                  Present
+                </Button>
+                <Button onClick={setPresence} variant="danger">
+                  Absent
+                </Button>
+              </ButtonGroup>
+            )
+          ) : (
+            ""
+          )}
         </div>
       </Col>
     );
   else {
-    return <></>
+    return <></>;
   }
 };
 export default Card;

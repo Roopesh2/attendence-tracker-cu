@@ -22,7 +22,7 @@ function TimeTable({ next, previous }) {
   );
   const prevTable = removeNonExistantEntries(
     StorageManager.getTimeTableFromCache(),
-    subjects
+    subjects,
   );
   const [isLoading, setIsLoading] = useState(true);
   const [timetable, setTimetable] = useState(prevTable);
@@ -32,11 +32,11 @@ function TimeTable({ next, previous }) {
       StorageManager.getTimeTable((tt) => {
         setTimetable(tt);
         setIsLoading(false);
-      })
+      });
     } else {
       setIsLoading(false);
     }
-  }, [])
+  }, []);
 
   const handleSelect = (dayIndex, hourIndex, subject) => {
     const newTimetable = [...timetable];
@@ -60,57 +60,69 @@ function TimeTable({ next, previous }) {
   };
 
   return (
-    <Col style={{
-      position: "relative",
-      top: "50%",
-      transform: "translateY(-50%)",
-    }}>
-      <div style={{
-        maxWidth: "100vw",
-        overflow: "scroll"
-      }}>
-        {isLoading ? "Loading timetable" : <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th></th>
-              {hours.map((hour, index) => (
-                <th key={index}>{hour}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {days.map((day, dayIndex) => (
-              <tr key={dayIndex}>
-                <th>{day}</th>
-                {hours.map((_, hourIndex) => (
-                  <td key={`${hourIndex}-${dayIndex}-td`}>
-                    <DropdownButton
-                      key={`${hourIndex}-${dayIndex}`}
-                      subjects={subjects}
-                      value={
-                        subjects.indexOf(timetable[dayIndex][hourIndex]) >= 0
-                          ? timetable[dayIndex][hourIndex]
-                          : ""
-                      }
-                      updateTimetable={(subject) =>
-                        handleSelect(dayIndex, hourIndex, subject)
-                      }
-                    />
-                  </td>
+    <Col
+      style={{
+        position: "relative",
+        top: "50%",
+        transform: "translateY(-50%)",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "100vw",
+          overflow: "scroll",
+        }}
+      >
+        {isLoading ? (
+          "Loading timetable"
+        ) : (
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th></th>
+                {hours.map((hour, index) => (
+                  <th key={index}>{hour}</th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </Table>}
+            </thead>
+            <tbody>
+              {days.map((day, dayIndex) => (
+                <tr key={dayIndex}>
+                  <th>{day}</th>
+                  {hours.map((_, hourIndex) => (
+                    <td key={`${hourIndex}-${dayIndex}-td`}>
+                      <DropdownButton
+                        key={`${hourIndex}-${dayIndex}`}
+                        subjects={subjects}
+                        value={
+                          subjects.indexOf(timetable[dayIndex][hourIndex]) >= 0
+                            ? timetable[dayIndex][hourIndex]
+                            : ""
+                        }
+                        updateTimetable={(subject) =>
+                          handleSelect(dayIndex, hourIndex, subject)
+                        }
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
       </div>
-      <Col className="flex-inline-container"
+      <Col
+        className="flex-inline-container"
         style={{
           width: "100%",
-          justifyContent: "center"
-        }}>
+          justifyContent: "center",
+        }}
+      >
         <Button onClick={handlePrevious}>Previous</Button>
         <Button onClick={handleNext}>Finish</Button>
-        <Button onClick={next} variant="outline-primary">Cancel</Button>
+        <Button onClick={next} variant="outline-primary">
+          Cancel
+        </Button>
       </Col>
     </Col>
   );

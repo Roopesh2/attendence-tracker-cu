@@ -39,11 +39,11 @@ const CardList = ({ items, toggleCalendar, today }) => {
   let currentSubjectIndex = -1;
   let _items = [...items];
   if (Array.isArray(today) && today.length > 0) {
-
     const hourNow = new Date().getHours();
     const subjectT = transformToObj(items, "code", "name");
 
-    if (isWorkingHour(hourNow)) { // in the working hour
+    if (isWorkingHour(hourNow)) {
+      // in the working hour
       // find current subject if any
       currentSubjectIndex = subjHourIndexLookup[hourNow];
     }
@@ -51,9 +51,7 @@ const CardList = ({ items, toggleCalendar, today }) => {
     // generate subject list from today's time table
     _items = [];
     for (let code of today) {
-      _items.push(
-        subjectT[code]
-      );
+      _items.push(subjectT[code]);
     }
   }
 
@@ -64,15 +62,16 @@ const CardList = ({ items, toggleCalendar, today }) => {
         alignItems: "stretch",
       }}
     >
-      {Array.isArray(_items) && _items.length > 0 ?
-        (_items.map((item, index) => (
-          <Card
-            key={index}
-            item={item}
-            showAttendenceMarker={index == currentSubjectIndex}
-            onClick={() => toggleCalendar(item)}
-          />
-        ))) : "Loading subjects"}
+      {Array.isArray(_items) && _items.length > 0
+        ? _items.map((item, index) => (
+            <Card
+              key={index}
+              item={item}
+              showAttendenceMarker={index == currentSubjectIndex}
+              onClick={() => toggleCalendar(item)}
+            />
+          ))
+        : "Loading subjects"}
     </Row>
   );
 };

@@ -22,10 +22,10 @@ import AuthManager from "./AuthManager";
 const StorageManager = {
   /**
    * clears everything
-   * 
+   *
    */
   clear: () => localStorage.clear(),
-  
+
   /**
    * stores array of subjects as string separated by ::
    * @param {Array<Object>} subjects List of subjects
@@ -94,7 +94,7 @@ const StorageManager = {
     if (docSnap.exists()) {
       callback(JSON.parse(docSnap.data().timetable));
     } else {
-      callback(TIMETABLE_EMPTY);  
+      callback(TIMETABLE_EMPTY);
     }
   },
 
@@ -124,7 +124,7 @@ const StorageManager = {
         callback({});
         // console.log("no absent records", collSnap);
       }
-    } catch (err) { }
+    } catch (err) {}
   },
 
   setAttendenceData: async (arr, callback = () => {}) => {
@@ -132,9 +132,7 @@ const StorageManager = {
       const coll = collection(db, USER_DIR, AuthManager.getUID(), "absents");
       const collSnap = await getDocs(coll);
       const obj = {};
-
-      
-    } catch (err) { }
+    } catch (err) {}
   },
 };
 

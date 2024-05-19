@@ -11,17 +11,17 @@ function App() {
   const [isSignUp, _setIsSignUp] = useState(false);
 
   useEffect(() => {
-    AuthManager.onAuthStateChanged(usr => {
+    AuthManager.onAuthStateChanged((usr) => {
       if (usr) {
         _setLoginState(true);
       }
-    })
-  }, [])
+    });
+  }, []);
   /**
    *
    * @param {boolean} loginState whether successful or not
    * @param {boolean} isSignUp
-  */
+   */
   function setLoginState(loginState, isSignUp) {
     _setLoginState(loginState);
     if (!loginState) AuthManager.logOut();
@@ -31,25 +31,24 @@ function App() {
   return (
     <>
       <div className="max-width">
-        {isLogged === "" ?
+        {isLogged === "" ? (
           <p>Loading</p>
-          : isLogged ?
-            (
-              isSignUp ? (
-                <DataInitiation setSignup={() => setLoginState(true, false)} />
-              ) : (
-                <Homepage setLoginState={setLoginState} />
-              )
-            ) : (
-              <div className="center-container">
-                <div className="tl-c">
-                  <h1 className="tagline">Go.</h1>
-                  <h1 className="tagline">Track.</h1>
-                  <h1 className="tagline">Leave.</h1>
-                </div>
-                <FormView setLoginState={setLoginState} />
-              </div>
-            )}
+        ) : isLogged ? (
+          isSignUp ? (
+            <DataInitiation setSignup={() => setLoginState(true, false)} />
+          ) : (
+            <Homepage setLoginState={setLoginState} />
+          )
+        ) : (
+          <div className="center-container">
+            <div className="tl-c">
+              <h1 className="tagline">Go.</h1>
+              <h1 className="tagline">Track.</h1>
+              <h1 className="tagline">Leave.</h1>
+            </div>
+            <FormView setLoginState={setLoginState} />
+          </div>
+        )}
       </div>
       {/* <DataInitiation setSignup={() => setLoginState(true, false)}/> */}
     </>

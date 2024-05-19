@@ -55,9 +55,9 @@ body:before {
   padding-left: 50px;
   text-shadow:
     -2px -2px 0 #fffb00,
-     2px -2px 0 #01fc0d,
-    -2px  2px 0 #b40000,
-     2px  2px 0 #1900ff;
+    2px -2px 0 #01fc0d,
+    -2px 2px 0 #b40000,
+    2px 2px 0 #1900ff;
 }
 
 body {

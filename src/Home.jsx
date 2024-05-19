@@ -69,7 +69,13 @@ const Homepage = ({ setLoginState } = props) => {
           />
         </Col>
         <Col lg={4} className="d-none d-lg-inline-block panes">
-          {showCalendar ? <h4 style={{textAlign: "center"}}>{clickedSubject?.code} : {clickedSubject?.name} </h4> : ""}
+          {showCalendar ? (
+            <h4 style={{ textAlign: "center" }}>
+              {clickedSubject?.code} : {clickedSubject?.name}{" "}
+            </h4>
+          ) : (
+            ""
+          )}
           <CalendarView subjectDetails={absentDays[clickedSubject?.code]} />
         </Col>
         {showCalendar ? (

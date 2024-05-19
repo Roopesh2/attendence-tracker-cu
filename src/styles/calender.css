@@ -15,7 +15,6 @@
   background-color: rgb(255, 136, 0);
 }
 
-
 /* Calendar container styling */
 .calendar-container {
   max-width: 600px;
@@ -24,7 +23,7 @@
   background-color: #f0f0f0; /* Light grey background */
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Adds shadow for depth */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Adds shadow for depth */
 }
 
 /* General calendar styling */
@@ -36,14 +35,13 @@
   border-radius: 15px;
   max-width: 80vw;
   max-height: 50vh;
-
 }
 
 .react-calendar__navigation {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: .5rem 0;
+  margin: 0.5rem 0;
 }
 /* Navigation button styling */
 .react-calendar__navigation button {
