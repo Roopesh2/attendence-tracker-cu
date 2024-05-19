@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
 function DropdownButton({ subjects, updateTimetable, value }) {
-  const [dropdownTitle, setDropdownTitle] = useState("Select Subject");
 
   const handleSelect = (eventKey) => {
-    setDropdownTitle(eventKey);
     updateTimetable(eventKey);
   };
 

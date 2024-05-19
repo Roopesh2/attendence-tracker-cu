@@ -123,6 +123,16 @@ const StorageManager = {
       }
     } catch (err) { }
   },
+
+  setAttendenceData: async (arr, callback = () => {}) => {
+    try {
+      const coll = collection(db, USER_DIR, AuthManager.getUID(), "absents");
+      const collSnap = await getDocs(coll);
+      const obj = {};
+
+      
+    } catch (err) { }
+  },
 };
 
 export default StorageManager;
