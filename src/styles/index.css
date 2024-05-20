@@ -67,10 +67,11 @@ body {
   display: flex;
   flex-direction: row; /* Stack children vertically */
   align-items: center; /* Center items horizontally */
-  justify-content: space-around; /* Center items vertically */
+  justify-content: center; /* Center items vertically */
   height: 100%;
-  position: relative;
+  position: fixed;
   left: 5%;
+  width: 100%;
 }
 
 .center-container > .tl-c {
@@ -81,8 +82,9 @@ body {
 .center-container > .center {
   margin-left: -30px;
 }
-@media (max-width: 768px) {
+@media (max-width: 820px) {
   .tl-c {
-    display: none; /* Hide the tagline */
+    display: none;
+    max-width: 90%; /* Hide the tagline */
   }
 }
