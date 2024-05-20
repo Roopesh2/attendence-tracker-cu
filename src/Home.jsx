@@ -48,7 +48,7 @@ const Homepage = ({ setLoginState } = props) => {
   }, []);
 
   useEffect(() => {
-    StorageManager.getAttendenceData((obj) => {
+    StorageManager.getAttendanceData((obj) => {
       if (typeof obj == "boolean" && !obj) {
         // no records found. probably failed login
         setLoginState(true, true);

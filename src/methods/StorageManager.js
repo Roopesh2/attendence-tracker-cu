@@ -60,7 +60,7 @@ const StorageManager = {
       let list = docSnap.data()[SUBJECT_LIST_DIR];
       callback(JSON.parse(list));
     } else {
-      callback([]);
+      callback(SUBJ_EMPTY);
     }
   },
 
@@ -102,7 +102,7 @@ const StorageManager = {
     return JSON.parse(localStorage.getItem(TIMETABLE_DIR)) || [];
   },
 
-  getAttendenceData: async (callback) => {
+  getAttendanceData: async (callback) => {
     try {
       const coll = collection(db, USER_DIR, AuthManager.getUID(), "absents");
       const collSnap = await getDocs(coll);
@@ -127,7 +127,7 @@ const StorageManager = {
     } catch (err) {}
   },
 
-  setAttendenceData: async (arr, callback = () => {}) => {
+  setAttendanceData: async (arr, callback = () => {}) => {
     try {
       const coll = collection(db, USER_DIR, AuthManager.getUID(), "absents");
       const collSnap = await getDocs(coll);
