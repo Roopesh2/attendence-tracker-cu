@@ -6,26 +6,9 @@
 }
 
 body {
-  background: rgb(193, 193, 193);
-  background: linear-gradient(
-    90deg,
-    rgb(255, 255, 255) 100%,
-    rgb(255, 113, 113) 100%
-  );
+  background-color: #132d46;
 }
 
-body:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url("../../public/bakcground.png") center center no-repeat;
-  background-size: cover;
-  opacity: 0.2;
-  z-index: -1;
-}
 
 #root {
   width: 100%;
@@ -49,15 +32,12 @@ body:before {
   font-family: "Oswald", sans-serif;
   font-optical-sizing: auto;
   font-weight: 440;
+  color: #ffffff;
   font-style: italic;
   margin-bottom: 20px;
-  font-size: 100px;
+  font-size: 90px;
   padding-left: 50px;
-  text-shadow:
-    -2px -2px 0 #fffb00,
-    2px -2px 0 #01fc0d,
-    -2px 2px 0 #b40000,
-    2px 2px 0 #1900ff;
+  
 }
 
 body {
@@ -68,19 +48,13 @@ body {
   flex-direction: row; /* Stack children vertically */
   align-items: center; /* Center items horizontally */
   justify-content: center; /* Center items vertically */
-  height: 100%;
-  position: fixed;
-  left: 5%;
+  height: 100%;  
   width: 100%;
 }
 
-.center-container > .tl-c {
-  padding-left: 180px;
-  text-align: center;
-}
-
-.center-container > .center {
-  margin-left: -30px;
+.center-container > div {
+  display: flex;
+  flex-direction: column;
 }
 @media (max-width: 820px) {
   .tl-c {
