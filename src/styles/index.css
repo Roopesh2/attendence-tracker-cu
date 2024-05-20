@@ -69,12 +69,20 @@ body {
   align-items: center; /* Center items horizontally */
   justify-content: space-around; /* Center items vertically */
   height: 100%;
+  position: relative;
+  left: 5%;
 }
 
 .center-container > .tl-c {
   padding-left: 180px;
+  text-align: center;
 }
 
 .center-container > .center {
   margin-left: -30px;
+}
+@media (max-width: 768px) {
+  .tl-c {
+    display: none; /* Hide the tagline */
+  }
 }
