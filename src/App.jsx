@@ -14,7 +14,9 @@ function App() {
     AuthManager.onAuthStateChanged((usr) => {
       if (usr) {
         _setLoginState(true);
-      }
+      } else {
+        _setLoginState(false);
+      } 
     });
   }, []);
   /**
