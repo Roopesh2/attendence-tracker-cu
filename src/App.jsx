@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Homepage from "./Home";
 import AuthManager from "./methods/AuthManager";
 import DataInitiation from "./user_creation/DataInitiation";
+import { LoginScreen } from "./login_screen";
 
 function App() {
   const [isLogged, _setLoginState] = useState("");
@@ -42,16 +43,7 @@ function App() {
             <Homepage setLoginState={setLoginState} />
           )
         ) : (
-          <div className="center-container">
-            <div className="left">
-              <h1 style={{color:"white",fontSize:"100px",paddingRight:"250px",margin:"2rem",maxWidth:"500px"}}>Welcome</h1>
-              <img src="../public/logo.png" width="400px"/>
-            </div>
-            <div className="right">
-              <h1 className="tagline">Track Well</h1>
-              <FormView setLoginState={setLoginState} />
-            </div>
-          </div>
+          <LoginScreen setLoginState={setLoginState}/>
         )}
       </div>
       {/* <DataInitiation setSignup={() => setLoginState(true, false)}/> */}
