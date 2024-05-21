@@ -93,7 +93,14 @@ const StorageManager = {
    * @param {number} endDate end date stored as millis
    * @param {Function} callback
    */
-  initializeFields: (timetable, subjectList, subjectData, startDate, endDate, callback) => {
+  initializeFields: (
+    timetable,
+    subjectList,
+    subjectData,
+    startDate,
+    endDate,
+    callback,
+  ) => {
     let dat = {
       [TIMETABLE_DIR]: JSON.stringify(timetable),
       [SUBJECT_LIST_DIR]: subjectList,
@@ -138,7 +145,7 @@ const StorageManager = {
    * @param {boolean} saveToCache whether to store it now and then store it in cloud
    * @param {Function} cb callback
    */
-  setTimeTable: (timetable, saveToCache = false, cb = () => { }) => {
+  setTimeTable: (timetable, saveToCache = false, cb = () => {}) => {
     timetable = JSON.stringify(timetable);
     if (saveToCache) {
       localStorage.setItem(TIMETABLE_DIR, timetable);
@@ -215,7 +222,7 @@ const StorageManager = {
     callback(obj);
   },
 
-  setAttendanceData: (code, newAttendance, callback = () => { }) => {
+  setAttendanceData: (code, newAttendance, callback = () => {}) => {
     try {
       let uid = AuthManager.getUID();
       const presentsRef = doc(db, USER_DIR, uid, PRESENTS_DIR, code);

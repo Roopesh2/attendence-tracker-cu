@@ -5,6 +5,7 @@ import { Button, Col } from "react-bootstrap";
 import StorageManager from "../methods/StorageManager";
 import { removeNonExistantEntries } from "../methods/file_ops";
 import "../styles/timetable.css";
+import { END_DATE_DIR, START_DATE_DIR } from "../methods/consts";
 
 function TimeTable({ next, previous }) {
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -64,8 +65,8 @@ function TimeTable({ next, previous }) {
       timetable,
       StorageManager.getSubjectListFromCache(),
       {},
-      StorageManager.getCache("startDate"),
-      StorageManager.getCache("endDate"),
+      StorageManager.getCache(START_DATE_DIR),
+      StorageManager.getCache(END_DATE_DIR),
       (success) => {
         setIsLoading(false);
         if (success) {
