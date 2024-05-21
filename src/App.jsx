@@ -43,12 +43,14 @@ function App() {
           )
         ) : (
           <div className="center-container">
-            <div className="tl-c">
-              <h1 className="tagline">Go.</h1>
-              <h1 className="tagline">Track.</h1>
-              <h1 className="tagline">Leave.</h1>
+            <div className="left">
+              <h1 style={{color:"white",fontSize:"100px",paddingRight:"250px",margin:"2rem",maxWidth:"500px"}}>Welcome</h1>
+              <img src="../public/logo.png" width="400px"/>
             </div>
-            <FormView setLoginState={setLoginState} />
+            <div className="right">
+              <h1 className="tagline">Track Well</h1>
+              <FormView setLoginState={setLoginState} />
+            </div>
           </div>
         )}
       </div>

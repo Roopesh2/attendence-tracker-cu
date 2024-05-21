@@ -9,6 +9,7 @@
   min-width: 40%;
   box-shadow: var(--card-shadow);
   margin: 0 0.5rem 0.5rem 0.5rem;
+  border: 2px;
 }
 
 .card h5 {

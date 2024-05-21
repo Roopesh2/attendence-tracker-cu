@@ -20,10 +20,14 @@ header h1 {
   text-align: center;
 }
 
-header button {
-  max-height: 40px;
+header .btn {
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
 }
 
+header .btn:hover {
+  background-color: var(--card-bg);
+}
 .flex-inline-container {
   display: inline-flex;
   gap: 0.8rem;
