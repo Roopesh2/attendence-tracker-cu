@@ -74,7 +74,7 @@ function AddSubjects({ next, close }) {
         }}
       >
         <h2 style={{ textAlign: "center" }}>
-          Add Subjects{" "}
+          Add Subjects
           <Button variant="outline-primary" onClick={close}>
             X
           </Button>

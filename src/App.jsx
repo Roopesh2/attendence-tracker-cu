@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./styles/app.css";
-import { FormView } from "./Form";
 import "bootstrap/dist/css/bootstrap.css";
 import Homepage from "./Home";
 import AuthManager from "./methods/AuthManager";
@@ -46,7 +45,6 @@ function App() {
           <LoginScreen setLoginState={setLoginState} />
         )}
       </div>
-      {/* <DataInitiation setSignup={() => setLoginState(true, false)}/> */}
     </>
   );
 }

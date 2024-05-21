@@ -1,31 +1,29 @@
 .weekend {
-  color: blue;
+  color: white;
 }
 
 .present {
-  background-color: rgb(8, 188, 53);
-  /* color: white; */
+  color: rgb(27, 231, 27);
+  font-weight: 600;
 }
 
 .absent {
-  background-color: rgb(206, 240, 253);
   color: red;
 }
+
 .react-calendar__tile--now {
   background-color: rgb(255, 136, 0);
 }
 
-/* Calendar container styling */
 .calendar-container {
   max-width: 600px;
   margin: auto;
   margin-top: 20px;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Adds shadow for depth */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* General calendar styling */
 .react-calendar {
   border: none;
   width: 100%;
@@ -43,16 +41,15 @@
   align-items: center;
   margin: 0.5rem 0;
 }
-/* Navigation button styling */
+
 .react-calendar__navigation button {
-  color: #495057; /* Dark grey text */
+  color: #495057;
   font-size: 1.2em;
   margin: 10px;
   padding: 5px 10px;
   border-radius: 5px;
 }
 
-/* Navigation text styling */
 .react-calendar__navigation {
   font-weight: bold;
   font-size: 1rem;
@@ -63,27 +60,23 @@
   color: var(--text-color) !important;
 }
 
-/* Tile styling */
 .react-calendar__tile {
   border-radius: 5px;
   padding: 10px 5px;
   margin: 2px;
 }
 
-/* Styling for the current date */
-.react-calendar__tile--now {
-  background-color: #007bff; /* Blue background */
-  color: #ffffff; /* White text */
+.react-calendar__tile--now,
+.react-calendar__tile--now * {
+  background-color: transparent;
+  border: 1px solid var(--text-color);
 }
 
-/* Styling for active date */
 .react-calendar__tile--active {
-  background-color: #28a745; /* Green background */
-  color: #ffffff; /* White text */
+  color: var(--text-color);
 }
 
-/* Hover effect for tiles */
-.react-calendar__tile:hover {
-  background-color: var(--card-hover-bg); /* Very light grey background */
+.react-calendar__tile:enabled:hover {
+  background-color: var(--card-hover-bg);
   cursor: pointer;
 }

@@ -33,7 +33,7 @@
   min-width: 30vw;
 }
 
-.center form button{
+.center form button {
   text-align: center;
 }
 @media (max-width: 820px) {

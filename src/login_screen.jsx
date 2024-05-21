@@ -1,7 +1,7 @@
 import { FormView } from "./Form";
 import "./styles/login_screen.css";
 
-export function LoginScreen(setLoginState) {
+export function LoginScreen({ setLoginState }) {
   return (
     <div className="center-container">
       <div className="left">

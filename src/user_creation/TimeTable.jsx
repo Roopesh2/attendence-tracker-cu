@@ -64,6 +64,8 @@ function TimeTable({ next, previous }) {
       timetable,
       StorageManager.getSubjectListFromCache(),
       {},
+      StorageManager.getCache("startDate"),
+      StorageManager.getCache("endDate"),
       (success) => {
         setIsLoading(false);
         if (success) {
@@ -92,48 +94,49 @@ function TimeTable({ next, previous }) {
         transform: "translateY(-50%)",
       }}
     >
+      <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>
+        Specify Time Table
+      </h1>
       <div
         style={{
           maxWidth: "100vw",
           overflow: "scroll",
         }}
       >
-        {
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th></th>
-                {hours.map((hour, index) => (
-                  <th key={index}>{hour}</th>
+        <Table bordered hover>
+          <thead>
+            <tr>
+              <th></th>
+              {hours.map((hour, index) => (
+                <th key={index}>{hour}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {days.map((day, dayIndex) => (
+              <tr key={dayIndex}>
+                <th>{day}</th>
+                {hours.map((_, hourIndex) => (
+                  <td key={`${hourIndex}-${dayIndex}-td`}>
+                    <DropdownButton
+                      key={`${hourIndex}-${dayIndex}`}
+                      subjects={subjects}
+                      value={
+                        subjects.indexOf(timetable[dayIndex][hourIndex]) >= 0
+                          ? timetable[dayIndex][hourIndex]
+                          : ""
+                      }
+                      isNotFilled={isNotFilled[dayIndex][hourIndex]}
+                      updateTimetable={(subject) =>
+                        handleSelect(dayIndex, hourIndex, subject)
+                      }
+                    />
+                  </td>
                 ))}
               </tr>
-            </thead>
-            <tbody>
-              {days.map((day, dayIndex) => (
-                <tr key={dayIndex}>
-                  <th>{day}</th>
-                  {hours.map((_, hourIndex) => (
-                    <td key={`${hourIndex}-${dayIndex}-td`}>
-                      <DropdownButton
-                        key={`${hourIndex}-${dayIndex}`}
-                        subjects={subjects}
-                        value={
-                          subjects.indexOf(timetable[dayIndex][hourIndex]) >= 0
-                            ? timetable[dayIndex][hourIndex]
-                            : ""
-                        }
-                        isNotFilled={isNotFilled[dayIndex][hourIndex]}
-                        updateTimetable={(subject) =>
-                          handleSelect(dayIndex, hourIndex, subject)
-                        }
-                      />
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        }
+            ))}
+          </tbody>
+        </Table>
       </div>
       <Col
         className="flex-inline-container"

@@ -19,7 +19,9 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import {
+  END_DATE_DIR,
   PRESENTS_DIR,
+  START_DATE_DIR,
   SUBJECT_DATA_DIR,
   SUBJECT_LIST_DIR,
   TIMETABLE_DIR,
@@ -87,13 +89,17 @@ const StorageManager = {
    * @param {Array<Array<string>>} timetable
    * @param {Array<Object>} subjectList
    * @param {Object} subjectData
+   * @param {number} startDate start date stored as millis
+   * @param {number} endDate end date stored as millis
    * @param {Function} callback
    */
-  initializeFields: (timetable, subjectList, subjectData, callback) => {
+  initializeFields: (timetable, subjectList, subjectData, startDate, endDate, callback) => {
     let dat = {
       [TIMETABLE_DIR]: JSON.stringify(timetable),
       [SUBJECT_LIST_DIR]: subjectList,
       [SUBJECT_DATA_DIR]: subjectData,
+      [START_DATE_DIR]: startDate,
+      [END_DATE_DIR]: endDate,
     };
     try {
       let uid = AuthManager.getUID();
@@ -132,7 +138,7 @@ const StorageManager = {
    * @param {boolean} saveToCache whether to store it now and then store it in cloud
    * @param {Function} cb callback
    */
-  setTimeTable: (timetable, saveToCache = false, cb = () => {}) => {
+  setTimeTable: (timetable, saveToCache = false, cb = () => { }) => {
     timetable = JSON.stringify(timetable);
     if (saveToCache) {
       localStorage.setItem(TIMETABLE_DIR, timetable);
@@ -195,10 +201,7 @@ const StorageManager = {
       const collSnap = await getDocs(coll);
       if (!collSnap.empty) {
         collSnap.forEach((doc) => {
-          obj[doc.id] = {
-            subject: doc.id,
-            data: doc.data(),
-          };
+          obj[doc.id] = doc.data()[PRESENTS_DIR];
         });
       } else {
         // console.log("no absent records", collSnap);
@@ -212,7 +215,7 @@ const StorageManager = {
     callback(obj);
   },
 
-  setAttendanceData: (code, newAttendance, callback = () => {}) => {
+  setAttendanceData: (code, newAttendance, callback = () => { }) => {
     try {
       let uid = AuthManager.getUID();
       const presentsRef = doc(db, USER_DIR, uid, PRESENTS_DIR, code);
@@ -239,6 +242,21 @@ const StorageManager = {
       console.error("Failed to update status");
     }
   },
+
+  /**
+   * Directly sets a key:value pair to localstorage
+   * @param {string} key
+   * @param {string} value
+   */
+  setCache: (key, value) => {
+    localStorage.setItem(key, value);
+  },
+  /**
+   * retrieves from localstorage
+   * @param {string} key
+   * @returns {string}
+   */
+  getCache: (key) => localStorage.getItem(key),
 };
 
 export default StorageManager;

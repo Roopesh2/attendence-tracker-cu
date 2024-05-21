@@ -5,7 +5,7 @@ const USER_DIR = "user_data",
   TIMETABLE_EMPTY = Array(5)
     .fill()
     .map(() => Array(6).fill("")),
-  POPUP_BOX_SHADOW = "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+  POPUP_BOX_SHADOW = "rgba(100, 100, 111, 0.2) 0px 7px 20px 0px",
   SUBJECT_DATA_DIR = "subject_data",
   PRESENTS_DIR = "presents",
   NULL_ATT_STATUS = {
@@ -21,7 +21,9 @@ const USER_DIR = "user_data",
     13: 3,
     14: 4,
     15: 5,
-  };
+  },
+  START_DATE_DIR = "class_start_date",
+  END_DATE_DIR = "class_end_date";
 
 export {
   USER_DIR,
@@ -34,4 +36,6 @@ export {
   PRESENTS_DIR,
   NULL_ATT_STATUS,
   SUBJ_HOUR_INDEX_LOOKUP,
+  START_DATE_DIR,
+  END_DATE_DIR,
 };

@@ -17,7 +17,7 @@ export const FormView = ({ setLoginState }) => {
     setPasswordInvalidMessage("");
   };
   StorageManager.clear();
-  function signUpCallback(success, errorCode = "", errorMessage = "") {
+  const signUpCallback = (success, errorCode = "", errorMessage = "") => {
     setIsLoading(false);
     if (success) {
       setLoginState(true, true);
@@ -34,10 +34,10 @@ export const FormView = ({ setLoginState }) => {
           setEmailInalidMessage("Email already in use");
           break;
         default:
-          alert(errorMessage);
+          console.trace(errorCode, errorMessage);
       }
     }
-  }
+  };
   const validateEmail = (evt) => {
     const email = evt.target?.value || "";
     setEmailInalidMessage(AuthManager.validateEmail(email));
