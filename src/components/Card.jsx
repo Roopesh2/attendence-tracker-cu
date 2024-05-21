@@ -13,9 +13,11 @@ import StorageManager from "../methods/StorageManager";
 const Card = ({ data, onClick, attendanceStatus }) => {
   let _hasLastUpdate = attendanceStatus.lastUpdate != undefined;
 
-  const [alreadyMarkedAttendence, setAlreadyMarkedAttendence] = useState(_hasLastUpdate
-    ? isSameHourOfDay(new Date(attendanceStatus.lastUpdate), new Date())
-    : false)
+  const [alreadyMarkedAttendence, setAlreadyMarkedAttendence] = useState(
+    _hasLastUpdate
+      ? isSameHourOfDay(new Date(attendanceStatus.lastUpdate), new Date())
+      : false,
+  );
 
   const [markedStatus, setMarkedStatus] = useState(
     alreadyMarkedAttendence ? attendanceStatus.lastStatus : "",
@@ -26,7 +28,7 @@ const Card = ({ data, onClick, attendanceStatus }) => {
   const [isMarking, setIsMarking] = useState(false);
   const [presenceCount, setPresenceCount] = useState({
     presents: attendanceStatus.presents || 0,
-    total: attendanceStatus.total || 0
+    total: attendanceStatus.total || 0,
   });
   const setPresence = (evt) => {
     evt.stopPropagation();
@@ -56,8 +58,8 @@ const Card = ({ data, onClick, attendanceStatus }) => {
           setMarkedStatus(status);
           setPresenceCount({
             presents: newAttendanceStatus.presents,
-            total: newAttendanceStatus.total
-          })
+            total: newAttendanceStatus.total,
+          });
         } else {
           alert("Couldn't update attendance");
         }

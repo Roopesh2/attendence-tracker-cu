@@ -43,7 +43,7 @@ function App() {
             <Homepage setLoginState={setLoginState} />
           )
         ) : (
-          <LoginScreen setLoginState={setLoginState}/>
+          <LoginScreen setLoginState={setLoginState} />
         )}
       </div>
       {/* <DataInitiation setSignup={() => setLoginState(true, false)}/> */}

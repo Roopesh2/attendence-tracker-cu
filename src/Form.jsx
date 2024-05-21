@@ -75,19 +75,8 @@ export const FormView = ({ setLoginState }) => {
     }
   }
   return (
-    <div
-      className="max-width center"
-      style={{
-        // backgroundImage: "url('../public/bakcground.png')",
-        backgroundSize: "contain",
-      }}
-    >
-      <Form
-        onSubmit={submit}
-        style={{
-          flexStart: "start",
-        }}
-      >
+    <div className="max-width center">
+      <Form onSubmit={submit}>
         <h1 style={{ textAlign: "center" }}>
           {isSignUp ? "Sign Up" : "Login"}
         </h1>

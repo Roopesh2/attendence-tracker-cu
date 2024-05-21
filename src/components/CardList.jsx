@@ -29,7 +29,10 @@ const CardList = ({
       // find current subject if any
       let currentSubjectIndex = SUBJ_HOUR_INDEX_LOOKUP[hourNow];
       currentSubject = subjectsToday[currentSubjectIndex];
-      attendanceStatus = Object.assign({}, subjectData[currentSubject] || NULL_ATT_STATUS);
+      attendanceStatus = Object.assign(
+        {},
+        subjectData[currentSubject] || NULL_ATT_STATUS,
+      );
 
       // sort current subject to top
       for (let i = 0; i < allSubjects.length; i++) {

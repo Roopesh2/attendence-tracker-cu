@@ -53,7 +53,7 @@ const Homepage = ({ setLoginState } = props) => {
 
   return (
     <>
-      <Header signout={signout} editFields={() => setLoginState(true, true)}/>
+      <Header signout={signout} editFields={() => setLoginState(true, true)} />
       <Container fluid className="article">
         <Col lg={7} className="d-none d-lg-inline-block panes">
           <CardList
@@ -73,8 +73,7 @@ const Homepage = ({ setLoginState } = props) => {
           )}
           <CalendarView dates={attendenceDays[clickedSubject?.code]} />
         </Col>
-        {
-        showCalendar ? (
+        {showCalendar ? (
           <Col md={12} className="d-block d-lg-none panes calender-sm">
             <Button onClick={toggleCalendar}>Back to Cards</Button>
             <CalendarView dates={attendenceDays[clickedSubject?.code]} />
@@ -88,8 +87,7 @@ const Homepage = ({ setLoginState } = props) => {
               toggleCalendar={toggleCalendar}
             />
           </Col>
-        )
-        }
+        )}
       </Container>
     </>
   );
