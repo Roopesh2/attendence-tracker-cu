@@ -21,7 +21,7 @@ const AuthManager = {
   },
 
   /**
-   * Marks user as logged out
+   * logged out user
    */
   logOut: () => {
     const auth = getAuth();
@@ -37,18 +37,16 @@ const AuthManager = {
   },
 
   /**
-   * checks if user credentials matches
+   * checks logins the user
    * @param {string} email
    * @param {string} password
-   * @returns {boolean}
    */
   login: (email, password, callback) => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
-        AuthManager.setUID(user.uid);
+        // const user = userCredential.user;
         callback(true);
       })
       .catch((error) => {
@@ -65,15 +63,11 @@ const AuthManager = {
    * @param {Function} callback
    */
   signUp: (email, password, callback) => {
-    // localStorage.setItem('email', email.trim());
-    // localStorage.setItem('password', password.trim());
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
-        const user = userCredential.user;
-        // StorageManage
-        AuthManager.setUID(user.uid);
+        // const user = userCredential.user;
         callback(true);
       })
       .catch((error) => {
@@ -121,14 +115,6 @@ const AuthManager = {
     }
 
     return "";
-  },
-
-  /**
-   *
-   * @param {string} uid
-   */
-  setUID: (uid) => {
-    localStorage.setItem("uid", uid);
   },
 
   /**

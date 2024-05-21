@@ -1,31 +1,21 @@
 import { Button } from "react-bootstrap";
 import Subjectfield from "../components/Subjectfield";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import StorageManager from "../methods/StorageManager";
-import { POPUP_BOX_SHADOW } from "../methods/consts";
+import { POPUP_BOX_SHADOW, SUBJ_EMPTY } from "../methods/consts";
 
 function AddSubjects({ next, close }) {
+  const _cache = StorageManager.getSubjectListFromCache();
   const [inputFields, setInputFields] = useState(
-    StorageManager.getSubjectsFromCache(),
+    _cache.length ? _cache : SUBJ_EMPTY,
   );
+  console.log(inputFields);
   let [focusedInput, setFocusedInput] = useState(0);
   const [addedSubjects, setAddedSubjects] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
   const handleAdd = () => {
     setInputFields((prevComponents) => [...prevComponents, ""]);
     setFocusedInput(++focusedInput);
   };
-
-  useEffect(() => {
-    if (inputFields[0].code == "") {
-      StorageManager.getSubjects((s) => {
-        setInputFields(s);
-        setIsLoading(false);
-      });
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
 
   const handleDelete = (index) => {
     if (inputFields.length > 1) {
@@ -55,7 +45,7 @@ function AddSubjects({ next, close }) {
       }
     }
     if (subjects.length > 0) {
-      StorageManager.setSubjects(subjects, true);
+      StorageManager.setSubjectList(subjects, true);
       next();
     } else {
       setAddedSubjects(false);
@@ -76,6 +66,7 @@ function AddSubjects({ next, close }) {
           boxShadow: POPUP_BOX_SHADOW,
           padding: "20px",
           maxHeight: "70vh",
+          minWidth: "50vw",
         }}
         onSubmit={(evt) => {
           evt.preventDefault();
@@ -88,23 +79,19 @@ function AddSubjects({ next, close }) {
             X
           </Button>
         </h2>
-        {isLoading ? (
-          "Loading subjects..."
-        ) : (
-          <div
-            style={{
-              overflow: "scroll",
-            }}
-          >
-            {inputFields.map((value, index) => (
-              <Subjectfield
-                key={index}
-                value={value}
-                onDelete={() => handleDelete(index)}
-              />
-            ))}
-          </div>
-        )}
+        <div
+          style={{
+            overflow: "scroll",
+          }}
+        >
+          {inputFields.map((value, index) => (
+            <Subjectfield
+              key={index}
+              value={value}
+              onDelete={() => handleDelete(index)}
+            />
+          ))}
+        </div>
         {addedSubjects ? "" : <p>Please add Subjects</p>}
 
         <Button onClick={handleAdd}>Add Subject</Button>

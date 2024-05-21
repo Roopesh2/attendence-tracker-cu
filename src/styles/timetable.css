@@ -1,0 +1,4 @@
+.table > :not(caption) > * > * {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}

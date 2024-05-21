@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
-function DropdownButton({ subjects, updateTimetable, value }) {
+function DropdownButton({ subjects, updateTimetable, value, isNotFilled }) {
   const handleSelect = (eventKey) => {
     updateTimetable(eventKey);
   };
 
   return (
     <Dropdown onSelect={handleSelect} defaultValue={value}>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
+      <Dropdown.Toggle
+        variant={isNotFilled ? "danger" : "success"}
+        id="dropdown-basic"
+      >
         {value || "Select Subject"}
       </Dropdown.Toggle>
 

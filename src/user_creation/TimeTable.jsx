@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import DropdownButton from "../dropdown";
 import { Button, Col } from "react-bootstrap";
 import StorageManager from "../methods/StorageManager";
-import { TIMETABLE_EMPTY } from "../methods/consts";
 import { removeNonExistantEntries } from "../methods/file_ops";
+import "../styles/timetable.css";
 
 function TimeTable({ next, previous }) {
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  const [isNotFilled, setIsNotFilled] = useState(
+    Array(5)
+      .fill()
+      .map(() => Array(6).fill(false)),
+  );
+  const [isLoading, setIsLoading] = useState(false);
   const hours = [
     "9:00-10:00",
     "10:00-11:00",
@@ -17,40 +23,59 @@ function TimeTable({ next, previous }) {
     "3:00-4:00",
   ];
 
-  const subjects = StorageManager.getSubjectsFromCache().map(
+  const subjects = StorageManager.getSubjectListFromCache().map(
     (value, _) => value.code,
   );
   const prevTable = removeNonExistantEntries(
     StorageManager.getTimeTableFromCache(),
     subjects,
   );
-  const [isLoading, setIsLoading] = useState(true);
   const [timetable, setTimetable] = useState(prevTable);
-
-  useEffect(() => {
-    if (prevTable.length == 0) {
-      StorageManager.getTimeTable((tt) => {
-        setTimetable(tt);
-        setIsLoading(false);
-      });
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
 
   const handleSelect = (dayIndex, hourIndex, subject) => {
     const newTimetable = [...timetable];
     console.log(subject);
     newTimetable[dayIndex][hourIndex] = subject;
-    console.log(newTimetable);
     setTimetable(newTimetable);
   };
 
-  const handleNext = () => {
+  const validateTable = (tt, _isnf) => {
+    let isnf = [..._isnf],
+      fullyFilled = true;
+    for (let i = 0; i < tt.length; i++) {
+      for (let j = 0; j < tt[i].length; j++) {
+        if (tt[i][j] == "") {
+          isnf[i][j] = true;
+          fullyFilled = false;
+        } else {
+          isnf[i][j] = false;
+        }
+      }
+    }
+    return [isnf, fullyFilled];
+  };
+  const handleFinish = async () => {
     console.log(timetable);
-    StorageManager.setTimeTable(timetable);
-    StorageManager.setSubjects(StorageManager.getSubjectsFromCache());
-    next();
+    let [isnf, fullyFilled] = validateTable(timetable, isNotFilled);
+    StorageManager.setTimeTable(timetable, true);
+    // if (fullyFilled) {
+    setIsLoading(true);
+    StorageManager.initializeFields(
+      timetable,
+      StorageManager.getSubjectListFromCache(),
+      {},
+      (success) => {
+        setIsLoading(false);
+        if (success) {
+          next();
+        } else {
+          alert("Couldn't update status please try again.");
+        }
+      },
+    );
+    // } else {
+    //   setIsNotFilled(isnf);
+    // }
   };
 
   const handlePrevious = () => {
@@ -73,9 +98,7 @@ function TimeTable({ next, previous }) {
           overflow: "scroll",
         }}
       >
-        {isLoading ? (
-          "Loading timetable"
-        ) : (
+        {
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -99,6 +122,7 @@ function TimeTable({ next, previous }) {
                             ? timetable[dayIndex][hourIndex]
                             : ""
                         }
+                        isNotFilled={isNotFilled[dayIndex][hourIndex]}
                         updateTimetable={(subject) =>
                           handleSelect(dayIndex, hourIndex, subject)
                         }
@@ -109,7 +133,7 @@ function TimeTable({ next, previous }) {
               ))}
             </tbody>
           </Table>
-        )}
+        }
       </div>
       <Col
         className="flex-inline-container"
@@ -118,11 +142,17 @@ function TimeTable({ next, previous }) {
           justifyContent: "center",
         }}
       >
-        <Button onClick={handlePrevious}>Previous</Button>
-        <Button onClick={handleNext}>Finish</Button>
-        <Button onClick={next} variant="outline-primary">
-          Cancel
+        {isLoading ? "" : <Button onClick={handlePrevious}>Previous</Button>}
+        <Button onClick={handleFinish} disabled={isLoading}>
+          {isLoading ? "Please wait..." : "Finish"}
         </Button>
+        {isLoading ? (
+          ""
+        ) : (
+          <Button onClick={next} variant="outline-primary">
+            Cancel
+          </Button>
+        )}
       </Col>
     </Col>
   );

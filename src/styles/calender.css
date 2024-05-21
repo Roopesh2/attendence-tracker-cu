@@ -20,7 +20,6 @@
   max-width: 600px;
   margin: auto;
   margin-top: 20px;
-  background-color: #f0f0f0; /* Light grey background */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Adds shadow for depth */
@@ -31,8 +30,9 @@
   border: none;
   width: 100%;
   height: 100%;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: var(--card-shadow);
   border-radius: 15px;
+  background-color: var(--card-bg);
   max-width: 80vw;
   max-height: 50vh;
 }
@@ -56,12 +56,15 @@
 .react-calendar__navigation {
   font-weight: bold;
   font-size: 1rem;
+  color: var(--text-color);
+}
+
+.react-calendar__navigation * {
+  color: var(--text-color) !important;
 }
 
 /* Tile styling */
 .react-calendar__tile {
-  background-color: #ffffff; /* White background */
-  color: #212529; /* Black text */
   border-radius: 5px;
   padding: 10px 5px;
   margin: 2px;
@@ -81,6 +84,6 @@
 
 /* Hover effect for tiles */
 .react-calendar__tile:hover {
-  background-color: #f8f9fa; /* Very light grey background */
+  background-color: var(--card-hover-bg); /* Very light grey background */
   cursor: pointer;
 }

@@ -69,7 +69,7 @@ export const FormView = ({ setLoginState }) => {
         if (success) {
           setLoginState(true, false);
         } else {
-          setPasswordInvalidMessage("invalid credential");
+          setPasswordInvalidMessage("invalid login details");
         }
       });
     }

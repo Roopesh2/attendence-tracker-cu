@@ -7,7 +7,7 @@ Form {
   padding: 20px;
   border-radius: 30px;
   box-shadow: rgba(0, 255, 0, 0.2);
-  background-color: #f0f8f0; /* Cool gray background */
+  background-color: var(--card-bg); /* Cool gray background */
   width: 100%;
   max-width: 300px;
   min-width: 300px;
@@ -38,8 +38,17 @@ a {
 .submit-button:hover {
   background-color: #0056b3; /* A darker shade of blue for hover effect */
 }
-.mb-3 {
-  margin-bottom: 1rem;
+
+.input-group span {
+  background-color: var(--card-bg) !important;
+}
+input {
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
+}
+
+input::placeholder {
+  color: var(--text-color) !important;
 }
 .no-margin {
   margin-bottom: 0 !important;

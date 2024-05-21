@@ -9,10 +9,19 @@
  */
 
 import { db } from "./firebase";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import {
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import {
+  PRESENTS_DIR,
+  SUBJECT_DATA_DIR,
   SUBJECT_LIST_DIR,
-  SUBJ_EMPTY,
   TIMETABLE_DIR,
   TIMETABLE_EMPTY,
   USER_DIR,
@@ -31,25 +40,23 @@ const StorageManager = {
    * @param {Array<Object>} subjects List of subjects
    * @param {boolean} saveToCache whether to store it now and then store it in cloud
    */
-  setSubjects: async (subjects, saveToCache = false) => {
+  setSubjectList: async (subjects, saveToCache = false) => {
+    subjects = subjects;
     if (saveToCache) {
       localStorage.setItem(SUBJECT_LIST_DIR, JSON.stringify(subjects));
     } else {
-      await setDoc(
-        doc(db, USER_DIR, AuthManager.getUID()),
-        {
-          subject_list: JSON.stringify(subjects),
-        },
-        { merge: true },
-      );
+      console.log(subjects);
+      await updateDoc(doc(db, USER_DIR, AuthManager.getUID()), {
+        [SUBJECT_LIST_DIR]: subjects,
+      });
     }
   },
 
   /**
-   * Returns subjects entered.
+   * Returns data.
    * @param {Function} callback
    */
-  getSubjects: async (callback) => {
+  fetchData: async (callback) => {
     let uid = AuthManager.getUID();
     if (!uid) {
       callback(false);
@@ -57,33 +64,112 @@ const StorageManager = {
     }
     const docSnap = await getDoc(doc(db, USER_DIR, uid));
     if (docSnap.exists()) {
-      let list = docSnap.data()[SUBJECT_LIST_DIR];
-      callback(JSON.parse(list));
+      let data = docSnap.data();
+      data["timetable"] = JSON.parse(data["timetable"]);
+      callback(data);
     } else {
-      callback(SUBJ_EMPTY);
+      callback(false);
     }
   },
 
-  getSubjectsFromCache: () => {
-    return JSON.parse(localStorage.getItem(SUBJECT_LIST_DIR)) || SUBJ_EMPTY;
+  /**
+   * Caches data in local storage
+   * @param {Object} data
+   */
+  updateCache: (data) => {
+    for (let key of Object.keys(data)) {
+      localStorage.setItem(key, JSON.stringify(data[key]));
+    }
+  },
+
+  /**
+   *
+   * @param {Array<Array<string>>} timetable
+   * @param {Array<Object>} subjectList
+   * @param {Object} subjectData
+   * @param {Function} callback
+   */
+  initializeFields: (timetable, subjectList, subjectData, callback) => {
+    let dat = {
+      [TIMETABLE_DIR]: JSON.stringify(timetable),
+      [SUBJECT_LIST_DIR]: subjectList,
+      [SUBJECT_DATA_DIR]: subjectData,
+    };
+    try {
+      let uid = AuthManager.getUID();
+      setDoc(doc(db, USER_DIR, uid), dat).then(() => {
+        const collectionRef = collection(db, USER_DIR, uid, PRESENTS_DIR);
+        try {
+          // checks if the documents exists or not
+          subjectList.forEach(async (subject, _) => {
+            const docRef = doc(collectionRef, `${subject.code}`);
+            const docSnap = await getDoc(docRef);
+            if (!docSnap.exists()) {
+              await setDoc(docRef, {
+                [PRESENTS_DIR]: [],
+              });
+            }
+          });
+          callback(true);
+        } catch (error) {
+          console.error("Error checking or creating collection: ", error);
+          callback(false);
+        }
+      });
+    } catch (err) {
+      console.error("couldn't post inital data", dat);
+      callback(false);
+    }
+  },
+
+  getSubjectListFromCache: () => {
+    let subj_data = JSON.parse(localStorage.getItem(SUBJECT_LIST_DIR));
+    return subj_data || [];
   },
   /**
-   * Saves subjects data
-   * @param {Array<Array<string>>} timetable subjects array
+   * Saves timetable
+   * @param {Array<Array<string>>} timetable timetable
    * @param {boolean} saveToCache whether to store it now and then store it in cloud
+   * @param {Function} cb callback
    */
-  setTimeTable: async (timetable, saveToCache = false) => {
+  setTimeTable: (timetable, saveToCache = false, cb = () => {}) => {
+    timetable = JSON.stringify(timetable);
     if (saveToCache) {
-      localStorage.setItem(TIMETABLE_DIR, JSON.stringify(timetable));
+      localStorage.setItem(TIMETABLE_DIR, timetable);
     } else {
-      await setDoc(
+      console.log(timetable);
+      setDoc(
         doc(db, USER_DIR, AuthManager.getUID()),
         {
-          timetable: JSON.stringify(timetable),
+          [TIMETABLE_DIR]: timetable,
         },
         { merge: true },
       );
     }
+  },
+
+  /**
+   * Saves subjects data
+   * @param {Array<Array<string>>} subj_data subjects array
+   * @param {boolean} saveToCache whether to store it now and then store it in cloud
+   */
+  setSubjectData: async (subj_data, saveToCache = false) => {
+    subj_data = subj_data;
+    if (saveToCache) {
+      localStorage.setItem(SUBJECT_DATA_DIR, subj_data);
+    } else {
+      await setDoc(
+        doc(db, USER_DIR, AuthManager.getUID()),
+        {
+          [SUBJECT_LIST_DIR]: subj_data,
+        },
+        { merge: true },
+      );
+    }
+  },
+
+  getSubjectDataFromCache: () => {
+    return JSON.parse(localStorage.getItem(SUBJECT_DATA_DIR));
   },
 
   /**
@@ -99,40 +185,59 @@ const StorageManager = {
   },
 
   getTimeTableFromCache: () => {
-    return JSON.parse(localStorage.getItem(TIMETABLE_DIR)) || [];
+    return JSON.parse(localStorage.getItem(TIMETABLE_DIR)) || TIMETABLE_EMPTY;
   },
 
   getAttendanceData: async (callback) => {
+    const obj = {};
     try {
-      const coll = collection(db, USER_DIR, AuthManager.getUID(), "absents");
+      const coll = collection(db, USER_DIR, AuthManager.getUID(), PRESENTS_DIR);
       const collSnap = await getDocs(coll);
-      const obj = {};
       if (!collSnap.empty) {
-        try {
-          collSnap.forEach((doc) => {
-            obj[doc.id] = {
-              subject: doc.id,
-              data: doc.data(),
-            };
-          });
-          callback(obj);
-        } catch (error) {
-          callback({});
-          console.log(error);
-        }
+        collSnap.forEach((doc) => {
+          obj[doc.id] = {
+            subject: doc.id,
+            data: doc.data(),
+          };
+        });
       } else {
-        callback({});
         // console.log("no absent records", collSnap);
       }
-    } catch (err) {}
+    } catch (err) {
+      console.error("error reading document, returning {}", err);
+    }
+
+    // cache
+    localStorage.setItem("attendance", JSON.stringify(obj));
+    callback(obj);
   },
 
-  setAttendanceData: async (arr, callback = () => {}) => {
+  setAttendanceData: (code, newAttendance, callback = () => {}) => {
     try {
-      const coll = collection(db, USER_DIR, AuthManager.getUID(), "absents");
-      const collSnap = await getDocs(coll);
-      const obj = {};
-    } catch (err) {}
+      let uid = AuthManager.getUID();
+      const presentsRef = doc(db, USER_DIR, uid, PRESENTS_DIR, code);
+      const topLevelRef = doc(db, USER_DIR, uid);
+      let toplevel = StorageManager.getSubjectDataFromCache();
+      toplevel[code] = newAttendance;
+
+      updateDoc(topLevelRef, {
+        [SUBJECT_DATA_DIR]: toplevel,
+      }).then(() => {
+        // append present list
+        if (newAttendance.lastStatus == "Present") {
+          updateDoc(presentsRef, {
+            [PRESENTS_DIR]: arrayUnion(newAttendance.lastUpdate),
+          }).then(() => {
+            callback(true);
+          });
+        } else {
+          callback(true);
+        }
+      });
+    } catch (err) {
+      callback(false);
+      console.error("Failed to update status");
+    }
   },
 };
 

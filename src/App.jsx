@@ -14,6 +14,8 @@ function App() {
     AuthManager.onAuthStateChanged((usr) => {
       if (usr) {
         _setLoginState(true);
+      } else {
+        _setLoginState(false);
       }
     });
   }, []);
@@ -23,8 +25,8 @@ function App() {
    * @param {boolean} isSignUp
    */
   function setLoginState(loginState, isSignUp) {
-    _setLoginState(loginState);
     if (!loginState) AuthManager.logOut();
+    _setLoginState(loginState);
     _setIsSignUp(isSignUp);
   }
 

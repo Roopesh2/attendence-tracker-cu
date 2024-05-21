@@ -1,60 +1,49 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../styles/card.css";
 import Card from "./Card";
 import { Row } from "react-bootstrap";
-
-const subjHourIndexLookup = {
-  9: 0,
-  10: 1,
-  11: 2,
-  13: 3,
-  14: 4,
-  15: 5,
-};
-
-/**
- * Tranforms a array of object to dic with a given
- * key and value in arrayObjects
- * @param {Array<Object>} arr
- * @param {string} key
- * @param {string} value
- * @returns {Object}
- */
-function transformToObj(arr, key, value) {
-  let obj = {};
-  for (let entry of arr) {
-    let keyval = entry[key];
-    obj[keyval] = entry;
-  }
-  return obj;
-}
+import { NULL_ATT_STATUS, SUBJ_HOUR_INDEX_LOOKUP } from "../methods/consts";
 
 /**
  *
  * @param {Object} param0
  * @param {Array} param0.items
+ * @param {Function} param0.toggleCalender
+ * @param {Array} param0.today
  * @returns
  */
-const CardList = ({ items, toggleCalendar, today }) => {
-  let currentSubjectIndex = -1;
-  let _items = [...items];
-  if (Array.isArray(today) && today.length > 0) {
+const CardList = ({
+  allSubjects = [],
+  subjectData,
+  toggleCalendar,
+  subjectsToday,
+}) => {
+  let currentSubject = "";
+  let attendanceStatus = [];
+  let _allSubjects = [...allSubjects];
+  if (Array.isArray(subjectsToday) && subjectsToday.length > 0) {
     const hourNow = new Date().getHours();
-    const subjectT = transformToObj(items, "code", "name");
 
     if (isWorkingHour(hourNow)) {
       // in the working hour
       // find current subject if any
-      currentSubjectIndex = subjHourIndexLookup[hourNow];
-    }
+      let currentSubjectIndex = SUBJ_HOUR_INDEX_LOOKUP[hourNow];
+      currentSubject = subjectsToday[currentSubjectIndex];
+      attendanceStatus = Object.assign({}, subjectData[currentSubject] || NULL_ATT_STATUS);
 
-    // generate subject list from today's time table
-    _items = [];
-    for (let code of today) {
-      _items.push(subjectT[code]);
+      // sort current subject to top
+      for (let i = 0; i < allSubjects.length; i++) {
+        if (allSubjects[i].code == currentSubject) {
+          _allSubjects = [
+            _allSubjects[i],
+            ..._allSubjects.splice(i).splice(1),
+            ..._allSubjects,
+          ];
+          break;
+        }
+      }
     }
   }
-
   return (
     <Row
       style={{
@@ -62,19 +51,29 @@ const CardList = ({ items, toggleCalendar, today }) => {
         alignItems: "stretch",
       }}
     >
-      {Array.isArray(_items) && _items.length > 0
-        ? _items.map((item, index) => (
+      {Array.isArray(_allSubjects) && _allSubjects.length > 0
+        ? _allSubjects.map((subject, index) => (
             <Card
               key={index}
-              item={item}
-              showAttendanceMarker={index == currentSubjectIndex}
-              onClick={() => toggleCalendar(item)}
+              data={subject}
+              attendanceStatus={
+                subject.code == currentSubject
+                  ? attendanceStatus
+                  : addNoUpdate(subjectData[subject.code] || {})
+              }
+              onClick={() => toggleCalendar(subject)}
             />
           ))
         : "Loading subjects"}
     </Row>
   );
 };
+
+function addNoUpdate(obj) {
+  let s = JSON.parse(JSON.stringify(obj));
+  s.noupdate = true;
+  return s;
+}
 
 function isWorkingHour(hour) {
   return hour >= 9 && hour < 16 && hour != 12;

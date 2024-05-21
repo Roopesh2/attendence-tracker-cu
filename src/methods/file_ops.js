@@ -79,5 +79,3 @@ let s = [
     hour: 3,
   },
 ];
-
-console.log(compressAttendanceData(s));

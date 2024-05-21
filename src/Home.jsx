@@ -5,6 +5,11 @@ import Header from "./Header";
 import { Button, Col, Container } from "react-bootstrap";
 import CalendarView from "./Calendar";
 import StorageManager from "./methods/StorageManager";
+import {
+  SUBJECT_DATA_DIR,
+  SUBJECT_LIST_DIR,
+  TIMETABLE_DIR,
+} from "./methods/consts";
 
 const Homepage = ({ setLoginState } = props) => {
   function signout() {
@@ -21,50 +26,40 @@ const Homepage = ({ setLoginState } = props) => {
     setShowCalendar((prev) => !prev);
   };
 
-  const [subjects, setSubjects] = useState([]);
+  const [subjectList, setSubjectList] = useState([]);
   const [timetable, setTimetable] = useState([]);
-  const [absentDays, setAbsentDays] = useState({});
+  const [subjectData, setSubjectData] = useState({});
+  const [attendenceDays, setAttendanceData] = useState({});
+
   useEffect(() => {
-    StorageManager.getSubjects((arr) => {
-      if (typeof arr == "boolean" && !arr) {
+    StorageManager.fetchData((data) => {
+      if (typeof data == "boolean" && !data) {
         // no records found. probably failed login
         setLoginState(true, true);
       } else {
-        setSubjects(arr);
-        console.log(arr);
+        setSubjectList(data[SUBJECT_LIST_DIR]);
+        setTimetable(data[TIMETABLE_DIR]);
+        setSubjectData(data[SUBJECT_DATA_DIR]);
+        StorageManager.updateCache(data);
+      }
+    });
+
+    StorageManager.getAttendanceData((data) => {
+      if (Object.keys(data).length > 0) {
+        setAttendanceData(data);
       }
     });
   }, []);
 
-  useEffect(() => {
-    StorageManager.getTimeTable((arr) => {
-      if (typeof arr == "boolean" && !arr) {
-        // no records found. probably failed login
-        setLoginState(true, true);
-      } else {
-        setTimetable(arr);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    StorageManager.getAttendanceData((obj) => {
-      if (typeof obj == "boolean" && !obj) {
-        // no records found. probably failed login
-        setLoginState(true, true);
-      } else {
-        setAbsentDays(obj);
-      }
-    });
-  }, []);
   return (
     <>
-      <Header signout={signout} editFields={() => setLoginState(true, true)} />
+      <Header signout={signout} editFields={() => setLoginState(true, true)}/>
       <Container fluid className="article">
         <Col lg={7} className="d-none d-lg-inline-block panes">
           <CardList
-            items={subjects}
-            today={timetable[new Date().getDay() - 1]}
+            allSubjects={subjectList}
+            subjectData={subjectData}
+            subjectsToday={timetable[new Date().getDay() - 1]}
             toggleCalendar={toggleCalendar}
           />
         </Col>
@@ -76,22 +71,25 @@ const Homepage = ({ setLoginState } = props) => {
           ) : (
             ""
           )}
-          <CalendarView subjectDetails={absentDays[clickedSubject?.code]} />
+          <CalendarView dates={attendenceDays[clickedSubject?.code]} />
         </Col>
-        {showCalendar ? (
+        {
+        showCalendar ? (
           <Col md={12} className="d-block d-lg-none panes calender-sm">
             <Button onClick={toggleCalendar}>Back to Cards</Button>
-            <CalendarView subjectDetails={absentDays[clickedSubject?.code]} />
+            <CalendarView dates={attendenceDays[clickedSubject?.code]} />
           </Col>
         ) : (
           <Col md={12} className="d-block d-lg-none panes">
             <CardList
-              items={subjects}
-              today={timetable[new Date().getDay() - 1]}
+              allSubjects={subjectList}
+              subjectData={subjectData}
+              subjectsToday={timetable[new Date().getDay() - 1]}
               toggleCalendar={toggleCalendar}
             />
           </Col>
-        )}
+        )
+        }
       </Container>
     </>
   );
