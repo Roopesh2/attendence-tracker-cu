@@ -7,9 +7,10 @@ import "./styles/calender.css";
  *
  * @param {Object} param0
  * @param {Array<number>} param0.dates
+ * @param {Array<Date>} param0.range
  * @returns
  */
-function CalendarView({ dates = [] }) {
+function CalendarView({ dates = [], range = [] }) {
   const [date, setDate] = useState(new Date());
 
   const onChange = (date) => {
@@ -42,6 +43,8 @@ function CalendarView({ dates = [] }) {
         onChange={onChange}
         value={date}
         tileClassName={tileClassName}
+        minDate={range[0]}
+        maxDate={range[1]}
       />
     </div>
   );

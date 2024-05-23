@@ -105,8 +105,8 @@ const StorageManager = {
       [TIMETABLE_DIR]: JSON.stringify(timetable),
       [SUBJECT_LIST_DIR]: subjectList,
       [SUBJECT_DATA_DIR]: subjectData,
-      [START_DATE_DIR]: startDate,
-      [END_DATE_DIR]: endDate,
+      [START_DATE_DIR]: parseInt(startDate),
+      [END_DATE_DIR]: parseInt(endDate),
     };
     try {
       let uid = AuthManager.getUID();
