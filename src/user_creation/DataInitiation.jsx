@@ -2,6 +2,7 @@ import { useState } from "react";
 import AddSubjects from "./AddSubjects";
 import TimeTable from "./TimeTable";
 import SetClassTime from "./SetClassTime";
+import "../styles/data_init.css";
 
 function DataInitiation({ setSignup }) {
   const [view, setView] = useState("subjects");

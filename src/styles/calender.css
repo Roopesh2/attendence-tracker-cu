@@ -1,5 +1,5 @@
 .weekend {
-  color: white;
+  color: #444;
 }
 
 .present {
@@ -11,18 +11,6 @@
   color: red;
 }
 
-.react-calendar__tile--now {
-  background-color: rgb(255, 136, 0);
-}
-
-.calendar-container {
-  max-width: 600px;
-  margin: auto;
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
 
 .react-calendar {
   border: none;
@@ -30,16 +18,8 @@
   height: 100%;
   box-shadow: var(--card-shadow);
   border-radius: 15px;
-  background-color: var(--card-bg);
   max-width: 80vw;
   max-height: 50vh;
-}
-
-.react-calendar__navigation {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 0.5rem 0;
 }
 
 .react-calendar__navigation button {
@@ -48,8 +28,14 @@
   margin: 10px;
   padding: 5px 10px;
   border-radius: 5px;
+  background-color: t;
 }
 
+.react-calendar__navigation button:disabled {
+  background-color: transparent;
+  color: #ccc;
+}
+/*
 .react-calendar__navigation {
   font-weight: bold;
   font-size: 1rem;

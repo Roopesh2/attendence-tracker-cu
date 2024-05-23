@@ -4,7 +4,6 @@ import DropdownButton from "../dropdown";
 import { Button, Col } from "react-bootstrap";
 import StorageManager from "../methods/StorageManager";
 import { removeNonExistantEntries } from "../methods/file_ops";
-import "../styles/timetable.css";
 import { END_DATE_DIR, START_DATE_DIR } from "../methods/consts";
 
 function TimeTable({ next, previous }) {

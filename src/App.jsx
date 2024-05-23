@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./styles/app.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Homepage from "./Home";
 import AuthManager from "./methods/AuthManager";

@@ -75,56 +75,60 @@ export const FormView = ({ setLoginState }) => {
     }
   }
   return (
-    <div className="max-width center">
-      <Form onSubmit={submit}>
-        <h1 style={{ textAlign: "center" }}>
-          {isSignUp ? "Sign Up" : "Login"}
-        </h1>
-        <Form.Group className="mb-3 no-margin" controlId="formBasicEmail">
-          <Form.Label className="input-label">Email address</Form.Label>
-          <Form.Control
-            onBlur={validateEmail}
-            type="email"
-            placeholder="Enter email"
-            required
-          />
-          <p style={{ color: "red" }}>{emailInvalidMessage}</p>
-        </Form.Group>
-
-        <Form.Group className="mb-3 no-margin" controlId="formBasicPassword">
-          <Form.Label className="input-label">Password</Form.Label>
-          <Form.Control
-            onBlur={isSignUp ? validatePassword : () => {}}
-            type="password"
-            placeholder="Password"
-            required
-          />
-          <p style={{ color: "red" }}>{passwordInvalidMessage}</p>
-        </Form.Group>
-        {isSignUp && (
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label className="input-label">Confirm password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Confirm password"
-              required
-            />
-            {!passwordSame && (
-              <p style={{ color: "red" }}>Password do not match!</p>
-            )}
-          </Form.Group>
+    <Form onSubmit={submit}>
+      <h1 className="heading">{isSignUp ? "Sign Up" : "Login"}</h1>
+      <Form.Group className="mb-3 no-margin" controlId="formBasicEmail">
+        <Form.Label className="input-label">Email address</Form.Label>
+        <Form.Control
+          onBlur={validateEmail}
+          type="email"
+          placeholder="Enter email"
+          required
+        />
+        {emailInvalidMessage != "" ? (
+          <p className="wrong">{emailInvalidMessage}</p>
+        ) : (
+          ""
         )}
+      </Form.Group>
 
-        <Button variant="" type="submit" active={isLoading ? false : true}>
-          {isLoading ? "Please wait.. " : "Submit"}
-        </Button>
-        <a style={{ textAlign: "center" }}>
-          {isSignUp ? "Already" : "Don't"} have an account?
-          <span style={{ fontWeight: 700 }} onClick={toggleAuthMode}>
-            {isSignUp ? " Login" : " Sign Up"}
-          </span>
-        </a>
-      </Form>
-    </div>
+      <Form.Group className="mb-3 no-margin" controlId="formBasicPassword">
+        <Form.Label className="input-label">Password</Form.Label>
+        <Form.Control
+          onBlur={isSignUp ? validatePassword : () => {}}
+          type="password"
+          placeholder="Password"
+          required
+        />
+        {passwordInvalidMessage != "" ? (
+          <p className="wrong">{passwordInvalidMessage}</p>
+        ) : (
+          ""
+        )}
+      </Form.Group>
+      {isSignUp && (
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label className="input-label">Confirm password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Confirm password"
+            required
+          />
+          {!passwordSame && <p className="wrong">Password do not match!</p>}
+        </Form.Group>
+      )}
+
+      <Button
+        variant="outline-primary"
+        type="submit"
+        disabled={isLoading ? true : false}
+      >
+        {isLoading ? "Please wait.. " : "Submit"}
+      </Button>
+      <a>
+        {isSignUp ? "Already" : "Don't"} have an account?
+        <b onClick={toggleAuthMode}>{isSignUp ? " Login" : " Sign Up"}</b>
+      </a>
+    </Form>
   );
 };

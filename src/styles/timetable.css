@@ -1,9 +1,0 @@
-.table > :not(caption) > * > * {
-  background-color: var(--card-bg);
-  color: var(--text-color);
-}
-
-.table th {
-  text-align: left;
-  vertical-align: middle;
-}

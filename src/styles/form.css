@@ -2,54 +2,16 @@
   font-weight: 600;
 }
 
-Form {
-  position: relative;
-  padding: 20px;
-  border-radius: 30px;
-  box-shadow: rgba(0, 255, 0, 0.2);
-  background-color: var(--card-bg); /* Cool gray background */
-  width: 100%;
-  color: white;
-  max-width: 300px;
-  min-width: 300px;
-  height: min-content;
-  margin: 1.2rem;
+form .heading {
+  text-align: center;
 }
-
-a {
-  cursor: pointer;
-}
-
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.submit-button {
-  background-color: #007bff; /* Bootstrap's primary blue */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
 
-.submit-button:hover {
-  background-color: #0056b3; /* A darker shade of blue for hover effect */
-}
-
-.input-group span {
-  background-color: var(--card-bg) !important;
-}
-input {
-  background-color: var(--card-bg) !important;
-  color: var(--text-color) !important;
-}
-
-input::placeholder {
-  color: var(--text-color) !important;
-}
-.no-margin {
-  margin-bottom: 0 !important;
+.wrong {
+  color: red;
+  margin: 0;
 }

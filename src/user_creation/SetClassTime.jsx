@@ -10,8 +10,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import StorageManager from "../methods/StorageManager";
 
 export default function TimeTable({ next, previous, close }) {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const s = [
+    parseInt(StorageManager.getCache(START_DATE_DIR)),
+    parseInt(StorageManager.getCache(END_DATE_DIR)),
+  ];
+  const [startDate, setStartDate] = useState(
+    isNaN(s[0]) ? new Date() : new Date(s[0]),
+  );
+  const [endDate, setEndDate] = useState(isNaN(s[1]) ? null : new Date(s[1]));
   const [error, setError] = useState(null);
 
   const validateDates = () => {
@@ -38,6 +44,12 @@ export default function TimeTable({ next, previous, close }) {
       next();
     }
   };
+
+  const handlePrevious = () => {
+    StorageManager.setCache(START_DATE_DIR, startDate.getTime());
+    StorageManager.setCache(END_DATE_DIR, endDate.getTime());
+    previous();
+  };
   return (
     <div
       className="max-width daterange-container"
@@ -59,10 +71,13 @@ export default function TimeTable({ next, previous, close }) {
           alignItems: "center",
         }}
       >
-        <h2 style={{ textAlign: "center" }}>Specify Duration of course</h2>
+        <h2 className="heading">Specify Duration of course</h2>
         <Form onSubmit={() => {}}>
-          <Form.Group controlId="formStartDate">
-            <Form.Label>Start Date</Form.Label>
+          <Form.Group
+            controlId="formStartDate"
+            className="date-picker-container"
+          >
+            <Form.Label>Start Date: </Form.Label>
             <ReactDatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
@@ -73,8 +88,8 @@ export default function TimeTable({ next, previous, close }) {
             />
           </Form.Group>
 
-          <Form.Group controlId="formEndDate">
-            <Form.Label>End Date</Form.Label>
+          <Form.Group controlId="formEndDate" className="date-picker-container">
+            <Form.Label>End Date :</Form.Label>
             <ReactDatePicker
               selected={endDate}
               onChange={(date) => setEndDate(date)}
@@ -92,7 +107,7 @@ export default function TimeTable({ next, previous, close }) {
               justifyContent: "center",
             }}
           >
-            <Button onClick={previous} variant="primary">
+            <Button onClick={handlePrevious} variant="primary">
               Previous
             </Button>
             <Button onClick={handleNext} variant="primary">

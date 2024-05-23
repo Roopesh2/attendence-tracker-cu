@@ -46,7 +46,7 @@ const Homepage = ({ setLoginState } = props) => {
         setSubjectData(data[SUBJECT_DATA_DIR]);
         setStartEndDate([
           new Date(data[START_DATE_DIR]),
-          new Date(data[END_DATE_DIR])
+          new Date(data[END_DATE_DIR]),
         ]);
         StorageManager.updateCache(data);
       }
@@ -63,7 +63,7 @@ const Homepage = ({ setLoginState } = props) => {
     <>
       <Header signout={signout} editFields={() => setLoginState(true, true)} />
       <Container fluid className="article">
-        <Col lg={7} className="d-none d-lg-inline-block panes">
+        <Col lg={7} className="d-none d-lg-inline-block">
           <CardList
             allSubjects={subjectList}
             subjectData={subjectData}
@@ -71,7 +71,7 @@ const Homepage = ({ setLoginState } = props) => {
             toggleCalendar={toggleCalendar}
           />
         </Col>
-        <Col lg={4} className="d-none d-lg-inline-block panes">
+        <Col lg={4} className="d-none d-lg-inline-block">
           {showCalendar ? (
             <h4 style={{ textAlign: "center" }}>
               {clickedSubject?.code} : {clickedSubject?.name}{" "}
@@ -79,15 +79,21 @@ const Homepage = ({ setLoginState } = props) => {
           ) : (
             ""
           )}
-          <CalendarView range={startEndDate} dates={attendenceDays[clickedSubject?.code]} />
+          <CalendarView
+            range={startEndDate}
+            dates={attendenceDays[clickedSubject?.code]}
+          />
         </Col>
         {showCalendar ? (
-          <Col md={12} className="d-block d-lg-none panes calender-sm">
+          <Col md={12} className="d-block d-lg-none calender-sm">
             <Button onClick={toggleCalendar}>Back to Cards</Button>
-            <CalendarView range={startEndDate} dates={attendenceDays[clickedSubject?.code]} />
+            <CalendarView
+              range={startEndDate}
+              dates={attendenceDays[clickedSubject?.code]}
+            />
           </Col>
         ) : (
-          <Col md={12} className="d-block d-lg-none panes">
+          <Col md={12} className="d-block d-lg-none card-width-max">
             <CardList
               allSubjects={subjectList}
               subjectData={subjectData}

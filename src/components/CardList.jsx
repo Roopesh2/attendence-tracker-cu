@@ -48,12 +48,7 @@ const CardList = ({
     }
   }
   return (
-    <Row
-      style={{
-        display: "flex",
-        alignItems: "stretch",
-      }}
-    >
+    <Row className="card-list">
       {Array.isArray(_allSubjects) && _allSubjects.length > 0
         ? _allSubjects.map((subject, index) => (
             <Card

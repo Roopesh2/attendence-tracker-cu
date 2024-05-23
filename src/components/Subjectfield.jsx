@@ -6,9 +6,7 @@ function Subjectfield({ onDelete, value }) {
   return (
     <InputGroup className="mb-3">
       <InputGroup.Text id="basic-addon1">
-        <Button variant="link" onClick={onDelete}>
-          X
-        </Button>
+        <Button className="btn-close" onClick={onDelete}></Button>
       </InputGroup.Text>
       <Form.Control
         placeholder="Subject code"

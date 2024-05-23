@@ -1,15 +1,12 @@
 header {
   padding: 0 0 1rem 0;
   display: flex;
-  justify-content: end;
   padding: 1.5rem;
-  display: flex;
   justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 2;
-  background-color: var(--background-color);
   box-shadow:
     rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
@@ -25,9 +22,6 @@ header .btn {
   color: var(--text-color);
 }
 
-header .btn:hover {
-  background-color: var(--card-bg);
-}
 .flex-inline-container {
   display: inline-flex;
   gap: 0.8rem;

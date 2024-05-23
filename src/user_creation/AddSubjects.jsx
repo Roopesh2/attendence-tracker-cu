@@ -61,24 +61,15 @@ function AddSubjects({ next, close }) {
       }}
     >
       <form
-        style={{
-          border: "0",
-          boxShadow: POPUP_BOX_SHADOW,
-          padding: "20px",
-          maxHeight: "70vh",
-          minWidth: "50vw",
-        }}
         onSubmit={(evt) => {
           evt.preventDefault();
           handleAdd();
         }}
       >
-        <h2 style={{ textAlign: "center" }}>
-          Add Subjects
-          <Button variant="outline-primary" onClick={close}>
-            X
-          </Button>
-        </h2>
+        <div className="heading">
+          <h2>Add Subjects</h2>
+          <Button onClick={close} className="btn-close"></Button>
+        </div>
         <div
           style={{
             overflow: "scroll",
@@ -92,14 +83,10 @@ function AddSubjects({ next, close }) {
             />
           ))}
         </div>
-        {addedSubjects ? "" : <p>Please add Subjects</p>}
+        {addedSubjects ? "" : <p className="wrong">Please add Subjects</p>}
 
         <Button onClick={handleAdd}>Add Subject</Button>
-        <Button
-          variant="outline-primary"
-          style={{ marginTop: "20px" }}
-          onClick={handleNext}
-        >
+        <Button variant="outline-primary" onClick={handleNext}>
           Next
         </Button>
       </form>
