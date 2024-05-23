@@ -24,7 +24,7 @@
 .center-container > div > .name {
   font-family: "Oswald", sans-serif;
   font-weight: 440;
-  color: var(--text-color);
+  color: #fae3cf;
   font-style: italic;
   font-size: 5rem;
 }
