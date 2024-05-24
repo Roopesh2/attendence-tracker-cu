@@ -16,13 +16,16 @@ const CardList = ({
   allSubjects = [],
   subjectData,
   toggleCalendar,
-  subjectsToday,
+  timetable,
+  startEndDate,
+  cacheUpdater,
 }) => {
   let currentSubject = "";
   let attendanceStatus = [];
   let _allSubjects = [...allSubjects];
+  let subjectsToday = timetable[new Date().getDay() - 1];
   if (Array.isArray(subjectsToday) && subjectsToday.length > 0) {
-    const hourNow = new Date().getHours();
+    const hourNow = new Date().getHours() - 8;
 
     if (isWorkingHour(hourNow)) {
       // in the working hour
@@ -53,13 +56,16 @@ const CardList = ({
         ? _allSubjects.map((subject, index) => (
             <Card
               key={index}
-              data={subject}
+              subjectData={subject}
+              startEndDate={startEndDate}
+              timetable={timetable}
               attendanceStatus={
                 subject.code == currentSubject
                   ? attendanceStatus
                   : addNoUpdate(subjectData[subject.code] || {})
               }
               onClick={() => toggleCalendar(subject)}
+              cacheUpdater={cacheUpdater}
             />
           ))
         : "Loading subjects"}
@@ -68,7 +74,7 @@ const CardList = ({
 };
 
 function addNoUpdate(obj) {
-  let s = JSON.parse(JSON.stringify(obj));
+  let s = Object.assign({}, obj);
   s.noupdate = true;
   return s;
 }

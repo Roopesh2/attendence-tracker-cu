@@ -3,6 +3,7 @@
   border-radius: 15px;
   width: calc(100% - 10px);
   box-shadow: var(--card-shadow);
+  cursor: pointer;
 }
 
 .card h5 {

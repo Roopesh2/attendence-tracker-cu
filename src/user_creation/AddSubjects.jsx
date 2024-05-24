@@ -2,16 +2,15 @@ import { Button } from "react-bootstrap";
 import Subjectfield from "../components/Subjectfield";
 import { useState } from "react";
 import StorageManager from "../methods/StorageManager";
-import { POPUP_BOX_SHADOW, SUBJ_EMPTY } from "../methods/consts";
+import { SUBJ_EMPTY } from "../methods/consts";
 
 function AddSubjects({ next, close }) {
   const _cache = StorageManager.getSubjectListFromCache();
   const [inputFields, setInputFields] = useState(
     _cache.length ? _cache : SUBJ_EMPTY,
   );
-  console.log(inputFields);
   let [focusedInput, setFocusedInput] = useState(0);
-  const [addedSubjects, setAddedSubjects] = useState(true);
+  const [error, setError] = useState("");
   const handleAdd = () => {
     setInputFields((prevComponents) => [...prevComponents, ""]);
     setFocusedInput(++focusedInput);
@@ -37,10 +36,17 @@ function AddSubjects({ next, close }) {
     let subjectCodes = subjectFields[0];
     let subjectNames = subjectFields[1];
     let subjects = [];
+    let codes = [];
     for (let i = 0; i < subjectCodes.length; i++) {
       let code = subjectCodes[i].value.trim();
       let name = subjectNames[i].value.trim();
       if (code.length > 0) {
+        if (codes.indexOf(code) > -1) {
+          // collision
+          setError("Subject codes must be unique");
+          return;
+        }
+        codes.push(code);
         subjects.push({ code, name });
       }
     }
@@ -48,7 +54,7 @@ function AddSubjects({ next, close }) {
       StorageManager.setSubjectList(subjects, true);
       next();
     } else {
-      setAddedSubjects(false);
+      setError("Please add subjects");
     }
   };
   return (
@@ -83,8 +89,7 @@ function AddSubjects({ next, close }) {
             />
           ))}
         </div>
-        {addedSubjects ? "" : <p className="wrong">Please add Subjects</p>}
-
+        <p className="wrong">{error}</p>
         <Button onClick={handleAdd}>Add Subject</Button>
         <Button variant="outline-primary" onClick={handleNext}>
           Next

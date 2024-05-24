@@ -6,11 +6,14 @@ import { Button, Col, Container } from "react-bootstrap";
 import CalendarView from "./Calendar";
 import StorageManager from "./methods/StorageManager";
 import {
+  ATTENDANCE_DATA_DIR,
   END_DATE_DIR,
+  NO_CLASS_DIR,
   START_DATE_DIR,
   SUBJECT_DATA_DIR,
   SUBJECT_LIST_DIR,
   TIMETABLE_DIR,
+  TIMETABLE_EMPTY,
 } from "./methods/consts";
 
 const Homepage = ({ setLoginState } = props) => {
@@ -18,89 +21,122 @@ const Homepage = ({ setLoginState } = props) => {
     setLoginState(false, false);
   }
 
+  const mediaQL = window.matchMedia("(min-width: 992px)");
   const [showCalendar, setShowCalendar] = useState(false);
   const [clickedSubject, setClickedSubject] = useState("");
+  const [isDesktopSize, setIsDesktopSize] = useState(mediaQL.matches);
+  function handleViewportChange(mql) {
+    if (mql.matches) {
+      setIsDesktopSize(true);
+    } else {
+      setIsDesktopSize(false);
+    }
+  }
+  mediaQL.addEventListener("change", handleViewportChange);
 
   const toggleCalendar = (dat) => {
-    if (dat) {
+    if (typeof dat?.name == "string") {
       setClickedSubject(dat);
+      setShowCalendar(true);
+    } else {
+      setShowCalendar((prev) => !prev);
+      setClickedSubject("");
     }
-    setShowCalendar((prev) => !prev);
   };
 
-  const [subjectList, setSubjectList] = useState([]);
-  const [timetable, setTimetable] = useState([]);
-  const [subjectData, setSubjectData] = useState({});
-  const [startEndDate, setStartEndDate] = useState([]);
-  const [attendenceDays, setAttendanceData] = useState({});
+  const [fbData, setFbData] = useState({
+    [SUBJECT_LIST_DIR]: [],
+    [TIMETABLE_DIR]: TIMETABLE_EMPTY,
+    [SUBJECT_DATA_DIR]: {},
+    startEndDate: [],
+    [ATTENDANCE_DATA_DIR]: {},
+    [NO_CLASS_DIR]: {},
+  });
 
-  useEffect(() => {
+  function fetchData() {
     StorageManager.fetchData((data) => {
       if (typeof data == "boolean" && !data) {
         // no records found. probably failed login
         setLoginState(true, true);
       } else {
-        setSubjectList(data[SUBJECT_LIST_DIR]);
-        setTimetable(data[TIMETABLE_DIR]);
-        setSubjectData(data[SUBJECT_DATA_DIR]);
-        setSubjectData(data[SUBJECT_DATA_DIR]);
-        setStartEndDate([
+        let dat = Object.assign({}, fbData);
+        dat[SUBJECT_LIST_DIR] = data[SUBJECT_LIST_DIR];
+        dat[TIMETABLE_DIR] = data[TIMETABLE_DIR];
+        dat[SUBJECT_DATA_DIR] = data[SUBJECT_DATA_DIR];
+        dat.startEndDate = [
           new Date(data[START_DATE_DIR]),
           new Date(data[END_DATE_DIR]),
-        ]);
-        StorageManager.updateCache(data);
+        ];
+        StorageManager.getAttendanceData((data) => {
+          dat[ATTENDANCE_DATA_DIR] = data;
+          setFbData(dat);
+          StorageManager.updateCache(dat);
+        });
       }
     });
+  }
 
-    StorageManager.getAttendanceData((data) => {
-      if (Object.keys(data).length > 0) {
-        setAttendanceData(data);
-      }
-    });
-  }, []);
+  useEffect(fetchData, []);
 
   return (
     <>
       <Header signout={signout} editFields={() => setLoginState(true, true)} />
       <Container fluid className="article">
-        <Col lg={7} className="d-none d-lg-inline-block">
-          <CardList
-            allSubjects={subjectList}
-            subjectData={subjectData}
-            subjectsToday={timetable[new Date().getDay() - 1]}
-            toggleCalendar={toggleCalendar}
-          />
-        </Col>
-        <Col lg={4} className="d-none d-lg-inline-block">
-          {showCalendar ? (
-            <h4 style={{ textAlign: "center" }}>
-              {clickedSubject?.code} : {clickedSubject?.name}{" "}
-            </h4>
-          ) : (
-            ""
-          )}
-          <CalendarView
-            range={startEndDate}
-            dates={attendenceDays[clickedSubject?.code]}
-          />
-        </Col>
-        {showCalendar ? (
-          <Col md={12} className="d-block d-lg-none calender-sm">
-            <Button onClick={toggleCalendar}>Back to Cards</Button>
-            <CalendarView
-              range={startEndDate}
-              dates={attendenceDays[clickedSubject?.code]}
+        {!showCalendar || isDesktopSize ? (
+          <Col
+            lg={7}
+            md={12}
+            className={
+              isDesktopSize
+                ? "d-none d-lg-inline-block"
+                : "d-block d-lg-none card-width-max"
+            }
+          >
+            <CardList
+              startEndDate={fbData.startEndDate}
+              allSubjects={fbData[SUBJECT_LIST_DIR]}
+              subjectData={fbData[SUBJECT_DATA_DIR]}
+              timetable={fbData[TIMETABLE_DIR]}
+              toggleCalendar={toggleCalendar}
+              cacheUpdater={fetchData}
             />
           </Col>
         ) : (
-          <Col md={12} className="d-block d-lg-none card-width-max">
-            <CardList
-              allSubjects={subjectList}
-              subjectData={subjectData}
-              subjectsToday={timetable[new Date().getDay() - 1]}
-              toggleCalendar={toggleCalendar}
-            />
-          </Col>
+          ""
+        )}
+
+        {showCalendar || isDesktopSize ? (
+          <>
+            <Col
+              lg={4}
+              md={12}
+              className={
+                (isDesktopSize
+                  ? "d-none d-lg-inline-block"
+                  : "d-block d-lg-none calender-sm") + " calender-col"
+              }
+            >
+              {!isDesktopSize ? (
+                <Button onClick={toggleCalendar}>Back to Cards</Button>
+              ) : (
+                ""
+              )}
+
+              <h5>
+                {showCalendar && clickedSubject != "0"
+                  ? `${clickedSubject?.code} : ${clickedSubject?.name}`
+                  : "Select a subject to see overview"}
+              </h5>
+              <CalendarView
+                range={fbData.startEndDate}
+                selectedSubject={clickedSubject?.code}
+                attendanceData={fbData[ATTENDANCE_DATA_DIR]}
+                timetable={fbData[TIMETABLE_DIR]}
+              />
+            </Col>
+          </>
+        ) : (
+          ""
         )}
       </Container>
     </>

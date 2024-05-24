@@ -10,26 +10,52 @@ import StorageManager from "../methods/StorageManager";
  * @param {Object} param0.attendanceStatus
  * @returns
  */
-const Card = ({ data, onClick, attendanceStatus }) => {
+const Card = ({
+  subjectData,
+  timetable,
+  onClick,
+  attendanceStatus,
+  startEndDate,
+  cacheUpdater,
+}) => {
   let _hasLastUpdate = attendanceStatus.lastUpdate != undefined;
 
-  const [alreadyMarkedAttendence, setAlreadyMarkedAttendence] = useState(
-    _hasLastUpdate
-      ? isSameHourOfDay(new Date(attendanceStatus.lastUpdate), new Date())
-      : false,
-  );
+  let _alreadyMarkedAttendence = _hasLastUpdate
+    ? isSameHourOfDay(new Date(attendanceStatus.lastUpdate), new Date())
+    : false;
+  let _markingStat = _alreadyMarkedAttendence
+    ? attendanceStatus.lastStatus
+    : "";
 
-  const [markedStatus, setMarkedStatus] = useState(
-    alreadyMarkedAttendence ? attendanceStatus.lastStatus : "",
-  );
+  const getColor = (status) =>
+    status == "Absent"
+      ? "#DC3545"
+      : status == "Present"
+        ? "#198754"
+        : "#6c757d";
 
-  const getColor = (status) => (status == "Absent" ? "#DC3545" : "#198754");
-  const [markedColor, setMarkedColor] = useState(getColor(markedStatus));
   const [isMarking, setIsMarking] = useState(false);
-  const [presenceCount, setPresenceCount] = useState({
-    presents: attendanceStatus.presents || 0,
-    total: attendanceStatus.total || 0,
+  let totalHours = 0;
+  const [cardData, setCardData] = useState({
+    markedStatus: _markingStat,
+    alreadyMarkedAttendence: _alreadyMarkedAttendence,
+    markedColor: getColor(_markingStat),
+    presenceCount: {
+      presents: attendanceStatus.presents || 0,
+      no_class: attendanceStatus.no_class || 0,
+    },
   });
+
+  if (isValidDate(startEndDate[0])) {
+    totalHours =
+      computeTotalSubjectHours(
+        startEndDate[0],
+        new Date(),
+        timetable,
+        subjectData.code,
+      ) - cardData.presenceCount.no_class;
+  }
+
   const setPresence = (evt) => {
     evt.stopPropagation();
 
@@ -38,28 +64,35 @@ const Card = ({ data, onClick, attendanceStatus }) => {
 
     let newAttendanceStatus = {
       presents: attendanceStatus.presents, // total present
-      total: attendanceStatus.total + 1, // total classes
+      no_class: attendanceStatus.no_class, // total non-class
       lastUpdate: timeNow, // last updated
       lastStatus: status, // whether absent or present
     };
 
     if (status == "Present") {
       newAttendanceStatus.presents++;
+    } else if (status == "No Class") {
+      newAttendanceStatus.no_class++;
     }
+
     setIsMarking(true);
+
     StorageManager.setAttendanceData(
-      data.code,
+      subjectData.code,
       newAttendanceStatus,
       (success) => {
         if (success) {
           console.log(status);
-          setAlreadyMarkedAttendence(true);
-          setMarkedColor(getColor(status));
-          setMarkedStatus(status);
-          setPresenceCount({
-            presents: newAttendanceStatus.presents,
-            total: newAttendanceStatus.total,
+          setCardData({
+            alreadyMarkedAttendence: true,
+            markedColor: getColor(status),
+            markedStatus: status,
+            presenceCount: {
+              presents: newAttendanceStatus.presents,
+              no_class: newAttendanceStatus.no_class,
+            },
           });
+          cacheUpdater();
         } else {
           alert("Couldn't update attendance");
         }
@@ -69,36 +102,41 @@ const Card = ({ data, onClick, attendanceStatus }) => {
   };
 
   let showAttendanceMarker =
-    attendanceStatus.noupdate != true || alreadyMarkedAttendence;
+    attendanceStatus.noupdate != true || cardData.alreadyMarkedAttendence;
 
-  if (data != undefined)
+  if (subjectData != undefined)
     return (
       <Col
         md={12}
         lg={6}
-        onClick={onClick}
         style={{
-          cursor: "pointer",
           display: "flex",
           justifyContent: "center",
         }}
       >
-        <div className="card">
+        <div className="card" onClick={onClick}>
           <div className="flex-col">
             <div>
-              <h5>{data.code}</h5>
-              <p>{data.name}</p>
+              <h5>{subjectData.code}</h5>
+              <p>{subjectData.name}</p>
             </div>
             <div className="attendence">
-              {presenceCount.presents}/{presenceCount.total}
+              {cardData.presenceCount.presents}/{totalHours}
             </div>
           </div>
 
           {showAttendanceMarker ? <hr /> : ""}
 
           {showAttendanceMarker ? (
-            alreadyMarkedAttendence ? (
-              <InfoBar color={markedColor} info={"Marked " + markedStatus} />
+            cardData.alreadyMarkedAttendence ? (
+              <InfoBar
+                color={cardData.markedColor}
+                info={
+                  "Marked " +
+                  cardData.markedStatus +
+                  (cardData.markedStatus == "No Class" ? " today" : "")
+                }
+              />
             ) : isMarking ? (
               <InfoBar color={"var(--text-color)"} info={"Marking..."} />
             ) : (
@@ -108,6 +146,9 @@ const Card = ({ data, onClick, attendanceStatus }) => {
                 </Button>
                 <Button onClick={setPresence} variant="danger">
                   Absent
+                </Button>
+                <Button onClick={setPresence} variant="secondary">
+                  No Class
                 </Button>
               </ButtonGroup>
             )
@@ -121,6 +162,30 @@ const Card = ({ data, onClick, attendanceStatus }) => {
     return <></>;
   }
 };
+
+function computeTotalSubjectHours(start, end, timetable, subjectCode) {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const oneDay = 24 * 60 * 60 * 1000;
+  let totalHours = 0;
+
+  function isWeekday(date) {
+    const day = date.getDay();
+    return day >= 1 && day <= 5;
+  }
+
+  for (let d = startDate; d <= endDate; d = new Date(d.getTime() + oneDay)) {
+    if (isWeekday(d)) {
+      let weekI = d.getDay() - 1;
+      for (let slot = 0; slot < timetable[weekI].length; slot++) {
+        if (timetable[weekI][slot] == subjectCode) {
+          totalHours++;
+        }
+      }
+    }
+  }
+  return totalHours;
+}
 
 function InfoBar({ color, info }) {
   return (
@@ -150,4 +215,7 @@ function isSameHourOfDay(date1, date2) {
   );
 }
 
+function isValidDate(d) {
+  return d instanceof Date && !isNaN(d);
+}
 export default Card;

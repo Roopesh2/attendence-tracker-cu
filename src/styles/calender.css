@@ -11,6 +11,14 @@
   color: red;
 }
 
+.future {
+  color: #aaa;
+  background-color: #f7f7f7;
+}
+
+.calender-col h5 {
+  text-align: center;
+}
 
 .react-calendar {
   border: none;
@@ -34,35 +42,4 @@
 .react-calendar__navigation button:disabled {
   background-color: transparent;
   color: #ccc;
-}
-/*
-.react-calendar__navigation {
-  font-weight: bold;
-  font-size: 1rem;
-  color: var(--text-color);
-}
-
-.react-calendar__navigation * {
-  color: var(--text-color) !important;
-}
-
-.react-calendar__tile {
-  border-radius: 5px;
-  padding: 10px 5px;
-  margin: 2px;
-}
-
-.react-calendar__tile--now,
-.react-calendar__tile--now * {
-  background-color: transparent;
-  border: 1px solid var(--text-color);
-}
-
-.react-calendar__tile--active {
-  color: var(--text-color);
-}
-
-.react-calendar__tile:enabled:hover {
-  background-color: var(--card-hover-bg);
-  cursor: pointer;
 }

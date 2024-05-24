@@ -2,37 +2,64 @@ import React, { useState } from "react";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./styles/calender.css";
+import { NO_CLASS_DIR, PRESENTS_DIR, TIMETABLE_EMPTY } from "./methods/consts";
 
 /**
  *
  * @param {Object} param0
- * @param {Array<number>} param0.dates
+ * @param {Object} param0.attendanceData
+ * @param {string|undefined} param0.selectedSubject
  * @param {Array<Date>} param0.range
- * @returns
+ * @param {Array<Array<string>>} param0.timetable
  */
-function CalendarView({ dates = [], range = [] }) {
-  const [date, setDate] = useState(new Date());
+function CalendarView({
+  attendanceData = {},
+  selectedSubject,
+  range = [],
+  timetable = TIMETABLE_EMPTY,
+}) {
+  const [currentDate, setDate] = useState(new Date());
 
   const onChange = (date) => {
     setDate(date);
   };
 
-  let _dates = [...dates];
+  let presentDates = attendanceData[PRESENTS_DIR]?.[selectedSubject] || [],
+    noClassDates = attendanceData[NO_CLASS_DIR]?.[selectedSubject] || [];
   function tileClassName({ date, view }) {
     if (view == "month") {
+      const dateNow = new Date();
+
+      if (dateNow < date && dateNow.getDate() != date.getDate()) {
+        return "future";
+      }
+
       if (date.getDay() == 0 || date.getDay() == 6) {
         return "weekend";
       }
-      for (let absData of _dates) {
-        let absDate = new Date(absData);
-        if (
-          date.getDate() == absDate.getDate() &&
-          date.getMonth() == absDate.getMonth() &&
-          date.getFullYear() == absDate.getFullYear()
-        ) {
+
+      try {
+        if (timetable[date.getDay() - 1].indexOf(selectedSubject) < 0) {
+          return "no-class";
+        }
+      } catch (err) {
+        console.log(timetable);
+      }
+
+      for (let presentDate of presentDates) {
+        presentDate = new Date(presentDate);
+        if (isSameDate(date, presentDate)) {
           return "present";
         }
       }
+
+      for (let noClassDate of noClassDates) {
+        noClassDate = new Date(noClassDate);
+        if (isSameDate(date, noClassDate)) {
+          return "no-class";
+        }
+      }
+
       return "absent";
     }
   }
@@ -41,12 +68,20 @@ function CalendarView({ dates = [], range = [] }) {
     <div>
       <Calender
         onChange={onChange}
-        value={date}
+        value={currentDate}
         tileClassName={tileClassName}
         minDate={range[0]}
         maxDate={range[1]}
       />
     </div>
+  );
+}
+
+function isSameDate(date1, date2) {
+  return (
+    date1.getDate() == date2.getDate() &&
+    date1.getMonth() == date2.getMonth() &&
+    date1.getFullYear() == date2.getFullYear()
   );
 }
 

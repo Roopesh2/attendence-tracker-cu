@@ -7,13 +7,8 @@ const USER_DIR = "user_data",
     .map(() => Array(6).fill("")),
   POPUP_BOX_SHADOW = "rgba(100, 100, 111, 0.2) 0px 7px 20px 0px",
   SUBJECT_DATA_DIR = "subject_data",
+  ATTENDANCE_DATA_DIR = "attendance_data",
   PRESENTS_DIR = "presents",
-  NULL_ATT_STATUS = {
-    presents: 0,
-    total: 0,
-    lastUpdate: undefined,
-    lastStatus: "",
-  },
   SUBJ_HOUR_INDEX_LOOKUP = {
     9: 0,
     10: 1,
@@ -23,7 +18,14 @@ const USER_DIR = "user_data",
     15: 5,
   },
   START_DATE_DIR = "class_start_date",
-  END_DATE_DIR = "class_end_date";
+  END_DATE_DIR = "class_end_date",
+  NO_CLASS_DIR = "no_class",
+  NULL_ATT_STATUS = {
+    [PRESENTS_DIR]: 0,
+    [NO_CLASS_DIR]: 0,
+    lastUpdate: undefined,
+    lastStatus: "",
+  };
 
 export {
   USER_DIR,
@@ -34,8 +36,10 @@ export {
   POPUP_BOX_SHADOW,
   SUBJECT_DATA_DIR,
   PRESENTS_DIR,
+  ATTENDANCE_DATA_DIR,
   NULL_ATT_STATUS,
   SUBJ_HOUR_INDEX_LOOKUP,
   START_DATE_DIR,
   END_DATE_DIR,
+  NO_CLASS_DIR,
 };

@@ -20,13 +20,15 @@ import {
 } from "firebase/firestore";
 import {
   END_DATE_DIR,
-  PRESENTS_DIR,
+  NO_CLASS_DIR,
+  ATTENDANCE_DATA_DIR,
   START_DATE_DIR,
   SUBJECT_DATA_DIR,
   SUBJECT_LIST_DIR,
   TIMETABLE_DIR,
   TIMETABLE_EMPTY,
   USER_DIR,
+  PRESENTS_DIR,
 } from "./consts";
 import AuthManager from "./AuthManager";
 
@@ -64,13 +66,19 @@ const StorageManager = {
       callback(false);
       return;
     }
-    const docSnap = await getDoc(doc(db, USER_DIR, uid));
-    if (docSnap.exists()) {
-      let data = docSnap.data();
-      data["timetable"] = JSON.parse(data["timetable"]);
-      callback(data);
-    } else {
-      callback(false);
+    try {
+      const docSnap = await getDoc(doc(db, USER_DIR, uid));
+      if (docSnap.exists()) {
+        let data = docSnap.data();
+        data["timetable"] = JSON.parse(data["timetable"]);
+        callback(data);
+      } else {
+        callback(false);
+      }
+    } catch (err) {
+      // couldnt retrieve possible
+      console.log(err);
+      alert(err);
     }
   },
 
@@ -110,8 +118,14 @@ const StorageManager = {
     };
     try {
       let uid = AuthManager.getUID();
+
       setDoc(doc(db, USER_DIR, uid), dat).then(() => {
-        const collectionRef = collection(db, USER_DIR, uid, PRESENTS_DIR);
+        const collectionRef = collection(
+          db,
+          USER_DIR,
+          uid,
+          ATTENDANCE_DATA_DIR,
+        );
         try {
           // checks if the documents exists or not
           subjectList.forEach(async (subject, _) => {
@@ -120,6 +134,7 @@ const StorageManager = {
             if (!docSnap.exists()) {
               await setDoc(docRef, {
                 [PRESENTS_DIR]: [],
+                [NO_CLASS_DIR]: [],
               });
             }
           });
@@ -174,7 +189,7 @@ const StorageManager = {
       await setDoc(
         doc(db, USER_DIR, AuthManager.getUID()),
         {
-          [SUBJECT_LIST_DIR]: subj_data,
+          [SUBJECT_DATA_DIR]: subj_data,
         },
         { merge: true },
       );
@@ -202,16 +217,23 @@ const StorageManager = {
   },
 
   getAttendanceData: async (callback) => {
-    const obj = {};
+    const obj = {
+      [PRESENTS_DIR]: {},
+      [NO_CLASS_DIR]: {},
+    };
     try {
-      const coll = collection(db, USER_DIR, AuthManager.getUID(), PRESENTS_DIR);
+      const coll = collection(
+        db,
+        USER_DIR,
+        AuthManager.getUID(),
+        ATTENDANCE_DATA_DIR,
+      );
       const collSnap = await getDocs(coll);
       if (!collSnap.empty) {
         collSnap.forEach((doc) => {
-          obj[doc.id] = doc.data()[PRESENTS_DIR];
+          obj[PRESENTS_DIR][doc.id] = doc.data()[PRESENTS_DIR];
+          obj[NO_CLASS_DIR][doc.id] = doc.data()[NO_CLASS_DIR];
         });
-      } else {
-        // console.log("no absent records", collSnap);
       }
     } catch (err) {
       console.error("error reading document, returning {}", err);
@@ -225,28 +247,38 @@ const StorageManager = {
   setAttendanceData: (code, newAttendance, callback = () => {}) => {
     try {
       let uid = AuthManager.getUID();
-      const presentsRef = doc(db, USER_DIR, uid, PRESENTS_DIR, code);
+      const attendanceRef = doc(db, USER_DIR, uid, ATTENDANCE_DATA_DIR, code);
       const topLevelRef = doc(db, USER_DIR, uid);
       let toplevel = StorageManager.getSubjectDataFromCache();
       toplevel[code] = newAttendance;
-
       updateDoc(topLevelRef, {
         [SUBJECT_DATA_DIR]: toplevel,
-      }).then(() => {
-        // append present list
-        if (newAttendance.lastStatus == "Present") {
-          updateDoc(presentsRef, {
-            [PRESENTS_DIR]: arrayUnion(newAttendance.lastUpdate),
-          }).then(() => {
+      })
+        .then(() => {
+          // append present list
+          if (newAttendance.lastStatus == "Present") {
+            updateDoc(attendanceRef, {
+              [PRESENTS_DIR]: arrayUnion(newAttendance.lastUpdate),
+            }).then(() => {
+              callback(true);
+            });
+          } else if (newAttendance.lastStatus == "No Class") {
+            updateDoc(attendanceRef, {
+              [NO_CLASS_DIR]: arrayUnion(newAttendance.lastUpdate),
+            }).then(() => {
+              callback(true);
+            });
+          } else {
             callback(true);
-          });
-        } else {
-          callback(true);
-        }
-      });
+          }
+        })
+        .catch((err) => {
+          callback(false);
+          console.error("Failed to update status: ", err);
+        });
     } catch (err) {
       callback(false);
-      console.error("Failed to update status");
+      console.error("Failed to update status: ", err);
     }
   },
 

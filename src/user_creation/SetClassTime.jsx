@@ -46,8 +46,8 @@ export default function TimeTable({ next, previous, close }) {
   };
 
   const handlePrevious = () => {
-    StorageManager.setCache(START_DATE_DIR, startDate.getTime());
-    StorageManager.setCache(END_DATE_DIR, endDate.getTime());
+    StorageManager.setCache(START_DATE_DIR, startDate?.getTime());
+    StorageManager.setCache(END_DATE_DIR, endDate?.getTime());
     previous();
   };
   return (
