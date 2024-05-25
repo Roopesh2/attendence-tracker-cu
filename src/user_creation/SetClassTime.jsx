@@ -6,7 +6,7 @@ import {
 } from "../methods/consts";
 import { Alert, Button, Col, Form } from "react-bootstrap";
 import ReactDatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker.min.css";
 import StorageManager from "../methods/StorageManager";
 
 export default function TimeTable({ next, previous, close }) {

@@ -6,7 +6,7 @@ export function LoginScreen({ setLoginState }) {
     <div className="login-container">
       <div className="app-details">
         <h2>Welcome</h2>
-        <img src="../public/logo-2.png" />
+        <img src="src/assets/logo.svg" />
       </div>
       <div className="login-form">
         <h1 className="app-name">Track Well</h1>

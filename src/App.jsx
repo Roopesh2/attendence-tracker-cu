@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Homepage from "./Home";
 import AuthManager from "./methods/AuthManager";
 import DataInitiation from "./user_creation/DataInitiation";

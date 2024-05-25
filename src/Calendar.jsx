@@ -38,12 +38,8 @@ function CalendarView({
         return "weekend";
       }
 
-      try {
-        if (timetable[date.getDay() - 1].indexOf(selectedSubject) < 0) {
-          return "no-class";
-        }
-      } catch (err) {
-        console.log(timetable);
+      if (timetable[date.getDay() - 1].indexOf(selectedSubject) < 0) {
+        return "no-class";
       }
 
       for (let presentDate of presentDates) {

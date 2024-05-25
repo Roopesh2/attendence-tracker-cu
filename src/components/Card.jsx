@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Col, Button, ButtonGroup, Container } from "react-bootstrap";
 import StorageManager from "../methods/StorageManager";
 
