@@ -56,26 +56,3 @@ export function removeNonExistantEntries(arr, allowlist) {
   }
   return arr;
 }
-
-let s = [
-  {
-    date: new Date("2024-05-22"),
-    hour: 1,
-  },
-  {
-    date: new Date("2024-05-20"),
-    hour: 2,
-  },
-  {
-    date: new Date("2024-05-15"),
-    hour: 3,
-  },
-  {
-    date: new Date("2024-05-10"),
-    hour: 4,
-  },
-  {
-    date: new Date("2024-05-01"),
-    hour: 3,
-  },
-];

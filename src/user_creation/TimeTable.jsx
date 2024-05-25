@@ -58,26 +58,26 @@ function TimeTable({ next, previous }) {
     console.log(timetable);
     let [isnf, fullyFilled] = validateTable(timetable, isNotFilled);
     StorageManager.setTimeTable(timetable, true);
-    // if (fullyFilled) {
-    setIsLoading(true);
-    StorageManager.initializeFields(
-      timetable,
-      StorageManager.getSubjectListFromCache(),
-      {},
-      StorageManager.getCache(START_DATE_DIR),
-      StorageManager.getCache(END_DATE_DIR),
-      (success) => {
-        setIsLoading(false);
-        if (success) {
-          next();
-        } else {
-          alert("Couldn't update status please try again.");
-        }
-      },
-    );
-    // } else {
-    //   setIsNotFilled(isnf);
-    // }
+    if (fullyFilled) {
+      setIsLoading(true);
+      StorageManager.initializeFields(
+        timetable,
+        StorageManager.getSubjectListFromCache(),
+        {},
+        StorageManager.getCache(START_DATE_DIR),
+        StorageManager.getCache(END_DATE_DIR),
+        (success) => {
+          setIsLoading(false);
+          if (success) {
+            next();
+          } else {
+            alert("Couldn't update status please try again.");
+          }
+        },
+      );
+    } else {
+      setIsNotFilled(isnf);
+    }
   };
 
   const handlePrevious = () => {

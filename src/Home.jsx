@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles/home.css";
 import CardList from "./components/CardList";
 import Header from "./Header";
@@ -16,7 +16,7 @@ import {
   TIMETABLE_EMPTY,
 } from "./methods/consts";
 
-const Homepage = ({ setLoginState } = props) => {
+const Homepage = ({ setLoginState }) => {
   function signout() {
     setLoginState(false, false);
   }

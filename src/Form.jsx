@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./styles/form.css";
@@ -64,7 +64,7 @@ export const FormView = ({ setLoginState }) => {
       }
     } else {
       setIsLoading(true);
-      AuthManager.login(email, password, (success, errorCode) => {
+      AuthManager.login(email, password, (success, _) => {
         setIsLoading(false);
         if (success) {
           setLoginState(true, false);

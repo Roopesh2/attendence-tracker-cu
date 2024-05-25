@@ -44,9 +44,9 @@ const AuthManager = {
   login: (email, password, callback) => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then((_) => {
         // Signed in
-        // const user = userCredential.user;
+        // const user = _.user;
         callback(true);
       })
       .catch((error) => {
@@ -65,9 +65,9 @@ const AuthManager = {
   signUp: (email, password, callback) => {
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then((_) => {
         // Signed up
-        // const user = userCredential.user;
+        // const user = _.user;
         callback(true);
       })
       .catch((error) => {

@@ -45,7 +45,6 @@ const StorageManager = {
    * @param {boolean} saveToCache whether to store it now and then store it in cloud
    */
   setSubjectList: async (subjects, saveToCache = false) => {
-    subjects = subjects;
     if (saveToCache) {
       localStorage.setItem(SUBJECT_LIST_DIR, JSON.stringify(subjects));
     } else {
@@ -158,9 +157,8 @@ const StorageManager = {
    * Saves timetable
    * @param {Array<Array<string>>} timetable timetable
    * @param {boolean} saveToCache whether to store it now and then store it in cloud
-   * @param {Function} cb callback
    */
-  setTimeTable: (timetable, saveToCache = false, cb = () => {}) => {
+  setTimeTable: (timetable, saveToCache = false) => {
     timetable = JSON.stringify(timetable);
     if (saveToCache) {
       localStorage.setItem(TIMETABLE_DIR, timetable);
@@ -182,7 +180,6 @@ const StorageManager = {
    * @param {boolean} saveToCache whether to store it now and then store it in cloud
    */
   setSubjectData: async (subj_data, saveToCache = false) => {
-    subj_data = subj_data;
     if (saveToCache) {
       localStorage.setItem(SUBJECT_DATA_DIR, subj_data);
     } else {
