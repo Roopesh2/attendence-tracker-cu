@@ -15,3 +15,7 @@ form .heading {
   color: red;
   margin: 0;
 }
+
+.input-group-text {
+  cursor: pointer;
+}

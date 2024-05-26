@@ -1,9 +1,11 @@
+import { InputGroup } from "react-bootstrap";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./styles/form.css";
 import AuthManager from "./methods/AuthManager";
 import StorageManager from "./methods/StorageManager";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export const FormView = ({ setLoginState }) => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -11,6 +13,14 @@ export const FormView = ({ setLoginState }) => {
   const [passwordSame, setPasswordSame] = useState(true);
   const [emailInvalidMessage, setEmailInalidMessage] = useState("");
   const [passwordInvalidMessage, setPasswordInvalidMessage] = useState("");
+  const [showPass1, setShowPass1] = useState(false);
+  const [showPass2, setShowPass2] = useState(false);
+  const showPassHandler1 = () => {
+    setShowPass1((prev) => !prev);
+  };
+  const showPassHandler2 = () => {
+    setShowPass2((prev) => !prev);
+  };
   const toggleAuthMode = () => {
     setIsSignUp(!isSignUp);
     setEmailInalidMessage("");
@@ -94,12 +104,17 @@ export const FormView = ({ setLoginState }) => {
 
       <Form.Group className="mb-3 no-margin" controlId="formBasicPassword">
         <Form.Label className="input-label">Password</Form.Label>
-        <Form.Control
-          onBlur={isSignUp ? validatePassword : () => {}}
-          type="password"
-          placeholder="Password"
-          required
-        />
+        <InputGroup>
+          <Form.Control
+            onBlur={isSignUp ? validatePassword : () => {}}
+            type={showPass1 ? "Text" : "password"}
+            placeholder="Password"
+            required
+          />
+          <InputGroup.Text onClick={showPassHandler1}>
+            {showPass1 ? <FaEyeSlash /> : <FaEye />}
+          </InputGroup.Text>
+        </InputGroup>
         {passwordInvalidMessage != "" ? (
           <p className="wrong">{passwordInvalidMessage}</p>
         ) : (
@@ -109,11 +124,16 @@ export const FormView = ({ setLoginState }) => {
       {isSignUp && (
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label className="input-label">Confirm password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Confirm password"
-            required
-          />
+          <InputGroup>
+            <Form.Control
+              type={showPass2 ? "Text" : "password"}
+              placeholder="Confirm password"
+              required
+            />
+            <InputGroup.Text onClick={showPassHandler2}>
+              {showPass2 ? <FaEyeSlash /> : <FaEye />}
+            </InputGroup.Text>
+          </InputGroup>
           {!passwordSame && <p className="wrong">Password do not match!</p>}
         </Form.Group>
       )}

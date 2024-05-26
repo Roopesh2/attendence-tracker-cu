@@ -1,6 +1,6 @@
 import { FormView } from "./Form";
 import "./styles/login_screen.css";
-import logo from "./assets/logo.svg"
+import logo from "./assets/logo.svg";
 export function LoginScreen({ setLoginState }) {
   return (
     <div className="login-container">

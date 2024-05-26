@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Table from "react-bootstrap/Table";
 import DropdownButton from "../dropdown";
 import { Button, Col } from "react-bootstrap";

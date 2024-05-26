@@ -2,11 +2,11 @@ import Button from "react-bootstrap/Button";
 import "./styles/header.css";
 
 /**
- * 
- * @param {Object} param0 
- * @param {Function} param0.signout 
+ *
+ * @param {Object} param0
+ * @param {Function} param0.signout
  * @param {Function} param0.editFields
- * @returns 
+ * @returns
  */
 const Header = ({ signout, editFields }) => (
   <header>
