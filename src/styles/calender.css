@@ -6,6 +6,10 @@
   color: rgb(27, 231, 27);
   font-weight: 600;
 }
+.partial-present {
+  color: rgb(190, 231, 27);
+  font-weight: 600;
+}
 
 .absent {
   color: red;

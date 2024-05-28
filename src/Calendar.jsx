@@ -3,11 +3,19 @@ import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./styles/calender.css";
 import { NO_CLASS_DIR, PRESENTS_DIR, TIMETABLE_EMPTY } from "./methods/consts";
+import { getDate, isFuture, isWeekday } from "./methods/file_ops";
+
+/**
+ *  @typedef {Object} AttendanceData
+ * @prop {Object<string, Object<string, Array<number>>} presents
+ * @prop {Object<string, Object<string, Array<number>>} no_class
+ *
+ */
 
 /**
  *
  * @param {Object} param0
- * @param {Object} param0.attendanceData
+ * @param {AttendanceData} param0.attendanceData
  * @param {string|undefined} param0.selectedSubject
  * @param {Array<Date>} param0.range
  * @param {Array<Array<string>>} param0.timetable
@@ -24,44 +32,47 @@ function CalendarView({
     setDate(date);
   };
 
-  let presentDates = attendanceData[PRESENTS_DIR]?.[selectedSubject] || [],
-    noClassDates = attendanceData[NO_CLASS_DIR]?.[selectedSubject] || [];
-  function tileClassName({ date, view }) {
+  let presentDates = attendanceData[PRESENTS_DIR]?.[selectedSubject] || {},
+    noClassDates = attendanceData[NO_CLASS_DIR]?.[selectedSubject] || {};
+  function tileClassName({ date: calendarDate, view }) {
     if (view == "month") {
       const dateNow = new Date();
 
-      if (dateNow < date && dateNow.getDate() != date.getDate()) {
+      if (isFuture(calendarDate, dateNow)) {
         return "future";
       }
 
-      if (date.getDay() == 0 || date.getDay() == 6) {
+      if (!isWeekday(calendarDate)) {
         return "weekend";
       }
+      if (selectedSubject == undefined || selectedSubject == "") return "";
 
-      let hoursInDay = timetable[date.getDay() - 1].reduce((count, sub) =>
-        sub == selectedSubject ? count + 1 : count,
-      );
+      let hoursInDay = 0,
+        subjectsList = timetable[calendarDate.getDay() - 1],
+        calendarDateStr = getDate(calendarDate);
+      for (let i = 0; i < subjectsList.length; i++) {
+        if (subjectsList[i] == selectedSubject) hoursInDay++;
+      }
+      if (noClassDates[calendarDateStr] != undefined) {
+        hoursInDay -= noClassDates[calendarDateStr].length;
+      }
+
       if (hoursInDay == 0) {
         return "no-class";
       }
 
-      for (let i = 0; i < presentDates.length; i++) {
-        let presentDate = new Date(presentDates[i]);
-        if (presentDate > dateNow) break;
-        if (isSameDate(date, presentDate)) {
-          return "present";
-        }
-      }
+      //--- there was class
 
-      for (let i = 0; i < noClassDates.length; i++) {
-        let noClassDate = new Date(noClassDate);
-        if (noClassDate > dateNow) break;
-        if (isSameDate(date, noClassDate)) {
-          return "no-class";
-        }
-      }
+      const presentDateTS = presentDates[calendarDateStr];
+      if (presentDateTS == undefined || presentDateTS.length == 0)
+        return "absent";
 
-      return "absent";
+      // present
+      if (presentDateTS.length == hoursInDay) {
+        return "present";
+      } else {
+        return "partial-present";
+      }
     }
   }
 

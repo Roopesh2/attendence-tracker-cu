@@ -56,3 +56,22 @@ export function removeNonExistantEntries(arr, allowlist) {
   }
   return arr;
 }
+
+/**
+ * converts given date to yyyy-m(m)-dd form
+ * @param {Date|number|string} date
+ * @returns {string};
+ */
+export function getDate(date) {
+  date = new Date(date);
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+}
+
+export function isWeekday(date) {
+  const day = date.getDay();
+  return day >= 1 && day <= 5;
+}
+
+export function isFuture(date, dateNow) {
+  return date > dateNow && dateNow.getDate() != date.getDate();
+}

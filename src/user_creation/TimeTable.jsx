@@ -34,7 +34,6 @@ function TimeTable({ next, previous }) {
 
   const handleSelect = (dayIndex, hourIndex, subject) => {
     const newTimetable = [...timetable];
-    console.log(subject);
     newTimetable[dayIndex][hourIndex] = subject;
     setTimetable(newTimetable);
   };

@@ -31,6 +31,7 @@ import {
   PRESENTS_DIR,
 } from "./consts";
 import AuthManager from "./AuthManager";
+import { getDate } from "./file_ops";
 
 const StorageManager = {
   /**
@@ -76,8 +77,8 @@ const StorageManager = {
       }
     } catch (err) {
       // couldnt retrieve possible
-      console.log(err);
-      alert(err);
+      console.trace(err);
+      if (String(err).indexOf("permission-denied") < 0) alert(err);
     }
   },
 
@@ -119,21 +120,21 @@ const StorageManager = {
       let uid = AuthManager.getUID();
 
       setDoc(doc(db, USER_DIR, uid), dat).then(() => {
-        const collectionRef = collection(
+        const attendanceCollRef = collection(
           db,
           USER_DIR,
           uid,
           ATTENDANCE_DATA_DIR,
         );
         try {
-          // checks if the documents exists or not
+          // checks if the subject attendance exists, if not it will create new one
           subjectList.forEach(async (subject, _) => {
-            const docRef = doc(collectionRef, `${subject.code}`);
+            const docRef = doc(attendanceCollRef, String(subject.code));
             const docSnap = await getDoc(docRef);
             if (!docSnap.exists()) {
               await setDoc(docRef, {
-                [PRESENTS_DIR]: [],
-                [NO_CLASS_DIR]: [],
+                [PRESENTS_DIR]: {},
+                [NO_CLASS_DIR]: {},
               });
             }
           });
@@ -219,13 +220,13 @@ const StorageManager = {
       [NO_CLASS_DIR]: {},
     };
     try {
-      const coll = collection(
+      const attendanceCollRef = collection(
         db,
         USER_DIR,
         AuthManager.getUID(),
         ATTENDANCE_DATA_DIR,
       );
-      const collSnap = await getDocs(coll);
+      const collSnap = await getDocs(attendanceCollRef);
       if (!collSnap.empty) {
         collSnap.forEach((doc) => {
           obj[PRESENTS_DIR][doc.id] = doc.data()[PRESENTS_DIR];
@@ -233,6 +234,7 @@ const StorageManager = {
         });
       }
     } catch (err) {
+      alert("Couldn't fetch attendance data");
       console.error("error reading document, returning {}", err);
     }
 
@@ -243,32 +245,15 @@ const StorageManager = {
 
   setAttendanceData: (code, newAttendance, callback = () => {}) => {
     try {
-      let uid = AuthManager.getUID();
-      const attendanceRef = doc(db, USER_DIR, uid, ATTENDANCE_DATA_DIR, code);
-      const topLevelRef = doc(db, USER_DIR, uid);
+      const topLevelRef = doc(db, USER_DIR, AuthManager.getUID());
       let toplevel = StorageManager.getSubjectDataFromCache();
       toplevel[code] = newAttendance;
       updateDoc(topLevelRef, {
         [SUBJECT_DATA_DIR]: toplevel,
       })
-        .then(() => {
-          // append present list
-          if (newAttendance.lastStatus == "Present") {
-            updateDoc(attendanceRef, {
-              [PRESENTS_DIR]: arrayUnion(newAttendance.lastUpdate),
-            }).then(() => {
-              callback(true);
-            });
-          } else if (newAttendance.lastStatus == "No Class") {
-            updateDoc(attendanceRef, {
-              [NO_CLASS_DIR]: arrayUnion(newAttendance.lastUpdate),
-            }).then(() => {
-              callback(true);
-            });
-          } else {
-            callback(true);
-          }
-        })
+        .then(() =>
+          StorageManager.updateAttendanceColl(code, newAttendance, callback),
+        )
         .catch((err) => {
           callback(false);
           console.error("Failed to update status: ", err);
@@ -276,6 +261,37 @@ const StorageManager = {
     } catch (err) {
       callback(false);
       console.error("Failed to update status: ", err);
+    }
+  },
+
+  updateAttendanceColl: (code, newAttendance, callback) => {
+    const attendanceCollRef = doc(
+      db,
+      USER_DIR,
+      AuthManager.getUID(),
+      ATTENDANCE_DATA_DIR,
+      code,
+    );
+    let date = getDate(newAttendance.lastUpdate);
+
+    // append present list
+    switch (newAttendance.lastStatus) {
+      case "Present":
+        updateAttendance(PRESENTS_DIR);
+        break;
+      case "No Class":
+        updateAttendance(NO_CLASS_DIR);
+        break;
+      default:
+        callback(true);
+    }
+    function updateAttendance(dir) {
+      updateDoc(attendanceCollRef, {
+        // https://stackoverflow.com/a/49151326/13265356
+        [`${dir}.${date}`]: arrayUnion(newAttendance.lastUpdate),
+      }).then(() => {
+        callback(true);
+      });
     }
   },
 

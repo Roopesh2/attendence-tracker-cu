@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Col, Button, ButtonGroup, Container } from "react-bootstrap";
 import StorageManager from "../methods/StorageManager";
+import { isWeekday } from "../methods/file_ops";
 
 /**
  *
@@ -167,11 +168,6 @@ function computeTotalSubjectHours(start, end, timetable, subjectCode) {
   const endDate = new Date(end);
   const oneDay = 24 * 60 * 60 * 1000;
   let totalHours = 0;
-
-  function isWeekday(date) {
-    const day = date.getDay();
-    return day >= 1 && day <= 5;
-  }
 
   for (let d = startDate; d <= endDate; d = new Date(d.getTime() + oneDay)) {
     if (isWeekday(d)) {

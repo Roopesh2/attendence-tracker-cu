@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "local": "rm public -rf && prettier . --write && npm run build",
     "build": "vite build",
     "host": "firebase deploy --only hosting",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",

@@ -4,6 +4,7 @@
   width: calc(100% - 10px);
   box-shadow: var(--card-shadow);
   cursor: pointer;
+  margin: 10px;
 }
 
 .card h5 {
@@ -40,6 +41,10 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: space-around;
+  }
+
+  .card-list > div {
+    padding: 0;
   }
   .card-width-max {
     width: 100%;
