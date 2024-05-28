@@ -1,0 +1,29 @@
+header {
+  padding: 0 0 1rem 0;
+  display: flex;
+  padding: 1.5rem;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #fff;
+  box-shadow:
+    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+header h1 {
+  font-weight: 700;
+  text-align: center;
+}
+
+header .btn {
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
+}
+
+.flex-inline-container {
+  display: inline-flex;
+  gap: 0.8rem;
+}

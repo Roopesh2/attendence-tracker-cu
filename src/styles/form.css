@@ -1,0 +1,21 @@
+.input-label {
+  font-weight: 600;
+}
+
+form .heading {
+  text-align: center;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrong {
+  color: red;
+  margin: 0;
+}
+
+.input-group-text {
+  cursor: pointer;
+}

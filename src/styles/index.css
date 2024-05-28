@@ -1,0 +1,134 @@
+:root {
+  --background-color: #f2f2f2;
+  --text-color: #000;
+
+  --form-hover-bg: #;
+  --card-bg: #1289a7;
+  --card-hover-bg: #173857;
+  --card-text: #fff;
+  --card-shadow: rgba(0, 0, 0, 0.16) 0px 0px 10px;
+
+  --form-bg: var(--background-color);
+  --form-shadow: var(--card-shadow);
+
+  --input-border: 2px solid #b7b6b6;
+  --input-border-focus: 2px solid #d5d4d4;
+  --input-placeholder-text: #585858;
+}
+/*
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: #1a1e27;
+    --text-color: #fafafa;
+
+    --card-bg: #132d46;
+    --card-hover-bg: #173857;
+    --card-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+    --form-bg: var(--background-color);
+    --form-shadow: var(--card-shadow);
+
+    --input-border: 2px solid #b7b6b6;
+    --input-border-focus: 2px solid #eaeaea;
+    --input-placeholder-text: #d5d4d4;
+  }
+} */
+
+/* * {
+  box-sizing: border-box;
+} */
+
+/* form {
+  background-color: var(--form-bg);
+  box-shadow: var(--form-shadow);
+  color: var(--form-text);
+}
+
+.card {
+  background-color: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  color: var(--card-text);
+}
+
+.card:hover {
+  background-color: var(--card-hover-bg);
+}
+
+body {
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+input {
+  border: var(--input-border) !important;
+  background-color: transparent !important;
+  outline: none !important;
+}
+
+input::placeholder {
+  color: var(--input-placeholder-text) !important;
+}
+
+input:focus {
+  border: var(--input-border-focus) !important;
+} */
+
+#root {
+  width: 100%;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+}
+
+.max-width {
+  width: 100%;
+  height: 100%;
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: inherit;
+  cursor: pointer;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--card-shadow);
+  margin: 10px;
+  padding: 20px 20px 20px 20px;
+  border-radius: 30px;
+}
+
+form .heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+form .heading > h2 {
+  flex-grow: 1;
+}
+
+.table th {
+  text-align: left;
+  vertical-align: middle;
+}
+
+.app-name {
+  font-size: 2.3rem;
+}

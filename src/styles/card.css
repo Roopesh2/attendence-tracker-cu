@@ -1,0 +1,60 @@
+.card {
+  padding: 0.8rem;
+  border-radius: 15px;
+  width: calc(100% - 10px);
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+}
+
+.card h5 {
+  font-weight: 600;
+}
+
+.card p {
+  margin: 0;
+}
+
+/* button group */
+.card > div {
+  width: 100%;
+  padding-top: 5px;
+}
+
+.card > .flex-col {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card > hr {
+  margin: 0.5rem 0 0.5rem 0;
+}
+
+.card > .btn-group {
+  padding: 0.2rem 0 0.4rem 0;
+}
+
+@media screen and (max-width: 991.5px) {
+  .card-list {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-around;
+  }
+  .card-width-max {
+    width: 100%;
+  }
+  .card-list {
+    gap: 15px;
+  }
+
+  .card {
+    max-width: 70vw;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .card {
+    max-width: 80vw;
+  }
+}
