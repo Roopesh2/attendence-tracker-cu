@@ -22,9 +22,9 @@ const CardList = ({
   let currentSubject = "";
   let attendanceStatus = {};
   let _allSubjects = [...allSubjects];
-  let subjectsToday = timetable[new Date().getDay() - 1];
+  let subjectsToday = timetable[new Date().getDay()];
   if (Array.isArray(subjectsToday) && subjectsToday.length > 0) {
-    const hourNow = new Date().getHours();
+    const hourNow = new Date().getHours()-1;
 
     if (isWorkingHour(hourNow)) {
       // in the working hour
